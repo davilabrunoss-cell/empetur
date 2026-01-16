@@ -24,10 +24,8 @@ import plotly.express as px
 APP_TITLE = "Consolidação PRT"
 APP_SUBTITLE = "Template Soberano Regional | EMPETUR / INVTUR"
 
-DATA_FILE = os.path.join(
-    "/home/bruno/Área de Trabalho/Empetur - App",
-    "inventario_preliminar_app.xlsx",
-)
+DATA_FILE = str(BASE_DIR / "data" / "inventario_preliminar_app.xlsx")
+
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), "data", "municipios")
 SINGLE_FILE_MODE = True  # True = consolidado único | False = multi-arquivo
