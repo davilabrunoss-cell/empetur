@@ -24,11 +24,13 @@ import plotly.express as px
 APP_TITLE = "Consolidação PRT"
 APP_SUBTITLE = "Template Soberano Regional | EMPETUR / INVTUR"
 
-DATA_FILE = str(BASE_DIR / "data" / "inventario_preliminar_app.xlsx")
+from pathlib import Path
 
+BASE_DIR = Path(_file_).resolve().parent
+DATA_FILE = BASE_DIR / "inventario_preliminar_app.xlsx"   # se o arquivo estiver na raiz do repo
+# DATA_FILE = BASE_DIR / "data" / "inventario_preliminar_app.xlsx"  # se estiver numa pasta /data
 
-DATA_DIR = os.path.join(os.path.dirname(__file__), "data", "municipios")
-SINGLE_FILE_MODE = True  # True = consolidado único | False = multi-arquivo
+DATA_FILE = str(DATA_FILE)
 
 # Colunas canônicas internas (app trabalha sempre com esses nomes)
 CANONICAL_COLUMNS = [
