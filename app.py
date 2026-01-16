@@ -27,9 +27,7 @@ APP_SUBTITLE = "Template Soberano Regional | EMPETUR / INVTUR"
 from pathlib import Path
 
 BASE_DIR = Path(_file_).resolve().parent
-DATA_FILE = BASE_DIR / "inventario_preliminar_app.xlsx"   # se o arquivo estiver na raiz do repo
-# DATA_FILE = BASE_DIR / "data" / "inventario_preliminar_app.xlsx"  # se estiver numa pasta /data
-
+DATA_FILE = BASE_DIR / "inventario_preliminar_app.xlsx"  # arquivo na raiz do repo
 DATA_FILE = str(DATA_FILE)
 
 # Colunas canônicas internas (app trabalha sempre com esses nomes)
