@@ -26,7 +26,7 @@ APP_TITLE = "Consolidação PRT"
 APP_SUBTITLE = "Template Soberano Regional | EMPETUR / INVTUR"
 
 # Caminho base do repositório (Streamlit Cloud / local)
-BASE_DIR = Path(_file_).resolve().parent
+BASE_DIR = Path(__file__).resolve().parent
 
 # Arquivo na raiz do repo (mesmo nível do app.py)
 DATA_FILE = str(BASE_DIR / "inventario_preliminar_app.xlsx")
