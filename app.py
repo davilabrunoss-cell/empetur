@@ -12,6 +12,7 @@ import os
 import re
 from datetime import datetime
 from io import BytesIO
+from pathlib import Path  # <- deixa aqui em cima
 
 import pandas as pd
 import streamlit as st
@@ -24,11 +25,11 @@ import plotly.express as px
 APP_TITLE = "Consolidação PRT"
 APP_SUBTITLE = "Template Soberano Regional | EMPETUR / INVTUR"
 
-from pathlib import Path
-
+# Caminho base do repositório (Streamlit Cloud / local)
 BASE_DIR = Path(_file_).resolve().parent
-DATA_FILE = BASE_DIR / "inventario_preliminar_app.xlsx"  # arquivo na raiz do repo
-DATA_FILE = str(DATA_FILE)
+
+# Arquivo na raiz do repo (mesmo nível do app.py)
+DATA_FILE = str(BASE_DIR / "inventario_preliminar_app.xlsx")
 
 # Colunas canônicas internas (app trabalha sempre com esses nomes)
 CANONICAL_COLUMNS = [
