@@ -196,7 +196,7 @@ def render_topbar():
     st.markdown(
         f"""
         <div class="topbar">
-          <span style="opacity:.55;">Auditoria Regional Soberana</span>
+          <span style="opacity:.55;">Inventário Turístico</span>
           <span class="dot"></span>
           <span>{APP_SUBTITLE}</span>
           <span class="dot"></span>
