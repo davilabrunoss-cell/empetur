@@ -295,7 +295,7 @@ def _map_columns_to_canonical(df: pd.DataFrame) -> pd.DataFrame:
         "longitude": {"longitude", "long", "lng"},
         "descricao": {"descricao", "descrição", "descrição do item", "observação geral", "descrição detalhada", "descricao geral"},
         "validacao_preliminar": {"validacao_preliminar", "validação preliminar", "validacao preliminar", "validação", "validacao"},
-        "obs_preliminar": {"obs_preliminar", "obs preliminar", "observações preliminares", "observacao preliminar", "obs gabinete", "análise preliminar", "observação gabinete"},
+        "obs_preliminar": {"obs_preliminar", "obs preliminar", "observações preliminares", "observacao preliminar", "obs gabinete", "observação gabinete"},
         "enviar_campo": {"enviar_campo", "enviar campo", "campo", "vai pra campo", "enviar para campo"},
         "visitado": {"visitado", "visitado?", "foi visitado"},
         "obs_campo": {"obs_campo", "obs campo", "observações de campo", "observacao campo"},
