@@ -23,7 +23,7 @@ import plotly.express as px
 # ------------------------------------------------------------
 
 APP_TITLE = "Consolidação PRT"
-APP_SUBTITLE = "Template Soberano Regional | EMPETUR / INVTUR"
+APP_SUBTITLE = "Painel de Validação Regional | EMPETUR / INVTUR"
 
 # Caminho base do repositório (Streamlit Cloud / local)
 BASE_DIR = Path(__file__).resolve().parent
@@ -213,7 +213,7 @@ def render_hero(muni_name: str, page_name: str):
           <div style="display:flex; align-items:center; justify-content:space-between; gap:12px;">
             <div>
               <p class="hero-title">{APP_TITLE} | Validação Técnica & Campo</p>
-              <p class="hero-sub">{page_name} • {muni_name} • Localhost</p>
+              <p class="hero-sub">{page_name} • {muni_name} • Pernambuco</p>
             </div>
             <div style="background: rgba(0,43,91,.08); border-radius:14px; padding:10px 12px;">
               <span style="font-weight:900; text-transform:uppercase; letter-spacing:.18em; color:#002B5B; font-size:10px;">
