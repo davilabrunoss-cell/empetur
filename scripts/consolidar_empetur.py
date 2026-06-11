@@ -1,0 +1,319 @@
+from __future__ import annotations
+
+import csv
+import re
+from collections import Counter, defaultdict
+from dataclasses import dataclass
+from datetime import datetime
+from pathlib import Path
+
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+INPUT_DIR = BASE_DIR / "data" / "raw" / "empetur_bancos"
+OUTPUT_DIR = BASE_DIR / "data" / "consolidado"
+REFERENCE_DIR = BASE_DIR / "data" / "referencias"
+
+FILE_PREFIX = "#1265803711 _ EMPETUR - "
+FILE_SUFFIX_RE = re.compile(r"\s*-\s*(?:\d{4}|NOVO)\.csv$", re.IGNORECASE)
+
+
+@dataclass(frozen=True)
+class FileRule:
+    questionario: str
+    categoria_header_startswith: str | None
+    nome_header_startswith: str
+
+
+RULES_BY_QUESTIONARIO: dict[str, FileRule] = {
+    "Agenciamento": FileRule("Agenciamento", "1. Tipo da Categoria", "3. Nome / Entidade"),
+    "Alimentação": FileRule("Alimentação", "1. Tipo da Categoria", "3. Nome."),
+    "Artesanato, Folclore, Gastronomia": FileRule("Artesanato, Folclore, Gastronomia", "1. Tipo da Categoria", "3. Nome do Atrativo"),
+    "Artesanato-Detalhamento": FileRule("Artesanato-Detalhamento", "1. Tipo da Categoria", "3. Nome do Atrativo"),
+    "Artesãos, Artistas Plásticos": FileRule("Artesãos, Artistas Plásticos", "1. Tipo da Categoria", "3. Nome do Atrativo"),
+    "Atrativos Culturais": FileRule("Atrativos Culturais", "1. Tipo da Categoria", "3. Nome do Atrativo"),
+    "Compras": FileRule("Compras", "1. Tipo da Categoria", "3. Nome / Entidade"),
+    "Entretenimento": FileRule("Entretenimento", "1. Tipo da Categoria", "3. Nome."),
+    "Feiras e Exposições": FileRule("Feiras e Exposições", "1. Tipo da Categoria", "3. Nome do Atrativo"),
+    "Feiras Livres, Mercados Públicos": FileRule("Feiras Livres, Mercados Públicos", "1. Tipo da Categoria", "3. Nome do Atrativo"),
+    "Festas Populares e Religiosas": FileRule("Festas Populares e Religiosas", "1. Tipo da Categoria", "3. Nome do Atrativo"),
+    "Folclore-Detalhado": FileRule("Folclore-Detalhado", "1. Tipo da Categoria", "3. Nome do Atrativo"),
+    "Gastronomia-Detalhado": FileRule("Gastronomia-Detalhado", "1. Tipo da Categoria", "3. Nome do Atrativo"),
+    "Hospedagens": FileRule("Hospedagens", "1. Tipo da Categoria", "3. Nome."),
+    "Instalações Desportivas": FileRule("Instalações Desportivas", "1. Tipo da Categoria", "3. Nome."),
+    "Locais de Convernções, Exposições e Eventos Sociais": FileRule("Locais de Convernções, Exposições e Eventos Sociais", "1. Tipo da Categoria", "3. Nome."),
+    "Outros Servicos de Apoio Turistico": FileRule("Outros Servicos de Apoio Turistico", "1. Tipo da Categoria", "3. Nome / Entidade"),
+    "Roteiros Turísticos": FileRule("Roteiros Turísticos", "1. Tipo da Categoria", "2. Nome do roteiro turístico"),
+    "Sistema de Segurança": FileRule("Sistema de Segurança", "1. Tipo da Categoria", "3. Nome / Entidade"),
+    "Sistema Médico-Hospitalar": FileRule("Sistema Médico-Hospitalar", "1. Tipo da Categoria", "2. Nome / Entidade"),
+    "Sistema Rodoviário": FileRule("Sistema Rodoviário", None, "2. Nome."),
+    "Transportes Turisticos": FileRule("Transportes Turisticos", "1. Tipo da Categoria", "3. Nome / Entidade"),
+}
+
+
+def extract_questionario(file_name: str) -> str:
+    if not file_name.startswith(FILE_PREFIX):
+        raise ValueError(f"Arquivo fora do padrao esperado: {file_name}")
+    remainder = file_name[len(FILE_PREFIX) :]
+    questionario = FILE_SUFFIX_RE.sub("", remainder).strip()
+    if not questionario:
+        raise ValueError(f"Nao foi possivel extrair o questionario de: {file_name}")
+    return questionario
+
+
+def normalize_text(value: str | None) -> str:
+    if value is None:
+        return ""
+    return value.strip()
+
+
+def find_index(header: list[str], predicate) -> int:
+    for idx, column in enumerate(header):
+        if predicate(column):
+            return idx
+    raise KeyError("Coluna esperada nao encontrada")
+
+
+def find_optional_index(header: list[str], predicate) -> int | None:
+    for idx, column in enumerate(header):
+        if predicate(column):
+            return idx
+    return None
+
+
+def get_value(row: list[str], idx: int | None) -> str:
+    if idx is None or idx >= len(row):
+        return ""
+    return normalize_text(row[idx])
+
+
+def parse_br_datetime(value: str) -> datetime | None:
+    value = normalize_text(value)
+    if not value:
+        return None
+    for fmt in ("%d/%m/%Y %H:%M:%S", "%d/%m/%Y %H:%M", "%d/%m/%Y"):
+        try:
+            return datetime.strptime(value, fmt)
+        except ValueError:
+            continue
+    return None
+
+
+def load_csv(path: Path) -> list[list[str]]:
+    with path.open("r", encoding="cp1252", newline="") as f:
+        return list(csv.reader(f))
+
+
+def consolidate_file(path: Path, exec_date: str, exec_timestamp: str) -> list[dict[str, str]]:
+    questionario = extract_questionario(path.name)
+    if questionario not in RULES_BY_QUESTIONARIO:
+        raise KeyError(f"Questionario sem regra de normalizacao: {questionario}")
+
+    rule = RULES_BY_QUESTIONARIO[questionario]
+    rows = load_csv(path)
+    header = rows[0]
+    data_rows = rows[1:]
+
+    municipio_idx = find_index(header, lambda c: c.startswith("P0. Município"))
+    nome_idx = find_index(header, lambda c: c.startswith(rule.nome_header_startswith))
+    pesquisador_informado_idx = find_optional_index(
+        header,
+        lambda c: "Pesquisador:" in c and normalize_text(c) != "Pesquisador",
+    )
+    pesquisador_sistema_idx = find_optional_index(
+        header,
+        lambda c: normalize_text(c) == "Pesquisador",
+    )
+    data_inicio_idx = find_optional_index(header, lambda c: normalize_text(c) == "Data Início")
+    data_fim_idx = find_optional_index(header, lambda c: normalize_text(c) == "Data Fim")
+
+    categoria_idx = None
+    if rule.categoria_header_startswith is not None:
+        categoria_idx = find_index(header, lambda c: c.startswith(rule.categoria_header_startswith))
+
+    consolidated_rows: list[dict[str, str]] = []
+    for row_number, row in enumerate(data_rows, start=2):
+        pesquisador_informado = get_value(row, pesquisador_informado_idx)
+        pesquisador_sistema = get_value(row, pesquisador_sistema_idx)
+        categoria = questionario if questionario == "Sistema Rodoviário" else get_value(row, categoria_idx)
+        consolidated_rows.append(
+            {
+                "arquivo_origem": path.name,
+                "questionario_preenchido": questionario,
+                "municipio": get_value(row, municipio_idx),
+                "categoria": categoria,
+                "nome_atrativo": get_value(row, nome_idx),
+                "pesquisador_informado": pesquisador_informado,
+                "pesquisador_sistema": pesquisador_sistema,
+                "pesquisador": pesquisador_informado or pesquisador_sistema,
+                "data_inicio_coleta": get_value(row, data_inicio_idx),
+                "data_fim_coleta": get_value(row, data_fim_idx),
+                "linha_origem": str(row_number),
+                "data_execucao_carga": exec_date,
+                "data_hora_execucao_carga": exec_timestamp,
+            }
+        )
+
+    return consolidated_rows
+
+
+def load_cadastro_municipios() -> list[dict[str, str]]:
+    path = REFERENCE_DIR / "cadastro_municipios.csv"
+    with path.open("r", encoding="utf-8-sig", newline="") as f:
+        return list(csv.DictReader(f))
+
+
+def load_total_previsto() -> dict[str, int]:
+    path = REFERENCE_DIR / "total_previsto_municipios.csv"
+    if not path.exists():
+        return {}
+    with path.open("r", encoding="utf-8-sig", newline="") as f:
+        rows = list(csv.DictReader(f))
+    out: dict[str, int] = {}
+    for row in rows:
+        raw = normalize_text(row.get("total_previsto", ""))
+        if raw == "":
+            out[row["municipio"]] = 0
+            continue
+        try:
+            out[row["municipio"]] = int(float(raw.replace(",", ".")))
+        except ValueError:
+            out[row["municipio"]] = 0
+    return out
+
+
+def write_csv(path: Path, fieldnames: list[str], rows: list[dict[str, str]]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("w", encoding="utf-8-sig", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        writer.writeheader()
+        writer.writerows(rows)
+
+
+def build_resumos(all_rows: list[dict[str, str]]) -> None:
+    cadastro = load_cadastro_municipios()
+    previstos = load_total_previsto()
+
+    rows_by_municipio: dict[str, list[dict[str, str]]] = defaultdict(list)
+    for row in all_rows:
+        rows_by_municipio[row["municipio"]].append(row)
+
+    resumo_municipios: list[dict[str, str]] = []
+    for item in cadastro:
+        municipio = item["municipio"]
+        municipio_rows = rows_by_municipio.get(municipio, [])
+        total_realizado = len(municipio_rows)
+        total_previsto = previstos.get(municipio, 0)
+        faltante = max(total_previsto - total_realizado, 0)
+        percentual = round((total_realizado / total_previsto) * 100, 2) if total_previsto > 0 else 0
+
+        datas_inicio = [parse_br_datetime(r["data_inicio_coleta"]) for r in municipio_rows]
+        datas_inicio = [d for d in datas_inicio if d is not None]
+
+        primeira = min(datas_inicio).strftime("%d/%m/%Y %H:%M:%S") if datas_inicio else ""
+        ultima = max(datas_inicio).strftime("%d/%m/%Y %H:%M:%S") if datas_inicio else ""
+
+        resumo_municipios.append(
+            {
+                "regiao": item["regiao"],
+                "ordem_regiao": item["ordem_regiao"],
+                "municipio": municipio,
+                "ordem_municipio": item["ordem_municipio"],
+                "total_realizado": str(total_realizado),
+                "total_previsto": str(total_previsto),
+                "faltante": str(faltante),
+                "percentual_cobertura": f"{percentual:.2f}",
+                "primeira_coleta": primeira,
+                "ultima_coleta": ultima,
+            }
+        )
+
+    resumo_questionarios_counter = Counter(row["questionario_preenchido"] for row in all_rows)
+    resumo_questionarios = [
+        {"questionario_preenchido": nome, "total": str(total)}
+        for nome, total in sorted(resumo_questionarios_counter.items(), key=lambda item: (-item[1], item[0]))
+    ]
+
+    resumo_pesquisadores_counter = Counter(row["pesquisador"] for row in all_rows if normalize_text(row["pesquisador"]))
+    resumo_pesquisadores = [
+        {"pesquisador": nome, "total": str(total)}
+        for nome, total in sorted(resumo_pesquisadores_counter.items(), key=lambda item: (-item[1], item[0]))
+    ]
+
+    resumo_municipio_categoria_counter = Counter((row["municipio"], row["categoria"]) for row in all_rows)
+    resumo_municipio_categoria = [
+        {"municipio": municipio, "categoria": categoria, "total": str(total)}
+        for (municipio, categoria), total in sorted(resumo_municipio_categoria_counter.items(), key=lambda item: (item[0][0], item[0][1]))
+    ]
+
+    write_csv(
+        OUTPUT_DIR / "resumo_municipios.csv",
+        [
+            "regiao",
+            "ordem_regiao",
+            "municipio",
+            "ordem_municipio",
+            "total_realizado",
+            "total_previsto",
+            "faltante",
+            "percentual_cobertura",
+            "primeira_coleta",
+            "ultima_coleta",
+        ],
+        resumo_municipios,
+    )
+    write_csv(
+        OUTPUT_DIR / "resumo_questionarios.csv",
+        ["questionario_preenchido", "total"],
+        resumo_questionarios,
+    )
+    write_csv(
+        OUTPUT_DIR / "resumo_pesquisadores.csv",
+        ["pesquisador", "total"],
+        resumo_pesquisadores,
+    )
+    write_csv(
+        OUTPUT_DIR / "resumo_municipio_categoria.csv",
+        ["municipio", "categoria", "total"],
+        resumo_municipio_categoria,
+    )
+
+
+def main() -> None:
+    exec_now = datetime.now()
+    exec_date = exec_now.strftime("%d/%m/%Y")
+    exec_timestamp = exec_now.strftime("%d/%m/%Y %H:%M:%S")
+
+    all_rows: list[dict[str, str]] = []
+    csv_files = sorted(INPUT_DIR.glob("*.csv"))
+    for path in csv_files:
+        all_rows.extend(consolidate_file(path, exec_date, exec_timestamp))
+
+    write_csv(
+        OUTPUT_DIR / "empetur_tabela_base.csv",
+        [
+            "arquivo_origem",
+            "questionario_preenchido",
+            "municipio",
+            "categoria",
+            "nome_atrativo",
+            "pesquisador_informado",
+            "pesquisador_sistema",
+            "pesquisador",
+            "data_inicio_coleta",
+            "data_fim_coleta",
+            "linha_origem",
+            "data_execucao_carga",
+            "data_hora_execucao_carga",
+        ],
+        all_rows,
+    )
+    build_resumos(all_rows)
+
+    print(f"Arquivos lidos: {len(csv_files)}")
+    print(f"Linhas consolidadas: {len(all_rows)}")
+    print(f"Saida base: {OUTPUT_DIR / 'empetur_tabela_base.csv'}")
+
+
+if __name__ == "__main__":
+    main()
+

@@ -1,0 +1,33 @@
+regiao,ordem_regiao,municipio,ordem_municipio,ativo
+SERTÃO DO MOXOTÓ,1,Arcoverde,1,1
+SERTÃO DO MOXOTÓ,1,Betânia,2,1
+SERTÃO DO MOXOTÓ,1,Custódia,3,1
+SERTÃO DO MOXOTÓ,1,Ibimirim,4,1
+SERTÃO DO MOXOTÓ,1,Inajá,5,1
+SERTÃO DO MOXOTÓ,1,Manari,6,1
+SERTÃO DO MOXOTÓ,1,Sertânia,7,1
+SERTÃO DO ARARIPE,2,Araripina,1,1
+SERTÃO DO ARARIPE,2,Bodocó,2,1
+SERTÃO DO ARARIPE,2,Exu,3,1
+SERTÃO DO ARARIPE,2,Granito,4,1
+SERTÃO DO ARARIPE,2,Ipubi,5,1
+SERTÃO DO ARARIPE,2,Moreilândia,6,1
+SERTÃO DO ARARIPE,2,Ouricuri,7,1
+SERTÃO DO ARARIPE,2,Santa Cruz,8,1
+SERTÃO DO ARARIPE,2,Santa Filomena,9,1
+SERTÃO DO ARARIPE,2,Trindade,10,1
+SERTÃO DO SÃO FRANCISCO,3,Afrânio,1,1
+SERTÃO DO SÃO FRANCISCO,3,Cabrobó,2,1
+SERTÃO DO SÃO FRANCISCO,3,Dormentes,3,1
+SERTÃO DO SÃO FRANCISCO,3,Lagoa Grande,4,1
+SERTÃO DO SÃO FRANCISCO,3,Orocó,5,1
+SERTÃO DO SÃO FRANCISCO,3,Petrolina,6,1
+SERTÃO DO SÃO FRANCISCO,3,Santa Maria da Boa Vista,7,1
+SERTÃO DE ITAPARICA,4,Belém do São Francisco,1,1
+SERTÃO DE ITAPARICA,4,Carnaubeira da Penha,2,1
+SERTÃO DE ITAPARICA,4,Floresta,3,1
+SERTÃO DE ITAPARICA,4,Itacuruba,4,1
+SERTÃO DE ITAPARICA,4,Jatobá,5,1
+SERTÃO DE ITAPARICA,4,Petrolândia,6,1
+SERTÃO DE ITAPARICA,4,Tacaratu,7,1
+

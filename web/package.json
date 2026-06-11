@@ -1,0 +1,11 @@
+{
+  "name": "empetur-dashboard-web",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Aplicacao web do dashboard EMPETUR",
+  "scripts": {
+    "dev": "echo \"Web app em preparacao\"",
+    "build": "echo \"Web app em preparacao\""
+  }
+}
+
