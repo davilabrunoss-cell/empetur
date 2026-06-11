@@ -1,0 +1,463 @@
+@import url("https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=IBM+Plex+Sans:wght@400;500;600&display=swap");
+
+:root {
+  --bg-top: #0f2f4c;
+  --bg-bottom: #081d32;
+  --surface: rgba(10, 31, 51, 0.78);
+  --surface-strong: rgba(13, 39, 64, 0.92);
+  --surface-soft: rgba(255, 255, 255, 0.08);
+  --line: rgba(255, 255, 255, 0.12);
+  --line-strong: rgba(255, 255, 255, 0.18);
+  --text: #f4f8fc;
+  --muted: #a8c0d7;
+  --accent: #65c7ff;
+  --accent-strong: #1d9bf0;
+  --highlight: #9bd8ff;
+  --shadow: 0 28px 60px rgba(0, 0, 0, 0.22);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  font-family: "IBM Plex Sans", sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(circle at top right, rgba(67, 150, 214, 0.38), transparent 24%),
+    linear-gradient(180deg, var(--bg-top) 0%, var(--bg-bottom) 100%);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+.app-shell {
+  width: min(1440px, calc(100% - 48px));
+  margin: 0 auto;
+  padding: 32px 0 48px;
+}
+
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  align-items: center;
+  padding: 20px 24px;
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
+  backdrop-filter: blur(18px);
+  box-shadow: var(--shadow);
+}
+
+.brand-lockup {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.brand-logo {
+  padding: 10px 16px;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.92);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 176px;
+}
+
+.brand-logo img {
+  display: block;
+  width: 140px;
+  height: auto;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  color: var(--highlight);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+}
+
+.app-header h1 {
+  margin: 0;
+  font-family: "Sora", sans-serif;
+  font-size: clamp(1.5rem, 2.2vw, 2.6rem);
+  line-height: 1.1;
+}
+
+.header-meta {
+  min-width: 220px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 16px 18px;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--line);
+}
+
+.header-meta span,
+.kpi-card span,
+.municipio-region,
+.panel-heading p,
+.panel-heading span,
+.municipio-summary-pill span,
+.kpi-card small,
+.back-link {
+  color: var(--muted);
+}
+
+main {
+  padding-top: 28px;
+}
+
+.panel {
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  background: var(--surface);
+  backdrop-filter: blur(14px);
+  box-shadow: var(--shadow);
+}
+
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+  margin-bottom: 24px;
+}
+
+.kpi-card {
+  padding: 20px;
+  border-radius: 24px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.04));
+  border: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.kpi-card strong {
+  font-family: "Sora", sans-serif;
+  font-size: clamp(1.35rem, 2.3vw, 2rem);
+}
+
+.mosaic-panel,
+.filters-panel,
+.table-panel,
+.chart-panel,
+.municipio-hero {
+  margin-bottom: 24px;
+}
+
+.mosaic-panel,
+.filters-panel,
+.table-panel,
+.chart-panel,
+.municipio-hero {
+  padding: 24px;
+}
+
+.panel-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.panel-heading h2,
+.region-header h3,
+.municipio-hero h2 {
+  margin: 0;
+  font-family: "Sora", sans-serif;
+}
+
+.panel-heading p,
+.region-header span,
+.municipio-hero p {
+  margin: 6px 0 0;
+}
+
+.region-block + .region-block {
+  margin-top: 22px;
+}
+
+.region-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  margin-bottom: 14px;
+}
+
+.mosaic-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.municipio-card {
+  min-height: 164px;
+  padding: 18px;
+  border-radius: 22px;
+  border: 1px solid var(--line);
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.04));
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    background 180ms ease;
+}
+
+.municipio-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(101, 199, 255, 0.52);
+  background: linear-gradient(160deg, rgba(101, 199, 255, 0.16), rgba(255, 255, 255, 0.05));
+}
+
+.municipio-card strong {
+  font-family: "Sora", sans-serif;
+  font-size: 1.1rem;
+  line-height: 1.3;
+}
+
+.municipio-region {
+  display: block;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+}
+
+.municipio-total {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.municipio-total small {
+  color: var(--muted);
+}
+
+.municipio-total span,
+.municipio-summary-pill strong {
+  font-family: "Sora", sans-serif;
+  font-size: 2rem;
+}
+
+.dual-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  margin-bottom: 24px;
+}
+
+.bars-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.bar-row {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.bar-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.bar-meta strong {
+  font-weight: 600;
+}
+
+.bar-track {
+  height: 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+}
+
+.bar-fill {
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--accent), var(--accent-strong));
+}
+
+.filters-grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.filters-grid label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.filters-grid span {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.filters-grid select,
+.filters-grid input {
+  min-height: 46px;
+  border-radius: 16px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.07);
+  color: var(--text);
+  padding: 0 14px;
+}
+
+.filters-grid option {
+  color: #0a1f33;
+}
+
+.search-field {
+  grid-column: span 2;
+}
+
+.ghost-button {
+  border: 1px solid var(--line-strong);
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 999px;
+  padding: 12px 18px;
+  cursor: pointer;
+}
+
+.table-wrap {
+  overflow: auto;
+  border-radius: 22px;
+  border: 1px solid var(--line);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 1080px;
+}
+
+thead {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+th,
+td {
+  text-align: left;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+}
+
+tbody tr:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.municipio-hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 18px;
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 14px;
+}
+
+.municipio-summary-pill {
+  min-width: 220px;
+  text-align: right;
+}
+
+.empty-state {
+  padding: 48px 24px;
+  text-align: center;
+}
+
+@media (max-width: 1280px) {
+  .mosaic-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .filters-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .search-field {
+    grid-column: span 3;
+  }
+}
+
+@media (max-width: 980px) {
+  .app-shell {
+    width: min(100% - 28px, 1440px);
+    padding-top: 18px;
+  }
+
+  .app-header,
+  .municipio-hero,
+  .panel-heading,
+  .region-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .kpi-grid,
+  .dual-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .mosaic-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .brand-lockup {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .brand-logo {
+    min-width: auto;
+  }
+
+  .kpi-grid,
+  .dual-grid,
+  .filters-grid,
+  .mosaic-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .search-field {
+    grid-column: span 1;
+  }
+
+  .municipio-summary-pill {
+    text-align: left;
+  }
+}

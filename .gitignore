@@ -5,8 +5,8 @@ __pycache__/
 # Node
 node_modules/
 .next/
+dist/
 
 # OS / editor
 .DS_Store
 Thumbs.db
-

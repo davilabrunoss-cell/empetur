@@ -4,8 +4,17 @@
   "version": "0.1.0",
   "description": "Aplicacao web do dashboard EMPETUR",
   "scripts": {
-    "dev": "echo \"Web app em preparacao\"",
-    "build": "echo \"Web app em preparacao\""
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.30.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.7.0",
+    "vite": "^5.4.19"
   }
 }
-

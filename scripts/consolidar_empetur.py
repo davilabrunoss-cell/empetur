@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import csv
+import json
 import re
 from collections import Counter, defaultdict
 from dataclasses import dataclass
@@ -12,6 +13,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 INPUT_DIR = BASE_DIR / "data" / "raw" / "empetur_bancos"
 OUTPUT_DIR = BASE_DIR / "data" / "consolidado"
 REFERENCE_DIR = BASE_DIR / "data" / "referencias"
+WEB_DATA_DIR = BASE_DIR / "web" / "public" / "data"
 
 FILE_PREFIX = "#1265803711 _ EMPETUR - "
 FILE_SUFFIX_RE = re.compile(r"\s*-\s*(?:\d{4}|NOVO)\.csv$", re.IGNORECASE)
@@ -189,7 +191,13 @@ def write_csv(path: Path, fieldnames: list[str], rows: list[dict[str, str]]) -> 
         writer.writerows(rows)
 
 
-def build_resumos(all_rows: list[dict[str, str]]) -> None:
+def write_json(path: Path, payload: dict) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("w", encoding="utf-8") as f:
+        json.dump(payload, f, ensure_ascii=False, indent=2)
+
+
+def build_resumos(all_rows: list[dict[str, str]]) -> dict[str, list[dict[str, str]]]:
     cadastro = load_cadastro_municipios()
     previstos = load_total_previsto()
 
@@ -276,6 +284,13 @@ def build_resumos(all_rows: list[dict[str, str]]) -> None:
         ["municipio", "categoria", "total"],
         resumo_municipio_categoria,
     )
+    return {
+        "cadastro_municipios": cadastro,
+        "resumo_municipios": resumo_municipios,
+        "resumo_questionarios": resumo_questionarios,
+        "resumo_pesquisadores": resumo_pesquisadores,
+        "resumo_municipio_categoria": resumo_municipio_categoria,
+    }
 
 
 def main() -> None:
@@ -307,7 +322,16 @@ def main() -> None:
         ],
         all_rows,
     )
-    build_resumos(all_rows)
+    resumos = build_resumos(all_rows)
+
+    dashboard_payload = {
+        "generated_at": exec_timestamp,
+        "generated_date": exec_date,
+        "base_rows": all_rows,
+        **resumos,
+    }
+    write_json(OUTPUT_DIR / "dashboard_payload.json", dashboard_payload)
+    write_json(WEB_DATA_DIR / "dashboard_payload.json", dashboard_payload)
 
     print(f"Arquivos lidos: {len(csv_files)}")
     print(f"Linhas consolidadas: {len(all_rows)}")
@@ -316,4 +340,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

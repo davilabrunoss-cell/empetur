@@ -17,6 +17,18 @@ Aplicacao web para acompanhamento da producao de campo do projeto EMPETUR.
 python scripts/consolidar_empetur.py
 ```
 
+## Aplicacao web
+
+```powershell
+cd web
+npm install
+npm run dev
+```
+
+Aplicacao local padrao:
+
+- `http://127.0.0.1:4173`
+
 ## Saidas geradas
 
 - `data/consolidado/empetur_tabela_base.csv`
@@ -24,4 +36,3 @@ python scripts/consolidar_empetur.py
 - `data/consolidado/resumo_questionarios.csv`
 - `data/consolidado/resumo_pesquisadores.csv`
 - `data/consolidado/resumo_municipio_categoria.csv`
-
