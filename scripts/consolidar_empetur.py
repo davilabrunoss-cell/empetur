@@ -3,6 +3,7 @@ from __future__ import annotations
 import csv
 import json
 import re
+import unicodedata
 from collections import Counter, defaultdict
 from dataclasses import dataclass
 from datetime import datetime
@@ -16,7 +17,12 @@ REFERENCE_DIR = BASE_DIR / "data" / "referencias"
 WEB_DATA_DIR = BASE_DIR / "web" / "public" / "data"
 
 FILE_PREFIX = "#1265803711 _ EMPETUR - "
-FILE_SUFFIX_RE = re.compile(r"\s*-\s*(?:\d{4}|NOVO)\.csv$", re.IGNORECASE)
+TEST_NAME_PATTERNS = [
+    re.compile(r"^\s*9{2,}\s*$"),
+    re.compile(r"^\s*x{2,}\s*$", re.IGNORECASE),
+    re.compile(r"\bteste(?:s|ndo|ando)?\b", re.IGNORECASE),
+    re.compile(r"\btestar\b", re.IGNORECASE),
+]
 
 
 @dataclass(frozen=True)
@@ -33,6 +39,7 @@ RULES_BY_QUESTIONARIO: dict[str, FileRule] = {
     "Artesanato-Detalhamento": FileRule("Artesanato-Detalhamento", "1. Tipo da Categoria", "3. Nome do Atrativo"),
     "Artesãos, Artistas Plásticos": FileRule("Artesãos, Artistas Plásticos", "1. Tipo da Categoria", "3. Nome do Atrativo"),
     "Atrativos Culturais": FileRule("Atrativos Culturais", "1. Tipo da Categoria", "3. Nome do Atrativo"),
+    "Atrativos Naturais": FileRule("Atrativos Naturais", "1. Tipo da Categoria", "3. Nome do Atrativo"),
     "Compras": FileRule("Compras", "1. Tipo da Categoria", "3. Nome / Entidade"),
     "Entretenimento": FileRule("Entretenimento", "1. Tipo da Categoria", "3. Nome."),
     "Feiras e Exposições": FileRule("Feiras e Exposições", "1. Tipo da Categoria", "3. Nome do Atrativo"),
@@ -56,7 +63,11 @@ def extract_questionario(file_name: str) -> str:
     if not file_name.startswith(FILE_PREFIX):
         raise ValueError(f"Arquivo fora do padrao esperado: {file_name}")
     remainder = file_name[len(FILE_PREFIX) :]
-    questionario = FILE_SUFFIX_RE.sub("", remainder).strip()
+    if remainder.lower().endswith(".csv"):
+        remainder = remainder[:-4]
+    questionario = re.sub(r"\s*-\s*NOVO$", "", remainder, flags=re.IGNORECASE)
+    questionario = re.sub(r"\s*-\s*\d{4}(?:\s*-\s*Para Revisar)?$", "", questionario, flags=re.IGNORECASE)
+    questionario = questionario.strip()
     if not questionario:
         raise ValueError(f"Nao foi possivel extrair o questionario de: {file_name}")
     return questionario
@@ -66,6 +77,19 @@ def normalize_text(value: str | None) -> str:
     if value is None:
         return ""
     return value.strip()
+
+
+def normalize_for_match(value: str) -> str:
+    normalized = unicodedata.normalize("NFD", value)
+    without_accents = "".join(ch for ch in normalized if unicodedata.category(ch) != "Mn")
+    return without_accents.strip().lower()
+
+
+def is_test_record_name(value: str) -> bool:
+    normalized = normalize_for_match(value)
+    if not normalized:
+        return False
+    return any(pattern.search(normalized) for pattern in TEST_NAME_PATTERNS)
 
 
 def find_index(header: list[str], predicate) -> int:
@@ -115,7 +139,7 @@ def consolidate_file(path: Path, exec_date: str, exec_timestamp: str) -> list[di
     header = rows[0]
     data_rows = rows[1:]
 
-    municipio_idx = find_index(header, lambda c: c.startswith("P0. Município"))
+    municipio_idx = find_index(header, lambda c: c.startswith("P0. Munic"))
     nome_idx = find_index(header, lambda c: c.startswith(rule.nome_header_startswith))
     pesquisador_informado_idx = find_optional_index(
         header,
@@ -125,7 +149,7 @@ def consolidate_file(path: Path, exec_date: str, exec_timestamp: str) -> list[di
         header,
         lambda c: normalize_text(c) == "Pesquisador",
     )
-    data_inicio_idx = find_optional_index(header, lambda c: normalize_text(c) == "Data Início")
+    data_inicio_idx = find_optional_index(header, lambda c: normalize_text(c).startswith("Data In"))
     data_fim_idx = find_optional_index(header, lambda c: normalize_text(c) == "Data Fim")
 
     categoria_idx = None
@@ -134,16 +158,21 @@ def consolidate_file(path: Path, exec_date: str, exec_timestamp: str) -> list[di
 
     consolidated_rows: list[dict[str, str]] = []
     for row_number, row in enumerate(data_rows, start=2):
+        nome_atrativo = get_value(row, nome_idx)
+        if is_test_record_name(nome_atrativo):
+            continue
+
         pesquisador_informado = get_value(row, pesquisador_informado_idx)
         pesquisador_sistema = get_value(row, pesquisador_sistema_idx)
         categoria = questionario if questionario == "Sistema Rodoviário" else get_value(row, categoria_idx)
+
         consolidated_rows.append(
             {
                 "arquivo_origem": path.name,
                 "questionario_preenchido": questionario,
                 "municipio": get_value(row, municipio_idx),
                 "categoria": categoria,
-                "nome_atrativo": get_value(row, nome_idx),
+                "nome_atrativo": nome_atrativo,
                 "pesquisador_informado": pesquisador_informado,
                 "pesquisador_sistema": pesquisador_sistema,
                 "pesquisador": pesquisador_informado or pesquisador_sistema,

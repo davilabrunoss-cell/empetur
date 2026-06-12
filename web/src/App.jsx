@@ -10,11 +10,14 @@ import {
   formatDateTime,
   formatNumber,
   groupMunicipios,
+  parseBrDateTime,
   slugify,
   uniqueValues,
 } from "./lib/dashboard";
 
-const FILTER_KEYS = ["regiao", "municipio", "questionario", "categoria", "pesquisador", "search"];
+const CONCLUDED_STORAGE_KEY = "empetur-municipios-concluidos";
+const DASHBOARD_DATA_URL =
+  import.meta.env.VITE_DASHBOARD_DATA_URL || "/data/dashboard_payload.json";
 
 function useDashboardData() {
   const [payload, setPayload] = useState(null);
@@ -22,7 +25,7 @@ function useDashboardData() {
 
   useEffect(() => {
     let active = true;
-    fetch("/data/dashboard_payload.json")
+    fetch(DASHBOARD_DATA_URL)
       .then((response) => {
         if (!response.ok) {
           throw new Error("Falha ao carregar os dados do dashboard.");
@@ -43,6 +46,130 @@ function useDashboardData() {
   return { payload, error };
 }
 
+function useConcludedMunicipios() {
+  const [concluded, setConcluded] = useState({});
+
+  useEffect(() => {
+    try {
+      const saved = window.localStorage.getItem(CONCLUDED_STORAGE_KEY);
+      if (saved) {
+        setConcluded(JSON.parse(saved));
+      }
+    } catch (error) {
+      console.error("Falha ao carregar status concluído", error);
+    }
+  }, []);
+
+  const update = (municipioSlug, isConcluded) => {
+    setConcluded((current) => {
+      const next = { ...current, [municipioSlug]: isConcluded };
+      window.localStorage.setItem(CONCLUDED_STORAGE_KEY, JSON.stringify(next));
+      return next;
+    });
+  };
+
+  return { concluded, update };
+}
+
+function differenceInDays(referenceDate, targetDate) {
+  if (!referenceDate || !targetDate) return 0;
+  const start = new Date(referenceDate.getFullYear(), referenceDate.getMonth(), referenceDate.getDate());
+  const end = new Date(targetDate.getFullYear(), targetDate.getMonth(), targetDate.getDate());
+  return Math.floor((start - end) / (1000 * 60 * 60 * 24));
+}
+
+function buildMunicipiosStatus(payload, rows, concludedMap) {
+  const statusWeight = {
+    Ativo: 0,
+    Alerta: 1,
+    "Não Iniciado": 2,
+    Concluído: 3,
+  };
+
+  const generatedAt = parseBrDateTime(payload.generated_at);
+  const byMunicipio = rows.reduce((acc, row) => {
+    if (!acc[row.municipio]) acc[row.municipio] = [];
+    acc[row.municipio].push(row);
+    return acc;
+  }, {});
+
+  return payload.resumo_municipios
+    .map((item) => {
+      const municipioRows = byMunicipio[item.municipio] ?? [];
+      const municipioSlug = slugify(item.municipio);
+      const dates = municipioRows
+        .map((row) => parseBrDateTime(row.data_inicio_coleta))
+        .filter((date) => date instanceof Date && !Number.isNaN(date.getTime()))
+        .sort((a, b) => a - b);
+
+      const uniqueFieldDays = new Set(
+        municipioRows
+          .map((row) => row.data_inicio_coleta?.split(" ")[0] ?? "")
+          .filter(Boolean),
+      );
+
+      const lastCollection = dates[dates.length - 1] ?? null;
+      const concluded = Boolean(concludedMap[municipioSlug]);
+
+      let status = "Ativo";
+      if (concluded) {
+        status = "Concluído";
+      } else if (municipioRows.length === 0) {
+        status = "Não Iniciado";
+      } else if (differenceInDays(generatedAt, lastCollection) > 3) {
+        status = "Alerta";
+      }
+
+      return {
+        ...item,
+        municipioSlug,
+        status,
+        totalColetas: municipioRows.length,
+        totalDiasCampo: uniqueFieldDays.size,
+        ultimaColeta: lastCollection,
+        concluded,
+      };
+    })
+    .sort((a, b) => {
+      const statusDiff = (statusWeight[a.status] ?? 99) - (statusWeight[b.status] ?? 99);
+      if (statusDiff !== 0) return statusDiff;
+      return compareText(a.municipio, b.municipio);
+    });
+}
+
+function buildPesquisadoresSummary(rows) {
+  const byPesquisador = rows.reduce((acc, row) => {
+    if (!row.pesquisador) return acc;
+    if (!acc[row.pesquisador]) {
+      acc[row.pesquisador] = [];
+    }
+    acc[row.pesquisador].push(row);
+    return acc;
+  }, {});
+
+  return Object.entries(byPesquisador)
+    .map(([pesquisador, pesquisadorRows]) => {
+      const municipios = new Set(pesquisadorRows.map((row) => row.municipio).filter(Boolean));
+      const dates = pesquisadorRows
+        .map((row) => parseBrDateTime(row.data_inicio_coleta))
+        .filter((date) => date instanceof Date && !Number.isNaN(date.getTime()))
+        .sort((a, b) => a - b);
+
+      return {
+        pesquisador,
+        totalColetas: pesquisadorRows.length,
+        totalMunicipios: municipios.size,
+        ultimaColeta: dates[dates.length - 1] ?? null,
+      };
+    })
+    .sort((a, b) => b.totalColetas - a.totalColetas || compareText(a.pesquisador, b.pesquisador));
+}
+
+function getMunicipioStatusLabel(payload, rows, concludedMap, municipioNome) {
+  const items = buildMunicipiosStatus(payload, rows, concludedMap);
+  return items.find((item) => item.municipio === municipioNome)?.status ?? "Não Iniciado";
+}
+
 function Shell({ children, generatedAt }) {
   return (
     <div className="app-shell">
@@ -51,7 +178,7 @@ function Shell({ children, generatedAt }) {
           <div className="brand-logo">
             <img src="/assets/logo_agora.png" alt="Ágora Pesquisa" />
           </div>
-          <div>
+          <div className="brand-copy">
             <p className="eyebrow">Dashboard de Produção de Campo</p>
             <h1>Inventário Turístico de Pernambuco | EMPETUR</h1>
           </div>
@@ -66,14 +193,24 @@ function Shell({ children, generatedAt }) {
   );
 }
 
-function KpiCard({ label, value, help }) {
-  return (
-    <article className="kpi-card">
+function KpiCard({ label, value, help, href }) {
+  const content = (
+    <>
       <span>{label}</span>
       <strong>{value}</strong>
       <small>{help}</small>
-    </article>
+    </>
   );
+
+  if (href) {
+    return (
+      <Link className="kpi-card kpi-card-link" to={href}>
+        {content}
+      </Link>
+    );
+  }
+
+  return <article className="kpi-card">{content}</article>;
 }
 
 function MunicipioCard({ item }) {
@@ -224,19 +361,19 @@ function DataTable({ rows, fileName }) {
   );
 }
 
-function HorizontalBars({ title, subtitle, items, labelKey }) {
+function ScrollMetricList({ title, subtitle, items, labelKey }) {
   const max = Math.max(...items.map((item) => item.total), 1);
   return (
-    <section className="panel chart-panel">
+    <section className="panel chart-panel compact-chart-panel">
       <div className="panel-heading">
         <div>
           <h2>{title}</h2>
           <p>{subtitle}</p>
         </div>
       </div>
-      <div className="bars-list">
+      <div className="scroll-metric-list">
         {items.map((item) => (
-          <div className="bar-row" key={`${item[labelKey]}-${item.total}`}>
+          <div className="bar-row compact-bar-row" key={`${item[labelKey]}-${item.total}`}>
             <div className="bar-meta">
               <strong>{item[labelKey]}</strong>
               <span>{formatNumber(item.total)}</span>
@@ -246,6 +383,42 @@ function HorizontalBars({ title, subtitle, items, labelKey }) {
             </div>
           </div>
         ))}
+      </div>
+    </section>
+  );
+}
+
+function PageHero({ backTo, backLabel, title, subtitle }) {
+  return (
+    <section className="page-hero panel">
+      <Link className="back-link" to={backTo}>
+        {backLabel}
+      </Link>
+      <h2>{title}</h2>
+      <p>{subtitle}</p>
+    </section>
+  );
+}
+
+function PageHeroWithSummary({ backTo, backLabel, title, subtitle, items }) {
+  return (
+    <section className="page-hero panel">
+      <div className="page-hero-top">
+        <div>
+          <Link className="back-link" to={backTo}>
+            {backLabel}
+          </Link>
+          <h2>{title}</h2>
+          <p>{subtitle}</p>
+        </div>
+        <div className="status-summary-grid">
+          {items.map((item) => (
+            <div className="status-summary-card" key={item.label}>
+              <span>{item.label}</span>
+              <strong>{formatNumber(item.value)}</strong>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );
@@ -275,9 +448,9 @@ function HomePage({ payload }) {
     <>
       <section className="kpi-grid">
         <KpiCard label="Total coletado" value={formatNumber(totalRealizado)} help="Registros consolidados" />
-        <KpiCard label="Municípios com coleta" value={formatNumber(municipiosComColeta)} help="Municípios com produção registrada" />
+        <KpiCard label="Municípios com coleta" value={formatNumber(municipiosComColeta)} help="Municípios com produção registrada" href="/municipios" />
         <KpiCard label="Questionários" value={formatNumber(payload.resumo_questionarios.length)} help="Tipos de questionário com ocorrências" />
-        <KpiCard label="Pesquisadores" value={formatNumber(payload.resumo_pesquisadores.length)} help="Responsáveis identificados na base" />
+        <KpiCard label="Pesquisadores" value={formatNumber(payload.resumo_pesquisadores.length)} help="Responsáveis identificados na base" href="/pesquisadores" />
       </section>
 
       <section className="panel mosaic-panel">
@@ -303,16 +476,16 @@ function HomePage({ payload }) {
       </section>
 
       <div className="dual-grid">
-        <HorizontalBars
+        <ScrollMetricList
           title="Total por pesquisador"
           subtitle="Valores absolutos por responsável."
-          items={payload.resumo_pesquisadores.slice(0, 12).map((item) => ({
+          items={payload.resumo_pesquisadores.map((item) => ({
             ...item,
             total: Number(item.total),
           }))}
           labelKey="pesquisador"
         />
-        <HorizontalBars
+        <ScrollMetricList
           title="Total por questionário"
           subtitle="Questionários com maior produção até o momento."
           items={payload.resumo_questionarios.map((item) => ({
@@ -329,7 +502,131 @@ function HomePage({ payload }) {
   );
 }
 
-function MunicipioPage({ payload }) {
+function MunicipiosPage({ payload, concludedMap, setConcluded }) {
+  const rows = useMemo(() => buildHomeRows(payload), [payload]);
+  const municipios = useMemo(
+    () => buildMunicipiosStatus(payload, rows, concludedMap),
+    [payload, rows, concludedMap],
+  );
+  const summaryItems = useMemo(
+    () => [
+      { label: "Ativos", value: municipios.filter((item) => item.status === "Ativo").length },
+      { label: "Em Alerta", value: municipios.filter((item) => item.status === "Alerta").length },
+      { label: "À Iniciar", value: municipios.filter((item) => item.status === "Não Iniciado").length },
+      { label: "Concluídos", value: municipios.filter((item) => item.status === "Concluído").length },
+    ],
+    [municipios],
+  );
+
+  return (
+    <>
+      <PageHeroWithSummary
+        backTo="/"
+        backLabel="Voltar ao painel"
+        title="Municípios"
+        subtitle="Acompanhamento operacional por município, com status, dias de campo e última coleta."
+        items={summaryItems}
+      />
+      <section className="panel table-panel">
+        <div className="panel-heading">
+          <div>
+            <h2>Status municipal</h2>
+            <p>Ativo, Não Iniciado, Concluído ou Alerta, com base na produção mais recente.</p>
+          </div>
+        </div>
+        <div className="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Status</th>
+                <th>Município</th>
+                <th>Total de coletas</th>
+                <th>Total de dias de campo</th>
+                <th>Última coleta realizada</th>
+                <th>Concluir</th>
+              </tr>
+            </thead>
+            <tbody>
+              {municipios.map((item) => (
+                <tr key={item.municipio}>
+                  <td>
+                    <span className={`status-pill status-${slugify(item.status)}`}>{item.status}</span>
+                  </td>
+                  <td>
+                    <Link className="table-link" to={`/municipio/${item.municipioSlug}`}>
+                      {item.municipio}
+                    </Link>
+                  </td>
+                  <td>{formatNumber(item.totalColetas)}</td>
+                  <td>{formatNumber(item.totalDiasCampo)}</td>
+                  <td>{formatDateTime(item.ultimaColeta)}</td>
+                  <td>
+                    <select
+                      className="inline-select"
+                      value={item.concluded ? "concluido" : "andamento"}
+                      onChange={(event) => setConcluded(item.municipioSlug, event.target.value === "concluido")}
+                    >
+                      <option value="andamento">Em andamento</option>
+                      <option value="concluido">Concluído</option>
+                    </select>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </>
+  );
+}
+
+function PesquisadoresPage({ payload }) {
+  const rows = useMemo(() => buildHomeRows(payload), [payload]);
+  const pesquisadores = useMemo(() => buildPesquisadoresSummary(rows), [rows]);
+
+  return (
+    <>
+      <PageHero
+        backTo="/"
+        backLabel="Voltar ao painel"
+        title="Pesquisadores"
+        subtitle="Produção consolidada por pesquisador, com municípios cobertos e última coleta."
+      />
+      <section className="panel table-panel">
+        <div className="panel-heading">
+          <div>
+            <h2>Resumo por pesquisador</h2>
+            <p>Leitura rápida de produtividade com base na carga mais recente.</p>
+          </div>
+        </div>
+        <div className="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Pesquisador</th>
+                <th>Total de coletas</th>
+                <th>Municípios com atuação</th>
+                <th>Última coleta realizada</th>
+              </tr>
+            </thead>
+            <tbody>
+              {pesquisadores.map((item) => (
+                <tr key={item.pesquisador}>
+                  <td>{item.pesquisador}</td>
+                  <td>{formatNumber(item.totalColetas)}</td>
+                  <td>{formatNumber(item.totalMunicipios)}</td>
+                  <td>{formatDateTime(item.ultimaColeta)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </>
+  );
+}
+
+function MunicipioDetailPage({ payload, concludedMap }) {
   const { municipioSlug } = useParams();
   const homeRows = useMemo(() => buildHomeRows(payload), [payload]);
   const lookup = useMemo(() => buildMunicipioLookup(payload), [payload]);
@@ -344,20 +641,36 @@ function MunicipioPage({ payload }) {
     .sort((a, b) => compareText(a.categoria, b.categoria) || compareText(a.nome_atrativo, b.nome_atrativo));
 
   const detail = computeMunicipioDetail(municipioRows);
+  const status = getMunicipioStatusLabel(payload, homeRows, concludedMap, municipioMeta.municipio);
 
   return (
     <>
       <section className="municipio-hero panel">
-        <div>
-          <Link className="back-link" to="/">
-            Voltar ao mosaico
-          </Link>
-          <h2>{municipioMeta.municipio}</h2>
+        <div className="municipio-hero-main">
+          <div className="back-link-row">
+            <Link className="back-link" to="/">
+              Voltar ao mosaico
+            </Link>
+            <Link className="back-link" to="/municipios">
+              Página de municípios
+            </Link>
+          </div>
+          <div className="municipio-title-row">
+            <h2>{municipioMeta.municipio}</h2>
+            <span className={`status-pill status-${slugify(status)}`}>{status}</span>
+          </div>
           <p>{municipioMeta.regiao}</p>
         </div>
-        <div className="municipio-summary-pill">
-          <span>Total coletado</span>
-          <strong>{formatNumber(municipioRows.length)}</strong>
+        <div className="municipio-researchers">
+          <span>Pesquisador{detail.pesquisadores.length > 1 ? "es" : ""}</span>
+          <div className="municipio-researchers-list">
+            {detail.pesquisadores.map((item) => (
+              <div className="municipio-researcher-item" key={item.pesquisador}>
+                <strong>{item.pesquisador}</strong>
+                <small>{formatNumber(item.total)} coletado(s)</small>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -369,17 +682,17 @@ function MunicipioPage({ payload }) {
       </section>
 
       <div className="dual-grid">
-        <HorizontalBars
+        <ScrollMetricList
           title="Total por categoria"
           subtitle="Distribuição da produção dentro do município."
           items={detail.categorias}
           labelKey="categoria"
         />
-        <HorizontalBars
-          title="Total por pesquisador"
-          subtitle="Produção por pesquisador no município."
-          items={detail.pesquisadores}
-          labelKey="pesquisador"
+        <ScrollMetricList
+          title="Quantidade por questionário preenchido"
+          subtitle="Distribuição da produção por tipo de questionário."
+          items={detail.questionarios}
+          labelKey="questionario"
         />
       </div>
 
@@ -390,6 +703,7 @@ function MunicipioPage({ payload }) {
 
 export default function App() {
   const { payload, error } = useDashboardData();
+  const { concluded, update } = useConcludedMunicipios();
 
   if (error) {
     return (
@@ -417,7 +731,9 @@ export default function App() {
     <Shell generatedAt={payload.generated_at}>
       <Routes>
         <Route path="/" element={<HomePage payload={payload} />} />
-        <Route path="/municipio/:municipioSlug" element={<MunicipioPage payload={payload} />} />
+        <Route path="/municipios" element={<MunicipiosPage payload={payload} concludedMap={concluded} setConcluded={update} />} />
+        <Route path="/pesquisadores" element={<PesquisadoresPage payload={payload} />} />
+        <Route path="/municipio/:municipioSlug" element={<MunicipioDetailPage payload={payload} concludedMap={concluded} />} />
       </Routes>
     </Shell>
   );

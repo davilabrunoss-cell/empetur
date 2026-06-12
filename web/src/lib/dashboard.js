@@ -153,6 +153,15 @@ export function computeMunicipioDetail(rows) {
     .map(([pesquisador, total]) => ({ pesquisador, total }))
     .sort((a, b) => b.total - a.total || compareText(a.pesquisador, b.pesquisador));
 
+  const questionarios = Object.entries(
+    rows.reduce((acc, row) => {
+      acc[row.questionario_preenchido] = (acc[row.questionario_preenchido] ?? 0) + 1;
+      return acc;
+    }, {}),
+  )
+    .map(([questionario, total]) => ({ questionario, total }))
+    .sort((a, b) => b.total - a.total || compareText(a.questionario, b.questionario));
+
   const dates = rows
     .map((row) => parseBrDateTime(row.data_inicio_coleta))
     .filter((date) => date instanceof Date && !Number.isNaN(date.getTime()))
@@ -162,8 +171,8 @@ export function computeMunicipioDetail(rows) {
     totalQuestionarios,
     categorias,
     pesquisadores,
+    questionarios,
     primeiraColeta: dates[0] ?? null,
     ultimaColeta: dates[dates.length - 1] ?? null,
   };
 }
-

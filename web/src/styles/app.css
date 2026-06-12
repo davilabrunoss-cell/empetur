@@ -57,7 +57,7 @@ select {
   justify-content: space-between;
   gap: 24px;
   align-items: center;
-  padding: 20px 24px;
+  padding: 18px 24px;
   border: 1px solid var(--line);
   border-radius: 28px;
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
@@ -68,46 +68,48 @@ select {
 .brand-lockup {
   display: flex;
   align-items: center;
-  gap: 18px;
+  gap: 14px;
 }
 
 .brand-logo {
-  padding: 10px 16px;
-  border-radius: 22px;
-  background: rgba(255, 255, 255, 0.92);
   display: flex;
   align-items: center;
   justify-content: center;
-  min-width: 176px;
+  min-width: 132px;
 }
 
 .brand-logo img {
   display: block;
-  width: 140px;
+  width: 118px;
   height: auto;
 }
 
+.brand-copy {
+  max-width: 660px;
+}
+
 .eyebrow {
-  margin: 0 0 8px;
+  margin: 0 0 6px;
   color: var(--highlight);
-  font-size: 0.75rem;
+  font-size: 0.68rem;
   text-transform: uppercase;
-  letter-spacing: 0.22em;
+  letter-spacing: 0.24em;
 }
 
 .app-header h1 {
   margin: 0;
   font-family: "Sora", sans-serif;
-  font-size: clamp(1.5rem, 2.2vw, 2.6rem);
-  line-height: 1.1;
+  font-size: clamp(0.96rem, 1.45vw, 1.48rem);
+  line-height: 1.02;
+  max-width: 620px;
 }
 
 .header-meta {
-  min-width: 220px;
+  min-width: 198px;
   display: flex;
   flex-direction: column;
   gap: 6px;
-  padding: 16px 18px;
+  padding: 14px 16px;
   border-radius: 22px;
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid var(--line);
@@ -118,9 +120,10 @@ select {
 .municipio-region,
 .panel-heading p,
 .panel-heading span,
-.municipio-summary-pill span,
 .kpi-card small,
-.back-link {
+.back-link,
+.municipio-researchers span,
+.municipio-researcher-item small {
   color: var(--muted);
 }
 
@@ -151,6 +154,19 @@ main {
   display: flex;
   flex-direction: column;
   gap: 10px;
+}
+
+.kpi-card-link {
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    background 180ms ease;
+}
+
+.kpi-card-link:hover {
+  transform: translateY(-3px);
+  border-color: rgba(101, 199, 255, 0.52);
+  background: linear-gradient(180deg, rgba(101, 199, 255, 0.16), rgba(255, 255, 255, 0.05));
 }
 
 .kpi-card strong {
@@ -256,8 +272,7 @@ main {
   color: var(--muted);
 }
 
-.municipio-total span,
-.municipio-summary-pill strong {
+.municipio-total span {
   font-family: "Sora", sans-serif;
   font-size: 2rem;
 }
@@ -275,10 +290,32 @@ main {
   gap: 14px;
 }
 
+.scroll-metric-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: 280px;
+  overflow-y: auto;
+  padding-right: 8px;
+}
+
+.scroll-metric-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scroll-metric-list::-webkit-scrollbar-thumb {
+  background: rgba(101, 199, 255, 0.35);
+  border-radius: 999px;
+}
+
 .bar-row {
   display: flex;
   flex-direction: column;
   gap: 8px;
+}
+
+.compact-bar-row {
+  gap: 6px;
 }
 
 .bar-meta {
@@ -289,6 +326,14 @@ main {
 
 .bar-meta strong {
   font-weight: 600;
+}
+
+.compact-bar-row .bar-meta strong {
+  font-size: 0.95rem;
+}
+
+.compact-bar-row .bar-meta span {
+  flex-shrink: 0;
 }
 
 .bar-track {
@@ -354,6 +399,24 @@ main {
   border: 1px solid var(--line);
 }
 
+.table-link {
+  color: var(--highlight);
+  font-weight: 600;
+}
+
+.inline-select {
+  min-height: 40px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.07);
+  color: var(--text);
+  padding: 0 12px;
+}
+
+.inline-select option {
+  color: #0a1f33;
+}
+
 table {
   width: 100%;
   border-collapse: collapse;
@@ -379,8 +442,58 @@ tbody tr:hover {
 .municipio-hero {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   gap: 18px;
+}
+
+.page-hero {
+  margin-bottom: 24px;
+  padding: 24px;
+}
+
+.page-hero-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+.status-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  min-width: 520px;
+}
+
+.status-summary-card {
+  padding: 14px 16px;
+  border-radius: 18px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.status-summary-card span {
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.status-summary-card strong {
+  font-family: "Sora", sans-serif;
+  font-size: 1.4rem;
+}
+
+.municipio-hero-main {
+  flex: 1;
+}
+
+.municipio-title-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
 }
 
 .back-link {
@@ -388,9 +501,74 @@ tbody tr:hover {
   margin-bottom: 14px;
 }
 
-.municipio-summary-pill {
-  min-width: 220px;
-  text-align: right;
+.back-link-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+.back-link-row .back-link {
+  margin-bottom: 0;
+}
+
+.municipio-researchers {
+  min-width: 320px;
+  max-width: 420px;
+  padding: 18px 20px;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--line);
+}
+
+.municipio-researchers-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.municipio-researcher-item {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.municipio-researcher-item strong {
+  font-size: 0.96rem;
+  line-height: 1.35;
+}
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 118px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.status-ativo {
+  background: rgba(35, 190, 125, 0.18);
+  color: #8df0c1;
+}
+
+.status-nao-iniciado {
+  background: rgba(160, 180, 205, 0.16);
+  color: #d8e6f4;
+}
+
+.status-concluido {
+  background: rgba(86, 188, 255, 0.18);
+  color: #a9e2ff;
+}
+
+.status-alerta {
+  background: rgba(255, 178, 67, 0.2);
+  color: #ffd690;
 }
 
 .empty-state {
@@ -420,6 +598,7 @@ tbody tr:hover {
 
   .app-header,
   .municipio-hero,
+  .page-hero-top,
   .panel-heading,
   .region-header {
     flex-direction: column;
@@ -457,7 +636,14 @@ tbody tr:hover {
     grid-column: span 1;
   }
 
-  .municipio-summary-pill {
-    text-align: left;
+  .municipio-researchers {
+    min-width: auto;
+    width: 100%;
+  }
+
+  .status-summary-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    min-width: auto;
+    width: 100%;
   }
 }

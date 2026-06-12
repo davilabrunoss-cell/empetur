@@ -55,4 +55,4 @@ Consolidar os bancos CSV da pasta `data/raw/empetur_bancos` em uma tabela-base u
 
 - Existem valores de preenchimento nao definitivo em alguns registros, como `999`, `R/N`, `Pendencia` e `Preenchimento via link`.
 - Esses valores foram preservados na tabela-base para nao mascarar a realidade do campo.
-
+- Registros cujo `nome_atrativo` indique claramente coleta de teste sao descartados na consolidacao. Exemplos filtrados: `99`, `999`, `xxx`, `teste`, `testando` e variacoes equivalentes.
