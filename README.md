@@ -4,6 +4,7 @@ Aplicacao web para acompanhamento da producao de campo do projeto EMPETUR.
 
 ## Estrutura
 
+- `backend/`: API Python para publicar o payload do dashboard e receber a futura sincronizacao
 - `data/raw/empetur_bancos/`: bancos CSV recebidos diariamente
 - `data/consolidado/`: base consolidada e resumos para o dashboard
 - `data/referencias/`: cadastros auxiliares, como municipios e totais previstos
@@ -57,6 +58,18 @@ Backend:
 
 - publicar no `Render` a aplicacao responsavel pela sincronizacao com a API do iPesquisa
 - usar o `Supabase` como base oficial do ambiente produtivo
+
+## API backend local
+
+```powershell
+python -m uvicorn backend.app:app --host 127.0.0.1 --port 3000
+```
+
+Endpoints iniciais:
+
+- `GET /healthz`
+- `GET /api/dashboard/payload`
+- `POST /api/sync/ipesquisa`
 
 ## Saidas geradas
 

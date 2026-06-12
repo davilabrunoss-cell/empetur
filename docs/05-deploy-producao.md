@@ -31,6 +31,7 @@ Colocar o dashboard no ar imediatamente com a estrutura atual e evoluir o projet
 - executar a consolidacao automatica dos 29 questionarios
 - aplicar regras de normalizacao e descarte de testes
 - gravar a base consolidada no Supabase
+- publicar a API inicial em `backend/app.py`
 
 ### Supabase
 
@@ -50,3 +51,30 @@ Colocar o dashboard no ar imediatamente com a estrutura atual e evoluir o projet
 - o dashboard passa a ser mantido com "o carro em movimento"
 - qualquer ajuste novo deve considerar retrocompatibilidade visual e operacional
 - a publicacao do frontend nao deve depender de parada de uso da equipe
+
+## Campos do Render
+
+Ao criar o `Web Service`, preencher assim:
+
+- `Name`: `empetur-api`
+- `Project`: `dashboard-empetur / Production`
+- `Language`: `Python 3`
+- `Branch`: `main`
+- `Region`: `Ohio (US East)`
+- `Root Directory`: deixar vazio
+- `Build Command`: `pip install -r requirements.txt`
+- `Start Command`: `uvicorn backend.app:app --host 0.0.0.0 --port $PORT`
+
+## Variaveis de ambiente iniciais
+
+- `EMPETUR_CORS_ORIGINS`
+  - valor inicial sugerido: `*`
+- `EMPETUR_PAYLOAD_FILE`
+  - uso local ou transitorio
+- `EMPETUR_PAYLOAD_URL`
+  - uso produtivo quando o payload vier de origem externa
+
+## Status desta etapa
+
+- o backend ja esta estruturado para subir no Render
+- a sincronizacao real com iPesquisa e Supabase sera conectada na proxima etapa
