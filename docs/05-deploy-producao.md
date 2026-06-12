@@ -30,7 +30,7 @@ Colocar o dashboard no ar imediatamente com a estrutura atual e evoluir o projet
 - responsavel por consumir a API do iPesquisa
 - executar a consolidacao automatica dos 29 questionarios
 - aplicar regras de normalizacao e descarte de testes
-- gravar a base consolidada no Supabase
+- disponibilizar o payload consolidado para o dashboard
 - publicar a API inicial em `backend/app.py`
 
 ### Supabase
@@ -69,12 +69,15 @@ Ao criar o `Web Service`, preencher assim:
 
 - `EMPETUR_CORS_ORIGINS`
   - valor inicial sugerido: `*`
-- `EMPETUR_PAYLOAD_FILE`
-  - uso local ou transitorio
-- `EMPETUR_PAYLOAD_URL`
-  - uso produtivo quando o payload vier de origem externa
+- `IPESQUISA_BASE_URL`
+- `IPESQUISA_API_PATH`
+- `IPESQUISA_CLIENT_ID`
+- `IPESQUISA_CLIENT_SECRET`
+- `IPESQUISA_TIMEOUT_SECONDS`
+- `IPESQUISA_FORM_MAP`
 
 ## Status desta etapa
 
 - o backend ja esta estruturado para subir no Render
-- a sincronizacao real com iPesquisa e Supabase sera conectada na proxima etapa
+- a sincronizacao manual com iPesquisa ja esta suportada
+- a persistencia definitiva no Supabase entra como proxima camada

@@ -65,11 +65,32 @@ Backend:
 python -m uvicorn backend.app:app --host 127.0.0.1 --port 3000
 ```
 
-Endpoints iniciais:
+Endpoints atuais:
 
 - `GET /healthz`
 - `GET /api/dashboard/payload`
 - `POST /api/sync/ipesquisa`
+
+## Variaveis principais do backend
+
+- `EMPETUR_CORS_ORIGINS`
+- `IPESQUISA_BASE_URL`
+- `IPESQUISA_API_PATH`
+- `IPESQUISA_CLIENT_ID`
+- `IPESQUISA_CLIENT_SECRET`
+- `IPESQUISA_TIMEOUT_SECONDS`
+- `IPESQUISA_FORM_MAP`
+
+`IPESQUISA_FORM_MAP` deve ser um JSON com o mapeamento entre o nome do questionario e o codigo da pesquisa no iPesquisa.
+
+Exemplo:
+
+```json
+{
+  "Atrativos Naturais": 9035,
+  "Hospedagens": 9123
+}
+```
 
 ## Saidas geradas
 
