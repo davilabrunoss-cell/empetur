@@ -177,6 +177,10 @@ def get_value(row: list[str], idx: int | None) -> str:
     return fix_mojibake(normalize_text(row[idx]))
 
 
+def normalized_startswith(value: str, expected_prefix: str) -> bool:
+    return normalize_for_match(value).startswith(normalize_for_match(expected_prefix))
+
+
 def parse_br_datetime(value: str) -> datetime | None:
     value = normalize_text(value)
     if not value:
@@ -209,19 +213,29 @@ def consolidate_csv_rows(file_name: str, rows: list[list[str]], exec_date: str, 
     header = [fix_mojibake(item) for item in rows[0]]
     data_rows = rows[1:]
 
-    municipio_idx = find_index(header, lambda c: c.startswith("P0. Munic"))
-    nome_idx = find_index(header, lambda c: c.startswith(rule.nome_header_startswith))
+    try:
+        municipio_idx = find_index(header, lambda c: normalized_startswith(c, "P0. Munic"))
+        nome_idx = find_index(header, lambda c: normalized_startswith(c, rule.nome_header_startswith))
+    except KeyError as exc:
+        raise KeyError(
+            f"Coluna esperada nao encontrada no questionario '{questionario}'. Cabecalho recebido: {header}"
+        ) from exc
     pesquisador_informado_idx = find_optional_index(
         header,
-        lambda c: "Pesquisador:" in c and normalize_text(c) != "Pesquisador",
+        lambda c: "pesquisador:" in normalize_for_match(c) and normalize_for_match(c) != "pesquisador",
     )
-    pesquisador_sistema_idx = find_optional_index(header, lambda c: normalize_text(c) == "Pesquisador")
-    data_inicio_idx = find_optional_index(header, lambda c: normalize_text(c).startswith("Data In"))
-    data_fim_idx = find_optional_index(header, lambda c: normalize_text(c) == "Data Fim")
+    pesquisador_sistema_idx = find_optional_index(header, lambda c: normalize_for_match(c) == "pesquisador")
+    data_inicio_idx = find_optional_index(header, lambda c: normalized_startswith(c, "Data In"))
+    data_fim_idx = find_optional_index(header, lambda c: normalize_for_match(c) == "data fim")
 
     categoria_idx = None
     if rule.categoria_header_startswith is not None:
-        categoria_idx = find_index(header, lambda c: c.startswith(rule.categoria_header_startswith))
+        try:
+            categoria_idx = find_index(header, lambda c: normalized_startswith(c, rule.categoria_header_startswith))
+        except KeyError as exc:
+            raise KeyError(
+                f"Coluna de categoria nao encontrada no questionario '{questionario}'. Cabecalho recebido: {header}"
+            ) from exc
 
     consolidated_rows: list[dict[str, str]] = []
     for row_number, row in enumerate(data_rows, start=2):

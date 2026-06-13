@@ -233,12 +233,18 @@ async def sync_ipesquisa(request: SyncRequest) -> dict[str, Any]:
                 request.dt_gravacao_inicio,
                 request.dt_gravacao_fim,
             )
-            rows = consolidate_csv_content(
-                build_csv_file_name(questionario),
-                csv_bytes,
-                exec_date,
-                exec_timestamp,
-            )
+            try:
+                rows = consolidate_csv_content(
+                    build_csv_file_name(questionario),
+                    csv_bytes,
+                    exec_date,
+                    exec_timestamp,
+                )
+            except KeyError as exc:
+                raise HTTPException(
+                    status_code=422,
+                    detail=f"Falha ao consolidar o questionário '{questionario}': {exc}",
+                ) from exc
             all_rows.extend(rows)
             download_summary.append(
                 {
