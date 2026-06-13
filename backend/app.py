@@ -26,6 +26,14 @@ from empetur_core.consolidacao import (
 BASE_DIR = Path(__file__).resolve().parent.parent
 DEFAULT_PAYLOAD_PATH = BASE_DIR / "data" / "consolidado" / "dashboard_payload.json"
 DEFAULT_BASE_CSV_PATH = BASE_DIR / "data" / "consolidado" / "empetur_tabela_base.csv"
+DEFAULT_DISABLED_FORMS = {
+    normalize_questionario_name("Sistema Marítimo e Fluvial"),
+    normalize_questionario_name("Sistema Aéreo"),
+    normalize_questionario_name("Sistemas de Comunicações"),
+    normalize_questionario_name("Informações Turísticas"),
+    normalize_questionario_name("Empresas Organizadoras de Eventos"),
+    normalize_questionario_name("Folguedos, Crenças Populares"),
+}
 
 
 def parse_cors_origins(raw_value: str | None) -> list[str]:
@@ -33,6 +41,16 @@ def parse_cors_origins(raw_value: str | None) -> list[str]:
         return ["*"]
     origins = [item.strip() for item in raw_value.split(",") if item.strip()]
     return origins or ["*"]
+
+
+def parse_disabled_forms(raw_value: str | None) -> set[str]:
+    if not raw_value or not raw_value.strip():
+        return set(DEFAULT_DISABLED_FORMS)
+    return {
+        normalize_questionario_name(item)
+        for item in raw_value.split(",")
+        if item.strip()
+    }
 
 
 @lru_cache
@@ -59,6 +77,7 @@ def get_settings() -> dict[str, object]:
         "ipesquisa_client_secret": os.getenv("IPESQUISA_CLIENT_SECRET", "").strip(),
         "ipesquisa_timeout_seconds": int(os.getenv("IPESQUISA_TIMEOUT_SECONDS", "60")),
         "ipesquisa_form_map": form_map,
+        "ipesquisa_disabled_forms": parse_disabled_forms(os.getenv("IPESQUISA_DISABLED_FORMS")),
     }
 
 
@@ -114,8 +133,13 @@ def build_auth() -> httpx.BasicAuth | None:
 
 
 def build_sync_forms(request_forms: list[SyncForm]) -> list[SyncForm]:
+    disabled_forms = get_settings()["ipesquisa_disabled_forms"]
     if request_forms:
-        return request_forms
+        return [
+            form
+            for form in request_forms
+            if normalize_questionario_name(form.questionario) not in disabled_forms
+        ]
 
     form_map = get_settings()["ipesquisa_form_map"]
     if not form_map:
@@ -124,6 +148,7 @@ def build_sync_forms(request_forms: list[SyncForm]) -> list[SyncForm]:
     return [
         SyncForm(questionario=questionario, codigo_pesquisa=codigo)
         for questionario, codigo in form_map.items()
+        if normalize_questionario_name(questionario) not in disabled_forms
     ]
 
 
@@ -202,6 +227,16 @@ async def get_dashboard_payload() -> dict:
 async def sync_ipesquisa(request: SyncRequest) -> dict[str, Any]:
     settings = get_settings()
     auth = build_auth()
+    disabled_forms = settings["ipesquisa_disabled_forms"]
+    skipped_forms = sorted(disabled_forms)
+    if request.forms:
+        skipped_forms = sorted(
+            {
+                normalize_questionario_name(form.questionario)
+                for form in request.forms
+                if normalize_questionario_name(form.questionario) in disabled_forms
+            }
+        )
     forms = build_sync_forms(request.forms)
 
     if not auth:
@@ -212,7 +247,11 @@ async def sync_ipesquisa(request: SyncRequest) -> dict[str, Any]:
     if not forms:
         raise HTTPException(
             status_code=400,
-            detail="Nenhum questionario informado. Envie forms na requisicao ou configure IPESQUISA_FORM_MAP.",
+            detail=(
+                "Nenhum questionario apto para sincronizacao. "
+                "Envie forms na requisicao, configure IPESQUISA_FORM_MAP "
+                "ou revise IPESQUISA_DISABLED_FORMS."
+            ),
         )
 
     exec_now = datetime.now()
@@ -243,7 +282,7 @@ async def sync_ipesquisa(request: SyncRequest) -> dict[str, Any]:
             except KeyError as exc:
                 raise HTTPException(
                     status_code=422,
-                    detail=f"Falha ao consolidar o questionário '{questionario}': {exc}",
+                    detail=f"Falha ao consolidar o questionario '{questionario}': {exc}",
                 ) from exc
             all_rows.extend(rows)
             download_summary.append(
@@ -265,6 +304,7 @@ async def sync_ipesquisa(request: SyncRequest) -> dict[str, Any]:
         "status": "ok",
         "generated_at": exec_timestamp,
         "questionarios_processados": len(forms),
+        "questionarios_ignorados": skipped_forms,
         "linhas_consolidadas": len(all_rows),
         "downloads": download_summary,
     }

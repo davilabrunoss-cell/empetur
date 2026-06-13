@@ -42,6 +42,17 @@ Mapeamento de formularios:
 - enviar `forms` no corpo da requisicao
 - ou configurar `IPESQUISA_FORM_MAP` no ambiente
 
+Desativacao temporaria de formularios:
+
+- configurar `IPESQUISA_DISABLED_FORMS` com nomes separados por virgula
+- se a variavel nao existir, o backend ignora por padrao estes formularios:
+  - `Sistema Marítimo e Fluvial`
+  - `Sistema Aéreo`
+  - `Sistemas de Comunicações`
+  - `Informações Turísticas`
+  - `Empresas Organizadoras de Eventos`
+  - `Folguedos, Crenças Populares`
+
 ## Objetivo operacional
 
 Com essa base, o Render ja pode:
