@@ -6,25 +6,31 @@ Arquivo lido em:
 
 - `C:\Users\luna_\Codex_Luna\planejamentos\Dashboard de Pesquisa\data\Lista de Questionários e Códigos (ID).xlt`
 
-## Questionarios ja suportados no backend
+## Questionarios suportados no backend
 
 ```json
 {
   "Atrativos Culturais": 9055,
   "Atrativos Naturais": 9035,
+  "Sistema Marítimo e Fluvial": 8933,
+  "Sistema Aéreo": 8932,
   "Sistema Rodoviário": 8931,
   "Sistema Médico-Hospitalar": 8930,
   "Sistema de Segurança": 8928,
+  "Sistemas de Comunicações": 8927,
   "Roteiros Turísticos": 8926,
   "Outros Servicos de Apoio Turistico": 8925,
   "Transportes Turisticos": 8924,
+  "Informações Turísticas": 8923,
   "Compras": 8922,
   "Agenciamento": 8921,
+  "Empresas Organizadoras de Eventos": 8920,
   "Locais de Convernções, Exposições e Eventos Sociais": 8919,
   "Instalações Desportivas": 8918,
   "Entretenimento": 8917,
   "Alimentação": 8916,
   "Hospedagens": 8911,
+  "Folguedos, Crenças Populares": 8910,
   "Folclore-Detalhado": 8909,
   "Festas Populares e Religiosas": 8906,
   "Feiras Livres, Mercados Públicos": 8905,
@@ -36,16 +42,32 @@ Arquivo lido em:
 }
 ```
 
-## Questionarios ainda nao suportados
+## Regras complementares informadas pelo projeto
 
-Esses formulários existem no iPesquisa, mas ainda nao possuem regra de normalizacao no backend:
-
-- `Sistema Marítimo e Fluvial` = `8933`
-- `Sistema Aéreo` = `8932`
-- `Sistemas de Comunicações` = `8927`
-- `Informações Turísticas` = `8923`
-- `Empresas Organizadoras de Eventos` = `8920`
-- `Folguedos, Crenças Populares` = `8910`
+- `Sistema Marítimo e Fluvial`
+  - municipio: `P0. Município`
+  - nome: `1. Nome do sistema marítmo ou fluvial`
+  - categoria: nome do questionário
+- `Sistema Aéreo`
+  - municipio: `P0. Municúpio`
+  - nome: `P0.1. Nome do sistema aéreo`
+  - categoria: nome do questionário
+- `Sistemas de Comunicações`
+  - municipio: `P0. Município`
+  - categoria: `1. Tipo da categoria`
+  - nome: `P1.1. Nome do sistema de comunicação`
+- `Informações Turísticas`
+  - municipio: `P0. Município`
+  - categoria: `1. Tipo da categoria`
+  - nome: `P1.1. Nome do posto de informações turísticas`
+- `Empresas Organizadoras de Eventos`
+  - municipio: `P0. Município`
+  - categoria: `1. Tipo da categoria`
+  - nome: `P1.1. Nome da empresa`
+- `Folguedos, Crenças Populares`
+  - municipio: `P0. Município`
+  - categoria: `1. Tipo da categoria`
+  - nome: `P1.1. Nome do atrativo`
 
 ## Observacao importante
 

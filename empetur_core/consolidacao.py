@@ -65,22 +65,38 @@ RULES_BY_QUESTIONARIO: dict[str, FileRule] = {
     "Festas Populares e Religiosas": FileRule(
         "Festas Populares e Religiosas", "1. Tipo da Categoria", "3. Nome do Atrativo"
     ),
+    "Folguedos, Crenças Populares": FileRule(
+        "Folguedos, Crenças Populares", "1. Tipo da Categoria", "P1.1. Nome do atrativo"
+    ),
     "Folclore-Detalhado": FileRule("Folclore-Detalhado", "1. Tipo da Categoria", "3. Nome do Atrativo"),
     "Gastronomia-Detalhado": FileRule("Gastronomia-Detalhado", "1. Tipo da Categoria", "3. Nome do Atrativo"),
     "Hospedagens": FileRule("Hospedagens", "1. Tipo da Categoria", "3. Nome."),
+    "Informações Turísticas": FileRule(
+        "Informações Turísticas", "1. Tipo da Categoria", "P1.1. Nome do posto de informações turísticas"
+    ),
     "Instalações Desportivas": FileRule("Instalações Desportivas", "1. Tipo da Categoria", "3. Nome."),
     "Locais de Convernções, Exposições e Eventos Sociais": FileRule(
         "Locais de Convernções, Exposições e Eventos Sociais", "1. Tipo da Categoria", "3. Nome."
+    ),
+    "Empresas Organizadoras de Eventos": FileRule(
+        "Empresas Organizadoras de Eventos", "1. Tipo da Categoria", "P1.1. Nome da empresa"
     ),
     "Outros Servicos de Apoio Turistico": FileRule(
         "Outros Servicos de Apoio Turistico", "1. Tipo da Categoria", "3. Nome / Entidade"
     ),
     "Roteiros Turísticos": FileRule("Roteiros Turísticos", "1. Tipo da Categoria", "2. Nome do roteiro turístico"),
+    "Sistema Aéreo": FileRule("Sistema Aéreo", None, "P0.1. Nome do sistema aéreo"),
+    "Sistema Marítimo e Fluvial": FileRule(
+        "Sistema Marítimo e Fluvial", None, "1. Nome do sistema marítmo ou fluvial"
+    ),
     "Sistema de Segurança": FileRule("Sistema de Segurança", "1. Tipo da Categoria", "3. Nome / Entidade"),
     "Sistema Médico-Hospitalar": FileRule(
         "Sistema Médico-Hospitalar", "1. Tipo da Categoria", "2. Nome / Entidade"
     ),
     "Sistema Rodoviário": FileRule("Sistema Rodoviário", None, "2. Nome."),
+    "Sistemas de Comunicações": FileRule(
+        "Sistemas de Comunicações", "1. Tipo da Categoria", "P1.1. Nome do sistema de comunicação"
+    ),
     "Transportes Turisticos": FileRule("Transportes Turisticos", "1. Tipo da Categoria", "3. Nome / Entidade"),
 }
 
@@ -215,7 +231,11 @@ def consolidate_csv_rows(file_name: str, rows: list[list[str]], exec_date: str, 
 
         pesquisador_informado = get_value(row, pesquisador_informado_idx)
         pesquisador_sistema = get_value(row, pesquisador_sistema_idx)
-        categoria = questionario if questionario == "Sistema Rodoviário" else get_value(row, categoria_idx)
+        categoria = (
+            questionario
+            if questionario in {"Sistema Rodoviário", "Sistema Aéreo", "Sistema Marítimo e Fluvial"}
+            else get_value(row, categoria_idx)
+        )
 
         consolidated_rows.append(
             {
