@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import csv
+import difflib
 import json
 import re
 import unicodedata
@@ -87,7 +88,7 @@ RULES_BY_QUESTIONARIO: dict[str, FileRule] = {
     "Roteiros Turísticos": FileRule("Roteiros Turísticos", "1. Tipo da Categoria", "2. Nome do roteiro turístico"),
     "Sistema Aéreo": FileRule("Sistema Aéreo", None, "P0.1. Nome do sistema aéreo"),
     "Sistema Marítimo e Fluvial": FileRule(
-        "Sistema Marítimo e Fluvial", None, "1. Nome do sistema marítmo ou fluvial"
+        "Sistema Marítimo e Fluvial", None, "1. Nome do sistema marítimo ou fluvial"
     ),
     "Sistema de Segurança": FileRule("Sistema de Segurança", "1. Tipo da Categoria", "3. Nome / Entidade"),
     "Sistema Médico-Hospitalar": FileRule(
@@ -181,6 +182,26 @@ def normalized_startswith(value: str, expected_prefix: str) -> bool:
     return normalize_for_match(value).startswith(normalize_for_match(expected_prefix))
 
 
+def normalized_contains(value: str, expected_fragment: str) -> bool:
+    return normalize_for_match(expected_fragment) in normalize_for_match(value)
+
+
+def normalized_fuzzy_prefix_match(value: str, expected_prefix: str) -> bool:
+    left = normalize_for_match(value)[: max(len(normalize_for_match(expected_prefix)) + 24, 48)]
+    right = normalize_for_match(expected_prefix)
+    if not left or not right:
+        return False
+    return difflib.SequenceMatcher(None, left, right).ratio() >= 0.9
+
+
+def header_matches(column: str, expected: str) -> bool:
+    return (
+        normalized_startswith(column, expected)
+        or normalized_contains(column, expected)
+        or normalized_fuzzy_prefix_match(column, expected)
+    )
+
+
 def parse_br_datetime(value: str) -> datetime | None:
     value = normalize_text(value)
     if not value:
@@ -214,8 +235,8 @@ def consolidate_csv_rows(file_name: str, rows: list[list[str]], exec_date: str, 
     data_rows = rows[1:]
 
     try:
-        municipio_idx = find_index(header, lambda c: normalized_startswith(c, "P0. Munic"))
-        nome_idx = find_index(header, lambda c: normalized_startswith(c, rule.nome_header_startswith))
+        municipio_idx = find_index(header, lambda c: header_matches(c, "P0. Munic"))
+        nome_idx = find_index(header, lambda c: header_matches(c, rule.nome_header_startswith))
     except KeyError as exc:
         raise KeyError(
             f"Coluna esperada nao encontrada no questionario '{questionario}'. Cabecalho recebido: {header}"
@@ -225,13 +246,13 @@ def consolidate_csv_rows(file_name: str, rows: list[list[str]], exec_date: str, 
         lambda c: "pesquisador:" in normalize_for_match(c) and normalize_for_match(c) != "pesquisador",
     )
     pesquisador_sistema_idx = find_optional_index(header, lambda c: normalize_for_match(c) == "pesquisador")
-    data_inicio_idx = find_optional_index(header, lambda c: normalized_startswith(c, "Data In"))
-    data_fim_idx = find_optional_index(header, lambda c: normalize_for_match(c) == "data fim")
+    data_inicio_idx = find_optional_index(header, lambda c: header_matches(c, "Data In"))
+    data_fim_idx = find_optional_index(header, lambda c: header_matches(c, "Data Fim"))
 
     categoria_idx = None
     if rule.categoria_header_startswith is not None:
         try:
-            categoria_idx = find_index(header, lambda c: normalized_startswith(c, rule.categoria_header_startswith))
+            categoria_idx = find_index(header, lambda c: header_matches(c, rule.categoria_header_startswith))
         except KeyError as exc:
             raise KeyError(
                 f"Coluna de categoria nao encontrada no questionario '{questionario}'. Cabecalho recebido: {header}"
