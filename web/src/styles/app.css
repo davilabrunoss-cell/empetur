@@ -115,6 +115,37 @@ select {
   border: 1px solid var(--line);
 }
 
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.sync-button {
+  min-height: 52px;
+  padding: 0 22px;
+  border: 1px solid rgba(101, 199, 255, 0.36);
+  border-radius: 18px;
+  background: linear-gradient(180deg, rgba(101, 199, 255, 0.18), rgba(29, 155, 240, 0.16));
+  color: var(--text);
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    opacity 180ms ease;
+}
+
+.sync-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  border-color: rgba(101, 199, 255, 0.56);
+}
+
+.sync-button:disabled {
+  opacity: 0.72;
+  cursor: wait;
+}
+
 .header-meta span,
 .kpi-card span,
 .municipio-region,
@@ -123,7 +154,8 @@ select {
 .kpi-card small,
 .back-link,
 .municipio-researchers span,
-.municipio-researcher-item small {
+.municipio-researcher-item small,
+.header-meta small {
   color: var(--muted);
 }
 
@@ -608,6 +640,12 @@ tbody tr:hover {
   .kpi-grid,
   .dual-grid {
     grid-template-columns: 1fr 1fr;
+  }
+
+  .header-actions {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
   }
 
   .mosaic-grid {

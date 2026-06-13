@@ -18,32 +18,75 @@ import {
 const CONCLUDED_STORAGE_KEY = "empetur-municipios-concluidos";
 const DASHBOARD_DATA_URL =
   import.meta.env.VITE_DASHBOARD_DATA_URL || "/data/dashboard_payload.json";
+const DASHBOARD_SYNC_URL =
+  import.meta.env.VITE_DASHBOARD_SYNC_URL ||
+  DASHBOARD_DATA_URL.replace(/\/api\/dashboard\/payload$/, "/api/sync/ipesquisa");
 
 function useDashboardData() {
   const [payload, setPayload] = useState(null);
   const [error, setError] = useState("");
+  const [syncing, setSyncing] = useState(false);
+  const [syncMessage, setSyncMessage] = useState("");
+
+  const fetchPayload = async () => {
+    const response = await fetch(DASHBOARD_DATA_URL);
+    if (!response.ok) {
+      throw new Error("Falha ao carregar os dados do dashboard.");
+    }
+    const data = await response.json();
+    setPayload(data);
+    return data;
+  };
 
   useEffect(() => {
-    let active = true;
-    fetch(DASHBOARD_DATA_URL)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Falha ao carregar os dados do dashboard.");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        if (active) setPayload(data);
-      })
-      .catch((err) => {
-        if (active) setError(err.message);
-      });
-    return () => {
-      active = false;
-    };
+    fetchPayload().catch((err) => {
+      setError(err.message);
+    });
   }, []);
 
-  return { payload, error };
+  const refresh = async () => {
+    setError("");
+    return fetchPayload();
+  };
+
+  const triggerSync = async () => {
+    setSyncing(true);
+    setSyncMessage("");
+    setError("");
+
+    try {
+      const response = await fetch(DASHBOARD_SYNC_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ persist_local: true }),
+      });
+
+      if (!response.ok) {
+        let detail = "Falha ao sincronizar os dados.";
+        try {
+          const data = await response.json();
+          detail = data.detail || detail;
+        } catch {
+          detail = "Falha ao sincronizar os dados.";
+        }
+        throw new Error(detail);
+      }
+
+      const result = await response.json();
+      await refresh();
+      setSyncMessage(
+        `Sincronização concluída: ${formatNumber(result.linhas_consolidadas ?? 0)} registros consolidados.`,
+      );
+    } catch (err) {
+      setError(err.message || "Falha ao sincronizar os dados.");
+    } finally {
+      setSyncing(false);
+    }
+  };
+
+  return { payload, error, syncing, syncMessage, triggerSync };
 }
 
 function useConcludedMunicipios() {
@@ -170,7 +213,7 @@ function getMunicipioStatusLabel(payload, rows, concludedMap, municipioNome) {
   return items.find((item) => item.municipio === municipioNome)?.status ?? "Não Iniciado";
 }
 
-function Shell({ children, generatedAt }) {
+function Shell({ children, generatedAt, onSync, syncing, syncMessage }) {
   return (
     <div className="app-shell">
       <header className="app-header">
@@ -183,9 +226,15 @@ function Shell({ children, generatedAt }) {
             <h1>Inventário Turístico de Pernambuco | EMPETUR</h1>
           </div>
         </div>
-        <div className="header-meta">
-          <span>Atualização da carga</span>
-          <strong>{generatedAt ?? "Carregando..."}</strong>
+        <div className="header-actions">
+          <button className="sync-button" onClick={onSync} disabled={syncing}>
+            {syncing ? "Sincronizando..." : "Sincronizar dados"}
+          </button>
+          <div className="header-meta">
+            <span>Atualização da carga</span>
+            <strong>{generatedAt ?? "Carregando..."}</strong>
+            {syncMessage ? <small>{syncMessage}</small> : null}
+          </div>
         </div>
       </header>
       <main>{children}</main>
@@ -448,9 +497,23 @@ function HomePage({ payload }) {
     <>
       <section className="kpi-grid">
         <KpiCard label="Total coletado" value={formatNumber(totalRealizado)} help="Registros consolidados" />
-        <KpiCard label="Municípios com coleta" value={formatNumber(municipiosComColeta)} help="Municípios com produção registrada" href="/municipios" />
-        <KpiCard label="Questionários" value={formatNumber(payload.resumo_questionarios.length)} help="Tipos de questionário com ocorrências" />
-        <KpiCard label="Pesquisadores" value={formatNumber(payload.resumo_pesquisadores.length)} help="Responsáveis identificados na base" href="/pesquisadores" />
+        <KpiCard
+          label="Municípios com coleta"
+          value={formatNumber(municipiosComColeta)}
+          help="Municípios com produção registrada"
+          href="/municipios"
+        />
+        <KpiCard
+          label="Questionários"
+          value={formatNumber(payload.resumo_questionarios.length)}
+          help="Tipos de questionário com ocorrências"
+        />
+        <KpiCard
+          label="Pesquisadores"
+          value={formatNumber(payload.resumo_pesquisadores.length)}
+          help="Responsáveis identificados na base"
+          href="/pesquisadores"
+        />
       </section>
 
       <section className="panel mosaic-panel">
@@ -702,12 +765,12 @@ function MunicipioDetailPage({ payload, concludedMap }) {
 }
 
 export default function App() {
-  const { payload, error } = useDashboardData();
+  const { payload, error, syncing, syncMessage, triggerSync } = useDashboardData();
   const { concluded, update } = useConcludedMunicipios();
 
-  if (error) {
+  if (error && !payload) {
     return (
-      <Shell generatedAt="">
+      <Shell generatedAt="" onSync={triggerSync} syncing={syncing} syncMessage={syncMessage}>
         <section className="panel empty-state">
           <h2>Falha ao carregar o dashboard</h2>
           <p>{error}</p>
@@ -718,7 +781,7 @@ export default function App() {
 
   if (!payload) {
     return (
-      <Shell generatedAt="">
+      <Shell generatedAt="" onSync={triggerSync} syncing={syncing} syncMessage={syncMessage}>
         <section className="panel empty-state">
           <h2>Carregando dashboard</h2>
           <p>Preparando mosaico, indicadores e tabela consolidada.</p>
@@ -728,7 +791,13 @@ export default function App() {
   }
 
   return (
-    <Shell generatedAt={payload.generated_at}>
+    <Shell generatedAt={payload.generated_at} onSync={triggerSync} syncing={syncing} syncMessage={syncMessage}>
+      {error ? (
+        <section className="panel empty-state">
+          <h2>Falha ao carregar o dashboard</h2>
+          <p>{error}</p>
+        </section>
+      ) : null}
       <Routes>
         <Route path="/" element={<HomePage payload={payload} />} />
         <Route path="/municipios" element={<MunicipiosPage payload={payload} concludedMap={concluded} setConcluded={update} />} />
