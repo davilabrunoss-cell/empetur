@@ -289,11 +289,11 @@ function Shell({ children, generatedAt, onSync, syncing, syncMessage }) {
   );
 }
 
-function KpiCard({ label, value, help, href }) {
+function KpiCard({ label, value, help, href, valueClassName = "" }) {
   const content = (
     <>
       <span>{label}</span>
-      <strong>{value}</strong>
+      <strong className={valueClassName}>{value}</strong>
       <small>{help}</small>
     </>
   );
@@ -786,8 +786,18 @@ function MunicipioDetailPage({ payload, concludedMap }) {
 
       <section className="kpi-grid">
         <KpiCard label="Questionários preenchidos" value={formatNumber(detail.totalQuestionarios)} help="Total de registros do município" />
-        <KpiCard label="Primeira coleta" value={formatDateTime(detail.primeiraColeta)} help="Data inicial encontrada" />
-        <KpiCard label="Última coleta" value={formatDateTime(detail.ultimaColeta)} help="Data mais recente encontrada" />
+        <KpiCard
+          label="Primeira coleta"
+          value={formatDateTime(detail.primeiraColeta)}
+          help="Data inicial encontrada"
+          valueClassName="kpi-value-datetime"
+        />
+        <KpiCard
+          label="Última coleta"
+          value={formatDateTime(detail.ultimaColeta)}
+          help="Data mais recente encontrada"
+          valueClassName="kpi-value-datetime"
+        />
         <KpiCard label="Total previsto" value={formatNumber(municipioMeta.total_previsto)} help="Campo preparado para futura apuração" />
       </section>
 

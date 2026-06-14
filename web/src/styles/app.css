@@ -206,6 +206,11 @@ main {
   font-size: clamp(1.35rem, 2.3vw, 2rem);
 }
 
+.kpi-card .kpi-value-datetime {
+  font-size: clamp(1.15rem, 1.8vw, 1.6rem);
+  line-height: 1.18;
+}
+
 .mosaic-panel,
 .filters-panel,
 .table-panel,
