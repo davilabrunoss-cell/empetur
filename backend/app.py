@@ -6,6 +6,7 @@ from datetime import datetime
 from functools import lru_cache
 from pathlib import Path
 from typing import Any
+from zoneinfo import ZoneInfo
 
 import httpx
 from fastapi import FastAPI, HTTPException
@@ -24,6 +25,7 @@ from empetur_core.consolidacao import (
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+APP_TIMEZONE = ZoneInfo("America/Sao_Paulo")
 DEFAULT_PAYLOAD_PATH = BASE_DIR / "data" / "consolidado" / "dashboard_payload.json"
 DEFAULT_BASE_CSV_PATH = BASE_DIR / "data" / "consolidado" / "empetur_tabela_base.csv"
 DEFAULT_MUNICIPIOS_STATUS_PATH = BASE_DIR / "data" / "operacional" / "municipios_status.json"
@@ -391,7 +393,7 @@ async def sync_ipesquisa(request: SyncRequest) -> dict[str, Any]:
             ),
         )
 
-    exec_now = datetime.now()
+    exec_now = datetime.now(APP_TIMEZONE)
     exec_date = exec_now.strftime("%d/%m/%Y")
     exec_timestamp = exec_now.strftime("%d/%m/%Y %H:%M:%S")
 
