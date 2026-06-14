@@ -54,6 +54,12 @@ def parse_disabled_forms(raw_value: str | None) -> set[str]:
     }
 
 
+def normalize_supabase_url(raw_value: str | None) -> str:
+    if not raw_value:
+        return ""
+    return raw_value.rstrip("/")
+
+
 @lru_cache
 def get_settings() -> dict[str, object]:
     payload_path = os.getenv("EMPETUR_PAYLOAD_FILE", str(DEFAULT_PAYLOAD_PATH))
@@ -74,6 +80,11 @@ def get_settings() -> dict[str, object]:
         "municipios_status_path": Path(
             os.getenv("EMPETUR_MUNICIPIOS_STATUS_FILE", str(DEFAULT_MUNICIPIOS_STATUS_PATH))
         ),
+        "supabase_url": normalize_supabase_url(os.getenv("SUPABASE_URL")),
+        "supabase_service_role_key": os.getenv("SUPABASE_SERVICE_ROLE_KEY", "").strip(),
+        "supabase_schema": os.getenv("SUPABASE_SCHEMA", "public").strip() or "public",
+        "supabase_table_status": os.getenv("SUPABASE_TABLE_STATUS", "empetur_municipios_status").strip()
+        or "empetur_municipios_status",
         "cors_origins": parse_cors_origins(os.getenv("EMPETUR_CORS_ORIGINS")),
         "ipesquisa_base_url": os.getenv("IPESQUISA_BASE_URL", "https://sistema.ipesquisa.net").rstrip("/"),
         "ipesquisa_api_path": os.getenv("IPESQUISA_API_PATH", "/api/v1/pesquisa/{id}/get-csv-cases").strip(),
@@ -226,6 +237,72 @@ def write_municipios_status(status_map: dict[str, bool]) -> dict[str, bool]:
     return payload
 
 
+def has_supabase_status_backend() -> bool:
+    settings = get_settings()
+    return bool(settings["supabase_url"] and settings["supabase_service_role_key"])
+
+
+def build_supabase_headers(write: bool = False) -> dict[str, str]:
+    settings = get_settings()
+    headers = {
+        "apikey": str(settings["supabase_service_role_key"]),
+        "Authorization": f"Bearer {settings['supabase_service_role_key']}",
+        "Accept": "application/json",
+        "Accept-Profile": str(settings["supabase_schema"]),
+    }
+    if write:
+        headers["Content-Type"] = "application/json"
+        headers["Prefer"] = "resolution=merge-duplicates,return=representation"
+        headers["Content-Profile"] = str(settings["supabase_schema"])
+    return headers
+
+
+def build_supabase_status_url() -> str:
+    settings = get_settings()
+    return f"{settings['supabase_url']}/rest/v1/{settings['supabase_table_status']}"
+
+
+def read_municipios_status_from_supabase() -> dict[str, bool]:
+    url = build_supabase_status_url()
+    params = {"select": "municipio_slug,concluido"}
+    with httpx.Client(timeout=30.0) as client:
+        response = client.get(url, params=params, headers=build_supabase_headers())
+    try:
+        response.raise_for_status()
+    except httpx.HTTPStatusError as exc:
+        raise HTTPException(
+            status_code=502,
+            detail=f"Falha ao ler status de municipios no Supabase: {exc.response.status_code}",
+        ) from exc
+
+    data = response.json()
+    if not isinstance(data, list):
+        return {}
+
+    return {
+        str(item.get("municipio_slug", "")): bool(item.get("concluido"))
+        for item in data
+        if item.get("municipio_slug")
+    }
+
+
+def write_municipio_status_to_supabase(municipio_slug: str, concluido: bool) -> dict[str, bool]:
+    url = build_supabase_status_url()
+    payload = [{"municipio_slug": municipio_slug, "concluido": concluido}]
+    params = {"on_conflict": "municipio_slug"}
+    with httpx.Client(timeout=30.0) as client:
+        response = client.post(url, params=params, headers=build_supabase_headers(write=True), json=payload)
+    try:
+        response.raise_for_status()
+    except httpx.HTTPStatusError as exc:
+        raise HTTPException(
+            status_code=502,
+            detail=f"Falha ao gravar status de municipios no Supabase: {exc.response.status_code}",
+        ) from exc
+
+    return read_municipios_status_from_supabase()
+
+
 @app.get("/healthz")
 def healthcheck() -> dict[str, str]:
     return {"status": "ok"}
@@ -233,14 +310,19 @@ def healthcheck() -> dict[str, str]:
 
 @app.get("/api/municipios/status")
 def get_municipios_status() -> dict[str, dict[str, bool]]:
+    if has_supabase_status_backend():
+        return {"concluded": read_municipios_status_from_supabase()}
     return {"concluded": read_municipios_status()}
 
 
 @app.put("/api/municipios/status/{municipio_slug}")
 def update_municipio_status(municipio_slug: str, request: MunicipioStatusUpdate) -> dict[str, Any]:
-    status_map = read_municipios_status()
-    status_map[municipio_slug] = request.concluido
-    saved = write_municipios_status(status_map)
+    if has_supabase_status_backend():
+        saved = write_municipio_status_to_supabase(municipio_slug, request.concluido)
+    else:
+        status_map = read_municipios_status()
+        status_map[municipio_slug] = request.concluido
+        saved = write_municipios_status(status_map)
     return {
         "status": "ok",
         "municipio_slug": municipio_slug,

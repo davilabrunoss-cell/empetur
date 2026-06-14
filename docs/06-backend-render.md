@@ -31,9 +31,19 @@ Prioridade de leitura:
 
 Retorna o mapa persistido dos municipios marcados como concluidos.
 
+Prioridade de leitura:
+
+1. tabela de status no `Supabase`, se configurado
+2. arquivo local do Render, como fallback
+
 ### `PUT /api/municipios/status/{municipio_slug}`
 
 Atualiza o status operacional persistido de um municipio.
+
+Prioridade de gravacao:
+
+1. tabela de status no `Supabase`, se configurado
+2. arquivo local do Render, como fallback
 
 Corpo esperado:
 
@@ -79,3 +89,12 @@ Com essa base, o Render ja pode:
 - sincronizar manualmente a carga do iPesquisa
 - persistir o marcador de municipio concluido no servidor
 - ser evoluido depois para persistencia no Supabase sem recriar o servico
+
+## Variaveis do Supabase para status municipal
+
+- `SUPABASE_URL`
+- `SUPABASE_SERVICE_ROLE_KEY`
+- `SUPABASE_SCHEMA`
+  - valor sugerido: `public`
+- `SUPABASE_TABLE_STATUS`
+  - valor sugerido: `empetur_municipios_status`

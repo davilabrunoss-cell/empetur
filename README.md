@@ -70,6 +70,8 @@ Endpoints atuais:
 - `GET /healthz`
 - `GET /api/dashboard/payload`
 - `POST /api/sync/ipesquisa`
+- `GET /api/municipios/status`
+- `PUT /api/municipios/status/{municipio_slug}`
 
 ## Variaveis principais do backend
 
@@ -80,6 +82,10 @@ Endpoints atuais:
 - `IPESQUISA_CLIENT_SECRET`
 - `IPESQUISA_TIMEOUT_SECONDS`
 - `IPESQUISA_FORM_MAP`
+- `SUPABASE_URL`
+- `SUPABASE_SERVICE_ROLE_KEY`
+- `SUPABASE_SCHEMA`
+- `SUPABASE_TABLE_STATUS`
 
 `IPESQUISA_FORM_MAP` deve ser um JSON com o mapeamento entre o nome do questionario e o codigo da pesquisa no iPesquisa.
 
