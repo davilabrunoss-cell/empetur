@@ -585,7 +585,9 @@ function TimelineChart({ rows }) {
 
           {points.map((point) => (
             <g key={point.day}>
-              <circle cx={point.x} cy={point.y} r="3.2" className="timeline-point" />
+              <circle cx={point.x} cy={point.y} r="3.2" className="timeline-point">
+                <title>{`${point.day}: ${formatNumber(point.total)} coleta(s)`}</title>
+              </circle>
               <text x={point.x} y={height - 12} textAnchor="middle" className="timeline-axis-label timeline-axis-label-x">
                 {formatTimelineLabel(point.date)}
               </text>

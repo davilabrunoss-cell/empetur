@@ -365,7 +365,7 @@ main {
 .timeline-line-glow {
   fill: none;
   stroke: rgba(101, 199, 255, 0.35);
-  stroke-width: 4;
+  stroke-width: 2.6;
   stroke-linecap: round;
   stroke-linejoin: round;
   filter: url(#timelineGlow);
@@ -374,7 +374,7 @@ main {
 .timeline-line {
   fill: none;
   stroke: var(--accent-strong);
-  stroke-width: 1.8;
+  stroke-width: 1.15;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
