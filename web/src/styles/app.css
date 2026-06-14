@@ -323,6 +323,7 @@ main {
 
 .timeline-panel {
   margin-bottom: 24px;
+  padding: 18px 20px;
 }
 
 .timeline-chart-wrap {
@@ -345,7 +346,7 @@ main {
 
 .timeline-axis-label {
   fill: var(--muted);
-  font-size: 12px;
+  font-size: 11px;
   font-family: "IBM Plex Sans", sans-serif;
 }
 
@@ -360,7 +361,7 @@ main {
 .timeline-line-glow {
   fill: none;
   stroke: rgba(101, 199, 255, 0.35);
-  stroke-width: 7;
+  stroke-width: 4;
   stroke-linecap: round;
   stroke-linejoin: round;
   filter: url(#timelineGlow);
@@ -369,7 +370,7 @@ main {
 .timeline-line {
   fill: none;
   stroke: var(--accent-strong);
-  stroke-width: 3;
+  stroke-width: 1.8;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
@@ -377,7 +378,7 @@ main {
 .timeline-point {
   fill: #f4f8fc;
   stroke: var(--accent-strong);
-  stroke-width: 2;
+  stroke-width: 1.5;
 }
 
 .timeline-empty {

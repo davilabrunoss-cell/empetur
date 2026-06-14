@@ -527,8 +527,8 @@ function TimelineChart({ rows }) {
   }
 
   const width = 960;
-  const height = 260;
-  const padding = { top: 22, right: 18, bottom: 40, left: 42 };
+  const height = 148;
+  const padding = { top: 14, right: 18, bottom: 28, left: 34 };
   const chartWidth = width - padding.left - padding.right;
   const chartHeight = height - padding.top - padding.bottom;
   const maxValue = Math.max(...series.map((item) => item.total), 1);
@@ -585,7 +585,7 @@ function TimelineChart({ rows }) {
 
           {points.map((point) => (
             <g key={point.day}>
-              <circle cx={point.x} cy={point.y} r="4.5" className="timeline-point" />
+              <circle cx={point.x} cy={point.y} r="3.2" className="timeline-point" />
               <text x={point.x} y={height - 12} textAnchor="middle" className="timeline-axis-label timeline-axis-label-x">
                 {formatTimelineLabel(point.date)}
               </text>
