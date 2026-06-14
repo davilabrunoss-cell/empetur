@@ -27,6 +27,22 @@ Prioridade de leitura:
 3. `EMPETUR_PAYLOAD_FILE`
 4. erro `503` se nenhuma fonte estiver disponivel
 
+### `GET /api/municipios/status`
+
+Retorna o mapa persistido dos municipios marcados como concluidos.
+
+### `PUT /api/municipios/status/{municipio_slug}`
+
+Atualiza o status operacional persistido de um municipio.
+
+Corpo esperado:
+
+```json
+{
+  "concluido": true
+}
+```
+
 ### `POST /api/sync/ipesquisa`
 
 Baixa os CSVs do iPesquisa, aplica a consolidacao e atualiza o payload do dashboard.
@@ -61,4 +77,5 @@ Com essa base, o Render ja pode:
 - expor uma URL publica
 - responder ao Cloudflare Pages
 - sincronizar manualmente a carga do iPesquisa
+- persistir o marcador de municipio concluido no servidor
 - ser evoluido depois para persistencia no Supabase sem recriar o servico

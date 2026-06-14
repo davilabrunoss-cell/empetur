@@ -26,6 +26,7 @@ from empetur_core.consolidacao import (
 BASE_DIR = Path(__file__).resolve().parent.parent
 DEFAULT_PAYLOAD_PATH = BASE_DIR / "data" / "consolidado" / "dashboard_payload.json"
 DEFAULT_BASE_CSV_PATH = BASE_DIR / "data" / "consolidado" / "empetur_tabela_base.csv"
+DEFAULT_MUNICIPIOS_STATUS_PATH = BASE_DIR / "data" / "operacional" / "municipios_status.json"
 DEFAULT_DISABLED_FORMS = {
     normalize_questionario_name("Sistema Marítimo e Fluvial"),
     normalize_questionario_name("Sistema Aéreo"),
@@ -70,6 +71,9 @@ def get_settings() -> dict[str, object]:
         "payload_path": Path(payload_path),
         "payload_url": payload_url,
         "base_csv_path": Path(os.getenv("EMPETUR_BASE_CSV_FILE", str(DEFAULT_BASE_CSV_PATH))),
+        "municipios_status_path": Path(
+            os.getenv("EMPETUR_MUNICIPIOS_STATUS_FILE", str(DEFAULT_MUNICIPIOS_STATUS_PATH))
+        ),
         "cors_origins": parse_cors_origins(os.getenv("EMPETUR_CORS_ORIGINS")),
         "ipesquisa_base_url": os.getenv("IPESQUISA_BASE_URL", "https://sistema.ipesquisa.net").rstrip("/"),
         "ipesquisa_api_path": os.getenv("IPESQUISA_API_PATH", "/api/v1/pesquisa/{id}/get-csv-cases").strip(),
@@ -91,7 +95,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=get_settings()["cors_origins"],
     allow_credentials=False,
-    allow_methods=["GET", "POST", "OPTIONS"],
+    allow_methods=["GET", "POST", "PUT", "OPTIONS"],
     allow_headers=["*"],
 )
 
@@ -108,6 +112,10 @@ class SyncRequest(BaseModel):
     dt_gravacao_inicio: str | None = None
     dt_gravacao_fim: str | None = None
     persist_local: bool = True
+
+
+class MunicipioStatusUpdate(BaseModel):
+    concluido: bool
 
 
 def read_payload_from_disk(path: Path) -> dict:
@@ -189,9 +197,56 @@ def persist_sync_outputs(payload: dict, all_rows: list[dict[str, str]]) -> None:
     write_csv(settings["base_csv_path"], BASE_FIELDNAMES, all_rows)
 
 
+def read_municipios_status() -> dict[str, bool]:
+    path = get_settings()["municipios_status_path"]
+    if not path.exists():
+        return {}
+    try:
+        raw = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as exc:
+        raise HTTPException(status_code=500, detail=f"Arquivo de status invalido: {exc}") from exc
+
+    if not isinstance(raw, dict):
+        return {}
+
+    return {
+        str(key): bool(value)
+        for key, value in raw.items()
+    }
+
+
+def write_municipios_status(status_map: dict[str, bool]) -> dict[str, bool]:
+    path = get_settings()["municipios_status_path"]
+    path.parent.mkdir(parents=True, exist_ok=True)
+    payload = {
+        key: bool(value)
+        for key, value in sorted(status_map.items())
+    }
+    path.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
+    return payload
+
+
 @app.get("/healthz")
 def healthcheck() -> dict[str, str]:
     return {"status": "ok"}
+
+
+@app.get("/api/municipios/status")
+def get_municipios_status() -> dict[str, dict[str, bool]]:
+    return {"concluded": read_municipios_status()}
+
+
+@app.put("/api/municipios/status/{municipio_slug}")
+def update_municipio_status(municipio_slug: str, request: MunicipioStatusUpdate) -> dict[str, Any]:
+    status_map = read_municipios_status()
+    status_map[municipio_slug] = request.concluido
+    saved = write_municipios_status(status_map)
+    return {
+        "status": "ok",
+        "municipio_slug": municipio_slug,
+        "concluido": request.concluido,
+        "concluded": saved,
+    }
 
 
 @app.get("/api/dashboard/payload")

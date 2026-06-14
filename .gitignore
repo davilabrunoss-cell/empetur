@@ -7,6 +7,8 @@ data/raw/empetur_bancos/*
 !data/raw/empetur_bancos/.gitkeep
 data/consolidado/*
 !data/consolidado/.gitkeep
+data/operacional/*
+!data/operacional/.gitkeep
 web/public/data/*
 !web/public/data/.gitkeep
 

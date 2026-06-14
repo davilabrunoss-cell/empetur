@@ -21,6 +21,9 @@ const DASHBOARD_DATA_URL =
 const DASHBOARD_SYNC_URL =
   import.meta.env.VITE_DASHBOARD_SYNC_URL ||
   DASHBOARD_DATA_URL.replace(/\/api\/dashboard\/payload$/, "/api/sync/ipesquisa");
+const MUNICIPIOS_STATUS_URL =
+  import.meta.env.VITE_MUNICIPIOS_STATUS_URL ||
+  DASHBOARD_DATA_URL.replace(/\/api\/dashboard\/payload$/, "/api/municipios/status");
 
 function useDashboardData() {
   const [payload, setPayload] = useState(null);
@@ -93,22 +96,66 @@ function useConcludedMunicipios() {
   const [concluded, setConcluded] = useState({});
 
   useEffect(() => {
-    try {
-      const saved = window.localStorage.getItem(CONCLUDED_STORAGE_KEY);
-      if (saved) {
-        setConcluded(JSON.parse(saved));
+    let active = true;
+
+    const load = async () => {
+      try {
+        const response = await fetch(MUNICIPIOS_STATUS_URL);
+        if (!response.ok) {
+          throw new Error("Falha ao carregar status dos municipios.");
+        }
+
+        const data = await response.json();
+        const next = data.concluded ?? {};
+        if (!active) return;
+
+        setConcluded(next);
+        window.localStorage.setItem(CONCLUDED_STORAGE_KEY, JSON.stringify(next));
+      } catch (error) {
+        try {
+          const saved = window.localStorage.getItem(CONCLUDED_STORAGE_KEY);
+          if (saved && active) {
+            setConcluded(JSON.parse(saved));
+          }
+        } catch (storageError) {
+          console.error("Falha ao carregar status concluido", storageError);
+        }
+        console.error("Falha ao carregar status no backend", error);
       }
-    } catch (error) {
-      console.error("Falha ao carregar status concluído", error);
-    }
+    };
+
+    load();
+
+    return () => {
+      active = false;
+    };
   }, []);
 
-  const update = (municipioSlug, isConcluded) => {
-    setConcluded((current) => {
-      const next = { ...current, [municipioSlug]: isConcluded };
-      window.localStorage.setItem(CONCLUDED_STORAGE_KEY, JSON.stringify(next));
-      return next;
-    });
+  const update = async (municipioSlug, isConcluded) => {
+    const next = { ...concluded, [municipioSlug]: isConcluded };
+    setConcluded(next);
+    window.localStorage.setItem(CONCLUDED_STORAGE_KEY, JSON.stringify(next));
+
+    try {
+      const response = await fetch(`${MUNICIPIOS_STATUS_URL}/${municipioSlug}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ concluido: isConcluded }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Falha ao salvar status do municipio.");
+      }
+
+      const data = await response.json();
+      const saved = data.concluded ?? next;
+      setConcluded(saved);
+      window.localStorage.setItem(CONCLUDED_STORAGE_KEY, JSON.stringify(saved));
+    } catch (error) {
+      console.error("Falha ao persistir status do municipio", error);
+    }
   };
 
   return { concluded, update };
