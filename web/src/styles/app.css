@@ -321,6 +321,77 @@ main {
   margin-bottom: 24px;
 }
 
+.timeline-panel {
+  margin-bottom: 24px;
+}
+
+.timeline-chart-wrap {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.timeline-chart {
+  display: block;
+  width: 100%;
+  min-width: 720px;
+  height: auto;
+}
+
+.timeline-grid-line {
+  stroke: rgba(255, 255, 255, 0.08);
+  stroke-width: 1;
+  stroke-dasharray: 4 6;
+}
+
+.timeline-axis-label {
+  fill: var(--muted);
+  font-size: 12px;
+  font-family: "IBM Plex Sans", sans-serif;
+}
+
+.timeline-axis-label-x {
+  text-transform: lowercase;
+}
+
+.timeline-area {
+  fill: url(#timelineAreaFill);
+}
+
+.timeline-line-glow {
+  fill: none;
+  stroke: rgba(101, 199, 255, 0.35);
+  stroke-width: 7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: url(#timelineGlow);
+}
+
+.timeline-line {
+  fill: none;
+  stroke: var(--accent-strong);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.timeline-point {
+  fill: #f4f8fc;
+  stroke: var(--accent-strong);
+  stroke-width: 2;
+}
+
+.timeline-empty {
+  min-height: 180px;
+  border: 1px dashed var(--line);
+  border-radius: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+  text-align: center;
+  padding: 24px;
+}
+
 .bars-list {
   display: flex;
   flex-direction: column;

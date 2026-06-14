@@ -484,6 +484,119 @@ function ScrollMetricList({ title, subtitle, items, labelKey }) {
   );
 }
 
+function buildTimelineSeries(rows) {
+  const byDay = rows.reduce((acc, row) => {
+    const day = row.data_inicio_coleta?.split(" ")[0];
+    if (!day) return acc;
+    acc[day] = (acc[day] ?? 0) + 1;
+    return acc;
+  }, {});
+
+  return Object.entries(byDay)
+    .map(([day, total]) => ({
+      day,
+      total,
+      date: parseBrDateTime(`${day} 00:00:00`),
+    }))
+    .filter((item) => item.date instanceof Date && !Number.isNaN(item.date.getTime()))
+    .sort((a, b) => a.date - b.date);
+}
+
+function formatTimelineLabel(date) {
+  return new Intl.DateTimeFormat("pt-BR", {
+    day: "2-digit",
+    month: "short",
+  }).format(date);
+}
+
+function TimelineChart({ rows }) {
+  const series = useMemo(() => buildTimelineSeries(rows), [rows]);
+
+  if (!series.length) {
+    return (
+      <section className="panel chart-panel timeline-panel">
+        <div className="panel-heading">
+          <div>
+            <h2>Evolução das coletas</h2>
+            <p>Linha temporal diária da produção registrada no município.</p>
+          </div>
+        </div>
+        <div className="timeline-empty">Sem pontos suficientes para montar a linha temporal.</div>
+      </section>
+    );
+  }
+
+  const width = 960;
+  const height = 260;
+  const padding = { top: 22, right: 18, bottom: 40, left: 42 };
+  const chartWidth = width - padding.left - padding.right;
+  const chartHeight = height - padding.top - padding.bottom;
+  const maxValue = Math.max(...series.map((item) => item.total), 1);
+  const yTicks = Array.from(new Set([0, Math.ceil(maxValue / 2), maxValue])).sort((a, b) => a - b);
+
+  const points = series.map((item, index) => {
+    const x = padding.left + (series.length === 1 ? chartWidth / 2 : (index / (series.length - 1)) * chartWidth);
+    const y = padding.top + chartHeight - (item.total / maxValue) * chartHeight;
+    return { ...item, x, y };
+  });
+
+  const linePath = points.map((point, index) => `${index === 0 ? "M" : "L"} ${point.x} ${point.y}`).join(" ");
+  const areaPath = `${linePath} L ${points[points.length - 1].x} ${padding.top + chartHeight} L ${points[0].x} ${padding.top + chartHeight} Z`;
+
+  return (
+    <section className="panel chart-panel timeline-panel">
+      <div className="panel-heading">
+        <div>
+          <h2>Evolução das coletas</h2>
+          <p>Linha temporal diária da produção registrada no município.</p>
+        </div>
+      </div>
+      <div className="timeline-chart-wrap">
+        <svg viewBox={`0 0 ${width} ${height}`} className="timeline-chart" role="img" aria-label="Gráfico de linha temporal das coletas">
+          <defs>
+            <linearGradient id="timelineAreaFill" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0%" stopColor="rgba(101, 199, 255, 0.38)" />
+              <stop offset="100%" stopColor="rgba(101, 199, 255, 0.02)" />
+            </linearGradient>
+            <filter id="timelineGlow">
+              <feGaussianBlur stdDeviation="4" result="blur" />
+              <feMerge>
+                <feMergeNode in="blur" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+          </defs>
+
+          {yTicks.map((tick) => {
+            const y = padding.top + chartHeight - (tick / maxValue) * chartHeight;
+            return (
+              <g key={tick}>
+                <line x1={padding.left} x2={width - padding.right} y1={y} y2={y} className="timeline-grid-line" />
+                <text x={padding.left - 10} y={y + 4} textAnchor="end" className="timeline-axis-label">
+                  {tick}
+                </text>
+              </g>
+            );
+          })}
+
+          <path d={areaPath} className="timeline-area" />
+          <path d={linePath} className="timeline-line-glow" />
+          <path d={linePath} className="timeline-line" />
+
+          {points.map((point) => (
+            <g key={point.day}>
+              <circle cx={point.x} cy={point.y} r="4.5" className="timeline-point" />
+              <text x={point.x} y={height - 12} textAnchor="middle" className="timeline-axis-label timeline-axis-label-x">
+                {formatTimelineLabel(point.date)}
+              </text>
+            </g>
+          ))}
+        </svg>
+      </div>
+    </section>
+  );
+}
+
 function PageHero({ backTo, backLabel, title, subtitle }) {
   return (
     <section className="page-hero panel">
@@ -800,6 +913,8 @@ function MunicipioDetailPage({ payload, concludedMap }) {
         />
         <KpiCard label="Total previsto" value={formatNumber(municipioMeta.total_previsto)} help="Campo preparado para futura apuração" />
       </section>
+
+      <TimelineChart rows={municipioRows} />
 
       <div className="dual-grid">
         <ScrollMetricList
