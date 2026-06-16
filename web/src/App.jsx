@@ -851,6 +851,90 @@ function PesquisadoresPage({ payload }) {
   );
 }
 
+function TotalPrevistoPage({ payload, concludedMap }) {
+  const { municipioSlug } = useParams();
+  const homeRows = useMemo(() => buildHomeRows(payload), [payload]);
+  const lookup = useMemo(() => buildMunicipioLookup(payload), [payload]);
+  const municipioMeta = lookup.get(municipioSlug);
+
+  if (!municipioMeta) {
+    return <Navigate to="/" replace />;
+  }
+
+  const municipioRows = homeRows.filter((row) => row.municipio_slug === municipioSlug);
+  const totalRealizado = municipioRows.length;
+  const totalPrevisto = Number(municipioMeta.total_previsto || 0);
+  const saldoPendente = Math.max(totalPrevisto - totalRealizado, 0);
+  const percentualAvanco = totalPrevisto > 0 ? (totalRealizado / totalPrevisto) * 100 : 0;
+  const percentualFormatado = new Intl.NumberFormat("pt-BR", {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 1,
+  }).format(percentualAvanco);
+  const status = getMunicipioStatusLabel(payload, homeRows, concludedMap, municipioMeta.municipio);
+
+  return (
+    <>
+      <section className="municipio-hero panel">
+        <div className="municipio-hero-main">
+          <div className="back-link-row">
+            <Link className="back-link" to={`/municipio/${municipioSlug}`}>
+              Voltar ao município
+            </Link>
+            <Link className="back-link" to="/municipios">
+              Página de municípios
+            </Link>
+          </div>
+          <div className="municipio-title-row">
+            <h2>Total previsto | {municipioMeta.municipio}</h2>
+            <span className={`status-pill status-${slugify(status)}`}>{status}</span>
+          </div>
+          <p>{municipioMeta.regiao}</p>
+        </div>
+      </section>
+
+      <section className="kpi-grid">
+        <KpiCard label="Total previsto" value={formatNumber(totalPrevisto)} help="Meta cadastrada para o município" />
+        <KpiCard label="Total realizado" value={formatNumber(totalRealizado)} help="Registros consolidados até o momento" />
+        <KpiCard label="Saldo pendente" value={formatNumber(saldoPendente)} help="Diferença entre previsto e realizado" />
+        <KpiCard label="Avanço" value={`${percentualFormatado}%`} help="Percentual realizado sobre o previsto" />
+      </section>
+
+      <section className="panel table-panel">
+        <div className="panel-heading">
+          <div>
+            <h2>Resumo do total previsto</h2>
+            <p>Espaço dedicado ao acompanhamento da meta do município.</p>
+          </div>
+        </div>
+        <div className="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Município</th>
+                <th>Região</th>
+                <th>Total previsto</th>
+                <th>Total realizado</th>
+                <th>Saldo pendente</th>
+                <th>Avanço</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{municipioMeta.municipio}</td>
+                <td>{municipioMeta.regiao}</td>
+                <td>{formatNumber(totalPrevisto)}</td>
+                <td>{formatNumber(totalRealizado)}</td>
+                <td>{formatNumber(saldoPendente)}</td>
+                <td>{percentualFormatado}%</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </>
+  );
+}
+
 function MunicipioDetailPage({ payload, concludedMap }) {
   const { municipioSlug } = useParams();
   const homeRows = useMemo(() => buildHomeRows(payload), [payload]);
@@ -913,7 +997,12 @@ function MunicipioDetailPage({ payload, concludedMap }) {
           help="Data mais recente encontrada"
           valueClassName="kpi-value-datetime"
         />
-        <KpiCard label="Total previsto" value={formatNumber(municipioMeta.total_previsto)} help="Campo preparado para futura apuração" />
+        <KpiCard
+          label="Total previsto"
+          value={formatNumber(municipioMeta.total_previsto)}
+          help="Abrir detalhamento do previsto"
+          href={`/municipio/${municipioSlug}/previsto`}
+        />
       </section>
 
       <TimelineChart rows={municipioRows} />
@@ -977,6 +1066,7 @@ export default function App() {
         <Route path="/municipios" element={<MunicipiosPage payload={payload} concludedMap={concluded} setConcluded={update} />} />
         <Route path="/pesquisadores" element={<PesquisadoresPage payload={payload} />} />
         <Route path="/municipio/:municipioSlug" element={<MunicipioDetailPage payload={payload} concludedMap={concluded} />} />
+        <Route path="/municipio/:municipioSlug/previsto" element={<TotalPrevistoPage payload={payload} concludedMap={concluded} />} />
       </Routes>
     </Shell>
   );
