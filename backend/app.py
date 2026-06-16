@@ -29,6 +29,7 @@ APP_TIMEZONE = ZoneInfo("America/Sao_Paulo")
 DEFAULT_PAYLOAD_PATH = BASE_DIR / "data" / "consolidado" / "dashboard_payload.json"
 DEFAULT_BASE_CSV_PATH = BASE_DIR / "data" / "consolidado" / "empetur_tabela_base.csv"
 DEFAULT_MUNICIPIOS_STATUS_PATH = BASE_DIR / "data" / "operacional" / "municipios_status.json"
+DEFAULT_PREVISTOS_PATH = BASE_DIR / "data" / "operacional" / "previstos_atrativos.json"
 DEFAULT_DISABLED_FORMS = {
     normalize_questionario_name("Sistema Marítimo e Fluvial"),
     normalize_questionario_name("Sistema Aéreo"),
@@ -82,11 +83,14 @@ def get_settings() -> dict[str, object]:
         "municipios_status_path": Path(
             os.getenv("EMPETUR_MUNICIPIOS_STATUS_FILE", str(DEFAULT_MUNICIPIOS_STATUS_PATH))
         ),
+        "previstos_path": Path(os.getenv("EMPETUR_PREVISTOS_FILE", str(DEFAULT_PREVISTOS_PATH))),
         "supabase_url": normalize_supabase_url(os.getenv("SUPABASE_URL")),
         "supabase_service_role_key": os.getenv("SUPABASE_SERVICE_ROLE_KEY", "").strip(),
         "supabase_schema": os.getenv("SUPABASE_SCHEMA", "public").strip() or "public",
         "supabase_table_status": os.getenv("SUPABASE_TABLE_STATUS", "empetur_municipios_status").strip()
         or "empetur_municipios_status",
+        "supabase_table_previstos": os.getenv("SUPABASE_TABLE_PREVISTOS", "empetur_previstos_atrativos").strip()
+        or "empetur_previstos_atrativos",
         "cors_origins": parse_cors_origins(os.getenv("EMPETUR_CORS_ORIGINS")),
         "ipesquisa_base_url": os.getenv("IPESQUISA_BASE_URL", "https://sistema.ipesquisa.net").rstrip("/"),
         "ipesquisa_api_path": os.getenv("IPESQUISA_API_PATH", "/api/v1/pesquisa/{id}/get-csv-cases").strip(),
@@ -129,6 +133,18 @@ class SyncRequest(BaseModel):
 
 class MunicipioStatusUpdate(BaseModel):
     concluido: bool
+
+
+class PrevistoRow(BaseModel):
+    regiao: str = ""
+    municipio: str = ""
+    categoria: str = ""
+    referencia: str = ""
+    atrativo: str = ""
+
+
+class PrevistoReplaceRequest(BaseModel):
+    rows: list[PrevistoRow] = Field(default_factory=list)
 
 
 def read_payload_from_disk(path: Path) -> dict:
@@ -264,6 +280,11 @@ def build_supabase_status_url() -> str:
     return f"{settings['supabase_url']}/rest/v1/{settings['supabase_table_status']}"
 
 
+def build_supabase_previstos_url() -> str:
+    settings = get_settings()
+    return f"{settings['supabase_url']}/rest/v1/{settings['supabase_table_previstos']}"
+
+
 def read_municipios_status_from_supabase() -> dict[str, bool]:
     url = build_supabase_status_url()
     params = {"select": "municipio_slug,concluido"}
@@ -305,6 +326,115 @@ def write_municipio_status_to_supabase(municipio_slug: str, concluido: bool) -> 
     return read_municipios_status_from_supabase()
 
 
+def has_supabase_previstos_backend() -> bool:
+    return has_supabase_status_backend()
+
+
+def normalize_previsto_row(municipio_slug: str, row: dict[str, Any]) -> dict[str, str]:
+    return {
+        "municipio_slug": municipio_slug,
+        "regiao": str(row.get("regiao", "") or "").strip(),
+        "municipio": str(row.get("municipio", "") or "").strip(),
+        "categoria": str(row.get("categoria", "") or "").strip(),
+        "referencia": str(row.get("referencia", "") or "").strip(),
+        "atrativo": str(row.get("atrativo", "") or "").strip(),
+    }
+
+
+def read_previstos_local() -> dict[str, list[dict[str, str]]]:
+    path = get_settings()["previstos_path"]
+    if not path.exists():
+        return {}
+    try:
+        raw = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as exc:
+        raise HTTPException(status_code=500, detail=f"Arquivo de previstos invalido: {exc}") from exc
+    if not isinstance(raw, dict):
+        return {}
+    result: dict[str, list[dict[str, str]]] = {}
+    for key, value in raw.items():
+        if not isinstance(value, list):
+            continue
+        result[str(key)] = [normalize_previsto_row(str(key), item or {}) for item in value]
+    return result
+
+
+def write_previstos_local(data: dict[str, list[dict[str, str]]]) -> dict[str, list[dict[str, str]]]:
+    path = get_settings()["previstos_path"]
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
+    return data
+
+
+def read_previstos_by_municipio_local(municipio_slug: str) -> list[dict[str, str]]:
+    return read_previstos_local().get(municipio_slug, [])
+
+
+def replace_previstos_by_municipio_local(
+    municipio_slug: str, rows: list[dict[str, Any]]
+) -> list[dict[str, str]]:
+    data = read_previstos_local()
+    data[municipio_slug] = [normalize_previsto_row(municipio_slug, row) for row in rows]
+    write_previstos_local(data)
+    return data[municipio_slug]
+
+
+def read_previstos_by_municipio_supabase(municipio_slug: str) -> list[dict[str, str]]:
+    url = build_supabase_previstos_url()
+    params = {
+        "select": "municipio_slug,regiao,municipio,categoria,referencia,atrativo",
+        "municipio_slug": f"eq.{municipio_slug}",
+        "order": "categoria.asc,referencia.asc,atrativo.asc",
+    }
+    with httpx.Client(timeout=30.0) as client:
+        response = client.get(url, params=params, headers=build_supabase_headers())
+    try:
+        response.raise_for_status()
+    except httpx.HTTPStatusError as exc:
+        raise HTTPException(
+            status_code=502,
+            detail=f"Falha ao ler previstos no Supabase: {exc.response.status_code}",
+        ) from exc
+    data = response.json()
+    if not isinstance(data, list):
+        return []
+    return [normalize_previsto_row(municipio_slug, item or {}) for item in data]
+
+
+def replace_previstos_by_municipio_supabase(
+    municipio_slug: str, rows: list[dict[str, Any]]
+) -> list[dict[str, str]]:
+    url = build_supabase_previstos_url()
+    delete_params = {"municipio_slug": f"eq.{municipio_slug}"}
+    with httpx.Client(timeout=30.0) as client:
+        delete_response = client.delete(url, params=delete_params, headers=build_supabase_headers())
+    try:
+        delete_response.raise_for_status()
+    except httpx.HTTPStatusError as exc:
+        raise HTTPException(
+            status_code=502,
+            detail=f"Falha ao limpar previstos no Supabase: {exc.response.status_code}",
+        ) from exc
+
+    normalized_rows = [normalize_previsto_row(municipio_slug, row) for row in rows]
+    if normalized_rows:
+        with httpx.Client(timeout=30.0) as client:
+            insert_response = client.post(
+                url,
+                headers=build_supabase_headers(write=True),
+                json=normalized_rows,
+            )
+        try:
+            insert_response.raise_for_status()
+        except httpx.HTTPStatusError as exc:
+            raise HTTPException(
+                status_code=502,
+                detail=f"Falha ao gravar previstos no Supabase: {exc.response.status_code}",
+            ) from exc
+
+    return read_previstos_by_municipio_supabase(municipio_slug)
+
+
 @app.get("/healthz")
 def healthcheck() -> dict[str, str]:
     return {"status": "ok"}
@@ -330,6 +460,38 @@ def update_municipio_status(municipio_slug: str, request: MunicipioStatusUpdate)
         "municipio_slug": municipio_slug,
         "concluido": request.concluido,
         "concluded": saved,
+    }
+
+
+@app.get("/api/previstos/{municipio_slug}")
+def get_previstos_by_municipio(municipio_slug: str) -> dict[str, Any]:
+    rows = (
+        read_previstos_by_municipio_supabase(municipio_slug)
+        if has_supabase_previstos_backend()
+        else read_previstos_by_municipio_local(municipio_slug)
+    )
+    return {
+        "municipio_slug": municipio_slug,
+        "rows": rows,
+        "total": len(rows),
+    }
+
+
+@app.put("/api/previstos/{municipio_slug}")
+def replace_previstos_by_municipio(
+    municipio_slug: str, request: PrevistoReplaceRequest
+) -> dict[str, Any]:
+    rows = [row.model_dump() for row in request.rows]
+    saved_rows = (
+        replace_previstos_by_municipio_supabase(municipio_slug, rows)
+        if has_supabase_previstos_backend()
+        else replace_previstos_by_municipio_local(municipio_slug, rows)
+    )
+    return {
+        "status": "ok",
+        "municipio_slug": municipio_slug,
+        "rows": saved_rows,
+        "total": len(saved_rows),
     }
 
 

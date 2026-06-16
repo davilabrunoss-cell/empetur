@@ -79,6 +79,7 @@ Ao criar o `Web Service`, preencher assim:
 - `SUPABASE_SERVICE_ROLE_KEY`
 - `SUPABASE_SCHEMA`
 - `SUPABASE_TABLE_STATUS`
+- `SUPABASE_TABLE_PREVISTOS`
 
 ## Status desta etapa
 

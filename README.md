@@ -72,6 +72,8 @@ Endpoints atuais:
 - `POST /api/sync/ipesquisa`
 - `GET /api/municipios/status`
 - `PUT /api/municipios/status/{municipio_slug}`
+- `GET /api/previstos/{municipio_slug}`
+- `PUT /api/previstos/{municipio_slug}`
 
 ## Variaveis principais do backend
 
@@ -86,6 +88,7 @@ Endpoints atuais:
 - `SUPABASE_SERVICE_ROLE_KEY`
 - `SUPABASE_SCHEMA`
 - `SUPABASE_TABLE_STATUS`
+- `SUPABASE_TABLE_PREVISTOS`
 
 `IPESQUISA_FORM_MAP` deve ser um JSON com o mapeamento entre o nome do questionario e o codigo da pesquisa no iPesquisa.
 

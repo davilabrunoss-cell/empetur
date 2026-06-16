@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, Navigate, Route, Routes, useParams } from "react-router-dom";
 import {
   buildHomeRows,
@@ -24,6 +24,9 @@ const DASHBOARD_SYNC_URL =
 const MUNICIPIOS_STATUS_URL =
   import.meta.env.VITE_MUNICIPIOS_STATUS_URL ||
   DASHBOARD_DATA_URL.replace(/\/api\/dashboard\/payload$/, "/api/municipios/status");
+const PREVISTOS_API_URL =
+  import.meta.env.VITE_PREVISTOS_API_URL ||
+  DASHBOARD_DATA_URL.replace(/\/api\/dashboard\/payload$/, "/api/previstos");
 
 function useDashboardData() {
   const [payload, setPayload] = useState(null);
@@ -159,6 +162,88 @@ function useConcludedMunicipios() {
   };
 
   return { concluded, update };
+}
+
+function escapeCsvValue(value) {
+  return `"${String(value ?? "").replace(/"/g, '""')}"`;
+}
+
+function downloadCustomCsv(rows, headers, fileName, delimiter = ";") {
+  const lines = [headers.join(delimiter)];
+  for (const row of rows) {
+    lines.push(headers.map((header) => escapeCsvValue(row[header])).join(delimiter));
+  }
+  const blob = new Blob(["\ufeff" + lines.join("\n")], {
+    type: "text/csv;charset=utf-8;",
+  });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = fileName;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(url);
+}
+
+function parseDelimitedLine(line, delimiter) {
+  const cells = [];
+  let current = "";
+  let inQuotes = false;
+
+  for (let index = 0; index < line.length; index += 1) {
+    const char = line[index];
+    const next = line[index + 1];
+
+    if (char === '"') {
+      if (inQuotes && next === '"') {
+        current += '"';
+        index += 1;
+      } else {
+        inQuotes = !inQuotes;
+      }
+      continue;
+    }
+
+    if (char === delimiter && !inQuotes) {
+      cells.push(current);
+      current = "";
+      continue;
+    }
+
+    current += char;
+  }
+
+  cells.push(current);
+  return cells.map((cell) => cell.trim());
+}
+
+function parsePrevistosCsvText(text) {
+  const normalized = text.replace(/\r\n/g, "\n").replace(/\r/g, "\n").trim();
+  if (!normalized) return [];
+
+  const lines = normalized.split("\n").filter(Boolean);
+  const firstLine = lines[0] ?? "";
+  const delimiter = firstLine.split(";").length >= firstLine.split(",").length ? ";" : ",";
+  const headers = parseDelimitedLine(firstLine, delimiter).map((item) => item.trim().toLowerCase());
+  const dataLines = lines.slice(1);
+
+  return dataLines
+    .map((line) => parseDelimitedLine(line, delimiter))
+    .filter((cells) => cells.some((cell) => cell))
+    .map((cells) => {
+      const row = {};
+      headers.forEach((header, index) => {
+        row[header] = cells[index] ?? "";
+      });
+      return {
+        regiao: row["regiao"] ?? "",
+        municipio: row["municipio"] ?? "",
+        categoria: row["categoria"] ?? "",
+        referencia: row["referencia"] ?? "",
+        atrativo: row["atrativo"] ?? "",
+      };
+    });
 }
 
 function differenceInDays(referenceDate, targetDate) {
@@ -856,14 +941,15 @@ function TotalPrevistoPage({ payload, concludedMap }) {
   const homeRows = useMemo(() => buildHomeRows(payload), [payload]);
   const lookup = useMemo(() => buildMunicipioLookup(payload), [payload]);
   const municipioMeta = lookup.get(municipioSlug);
-
-  if (!municipioMeta) {
-    return <Navigate to="/" replace />;
-  }
+  const fileInputRef = useRef(null);
+  const [previstosRows, setPrevistosRows] = useState([]);
+  const [loadingPrevistos, setLoadingPrevistos] = useState(true);
+  const [uploadingPrevistos, setUploadingPrevistos] = useState(false);
+  const [previstosMessage, setPrevistosMessage] = useState("");
 
   const municipioRows = homeRows.filter((row) => row.municipio_slug === municipioSlug);
   const totalRealizado = municipioRows.length;
-  const totalPrevisto = Number(municipioMeta.total_previsto || 0);
+  const totalPrevisto = previstosRows.length;
   const saldoPendente = Math.max(totalPrevisto - totalRealizado, 0);
   const percentualAvanco = totalPrevisto > 0 ? (totalRealizado / totalPrevisto) * 100 : 0;
   const percentualFormatado = new Intl.NumberFormat("pt-BR", {
@@ -871,6 +957,111 @@ function TotalPrevistoPage({ payload, concludedMap }) {
     maximumFractionDigits: 1,
   }).format(percentualAvanco);
   const status = getMunicipioStatusLabel(payload, homeRows, concludedMap, municipioMeta.municipio);
+
+  useEffect(() => {
+    let active = true;
+
+    const loadPrevistos = async () => {
+      setLoadingPrevistos(true);
+      setPrevistosMessage("");
+
+      try {
+        const response = await fetch(`${PREVISTOS_API_URL}/${municipioSlug}`);
+        if (!response.ok) {
+          throw new Error("Falha ao carregar atrativos validados.");
+        }
+
+        const data = await response.json();
+        if (!active) return;
+        setPrevistosRows(data.rows ?? []);
+      } catch (error) {
+        if (!active) return;
+        setPrevistosMessage(error.message || "Falha ao carregar atrativos validados.");
+      } finally {
+        if (active) {
+          setLoadingPrevistos(false);
+        }
+      }
+    };
+
+    loadPrevistos();
+
+    return () => {
+      active = false;
+    };
+  }, [municipioSlug]);
+
+  if (!municipioMeta) {
+    return <Navigate to="/" replace />;
+  }
+
+  const handleDownloadTemplate = () => {
+    downloadCustomCsv(
+      [
+        {
+          regiao: municipioMeta.regiao,
+          municipio: municipioMeta.municipio,
+          categoria: "",
+          referencia: "",
+          atrativo: "",
+        },
+      ],
+      ["regiao", "municipio", "categoria", "referencia", "atrativo"],
+      `template-previstos-${municipioSlug}.csv`,
+    );
+  };
+
+  const handleDownloadPrevistos = () => {
+    downloadCustomCsv(
+      previstosRows,
+      ["regiao", "municipio", "categoria", "referencia", "atrativo"],
+      `atrativos-validados-${municipioSlug}.csv`,
+    );
+  };
+
+  const handleUploadClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleUploadFile = async (event) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    setUploadingPrevistos(true);
+    setPrevistosMessage("");
+
+    try {
+      const text = await file.text();
+      const parsedRows = parsePrevistosCsvText(text).map((row) => ({
+        regiao: row.regiao || municipioMeta.regiao,
+        municipio: row.municipio || municipioMeta.municipio,
+        categoria: row.categoria || "",
+        referencia: row.referencia || "",
+        atrativo: row.atrativo || "",
+      }));
+
+      const response = await fetch(`${PREVISTOS_API_URL}/${municipioSlug}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ rows: parsedRows }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Falha ao salvar a planilha de previstos.");
+      }
+
+      const data = await response.json();
+      setPrevistosRows(data.rows ?? []);
+      setPrevistosMessage(`${formatNumber(data.total ?? 0)} atrativo(s) validado(s) atualizado(s).`);
+    } catch (error) {
+      setPrevistosMessage(error.message || "Falha ao processar a planilha de previstos.");
+    } finally {
+      setUploadingPrevistos(false);
+      event.target.value = "";
+    }
+  };
 
   return (
     <>
@@ -893,7 +1084,7 @@ function TotalPrevistoPage({ payload, concludedMap }) {
       </section>
 
       <section className="kpi-grid">
-        <KpiCard label="Total previsto" value={formatNumber(totalPrevisto)} help="Meta cadastrada para o município" />
+        <KpiCard label="Atrativos validados" value={formatNumber(totalPrevisto)} help="Total previsto cadastrado nesta página" />
         <KpiCard label="Total realizado" value={formatNumber(totalRealizado)} help="Registros consolidados até o momento" />
         <KpiCard label="Saldo pendente" value={formatNumber(saldoPendente)} help="Diferença entre previsto e realizado" />
         <KpiCard label="Avanço" value={`${percentualFormatado}%`} help="Percentual realizado sobre o previsto" />
@@ -902,31 +1093,60 @@ function TotalPrevistoPage({ payload, concludedMap }) {
       <section className="panel table-panel">
         <div className="panel-heading">
           <div>
-            <h2>Resumo do total previsto</h2>
-            <p>Espaço dedicado ao acompanhamento da meta do município.</p>
+            <h2>Total previsto | Atrativos validados</h2>
+            <p>Base operacional de referência para comparar previsto e produção realizada.</p>
+          </div>
+          <div className="panel-actions">
+            <button className="ghost-button" onClick={handleDownloadPrevistos} disabled={uploadingPrevistos}>
+              Baixar CSV
+            </button>
+            <button className="ghost-button" onClick={handleDownloadTemplate} disabled={uploadingPrevistos}>
+              Baixar template
+            </button>
+            <button className="ghost-button" onClick={handleUploadClick} disabled={uploadingPrevistos}>
+              {uploadingPrevistos ? "Enviando..." : "Upload da planilha"}
+            </button>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept=".csv,text/csv"
+              className="sr-only-input"
+              onChange={handleUploadFile}
+            />
           </div>
         </div>
+        {previstosMessage ? <p className="panel-inline-message">{previstosMessage}</p> : null}
         <div className="table-wrap">
           <table>
             <thead>
               <tr>
-                <th>Município</th>
                 <th>Região</th>
-                <th>Total previsto</th>
-                <th>Total realizado</th>
-                <th>Saldo pendente</th>
-                <th>Avanço</th>
+                <th>Município</th>
+                <th>Categoria</th>
+                <th>Referência</th>
+                <th>Atrativo</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>{municipioMeta.municipio}</td>
-                <td>{municipioMeta.regiao}</td>
-                <td>{formatNumber(totalPrevisto)}</td>
-                <td>{formatNumber(totalRealizado)}</td>
-                <td>{formatNumber(saldoPendente)}</td>
-                <td>{percentualFormatado}%</td>
-              </tr>
+              {loadingPrevistos ? (
+                <tr>
+                  <td colSpan={5}>Carregando atrativos validados...</td>
+                </tr>
+              ) : previstosRows.length ? (
+                previstosRows.map((row, index) => (
+                  <tr key={`${row.atrativo}-${row.referencia}-${index}`}>
+                    <td>{row.regiao || municipioMeta.regiao}</td>
+                    <td>{row.municipio || municipioMeta.municipio}</td>
+                    <td>{row.categoria}</td>
+                    <td>{row.referencia}</td>
+                    <td>{row.atrativo}</td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={5}>Nenhum atrativo validado cadastrado ainda para este município.</td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>

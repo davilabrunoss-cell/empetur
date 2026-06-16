@@ -53,6 +53,30 @@ Corpo esperado:
 }
 ```
 
+### `GET /api/previstos/{municipio_slug}`
+
+Retorna a tabela de atrativos validados do municipio.
+
+### `PUT /api/previstos/{municipio_slug}`
+
+Substitui integralmente a tabela de atrativos validados do municipio.
+
+Corpo esperado:
+
+```json
+{
+  "rows": [
+    {
+      "regiao": "SERTÃO DO MOXOTÓ",
+      "municipio": "Arcoverde",
+      "categoria": "Atrativos Culturais",
+      "referencia": "Prefeitura",
+      "atrativo": "Estação Ferroviária"
+    }
+  ]
+}
+```
+
 ### `POST /api/sync/ipesquisa`
 
 Baixa os CSVs do iPesquisa, aplica a consolidacao e atualiza o payload do dashboard.
@@ -98,3 +122,5 @@ Com essa base, o Render ja pode:
   - valor sugerido: `public`
 - `SUPABASE_TABLE_STATUS`
   - valor sugerido: `empetur_municipios_status`
+- `SUPABASE_TABLE_PREVISTOS`
+  - valor sugerido: `empetur_previstos_atrativos`
