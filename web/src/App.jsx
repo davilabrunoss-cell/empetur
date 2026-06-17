@@ -164,6 +164,54 @@ function useConcludedMunicipios() {
   return { concluded, update };
 }
 
+function usePrevistosMunicipio(municipioSlug) {
+  const [rows, setRows] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (!municipioSlug) return undefined;
+    let active = true;
+
+    const load = async () => {
+      setLoading(true);
+      setError("");
+
+      try {
+        const response = await fetch(`${PREVISTOS_API_URL}/${municipioSlug}`);
+        if (!response.ok) {
+          throw new Error("Falha ao carregar atrativos validados.");
+        }
+        const data = await response.json();
+        if (!active) return;
+        setRows(data.rows ?? []);
+      } catch (loadError) {
+        if (!active) return;
+        setRows([]);
+        setError(loadError.message || "Falha ao carregar atrativos validados.");
+      } finally {
+        if (active) {
+          setLoading(false);
+        }
+      }
+    };
+
+    load();
+
+    return () => {
+      active = false;
+    };
+  }, [municipioSlug]);
+
+  return {
+    previstosRows: rows,
+    setPrevistosRows: setRows,
+    loadingPrevistos: loading,
+    previstosError: error,
+    setPrevistosError: setError,
+  };
+}
+
 function escapeCsvValue(value) {
   return `"${String(value ?? "").replace(/"/g, '""')}"`;
 }
@@ -942,8 +990,13 @@ function TotalPrevistoPage({ payload, concludedMap }) {
   const lookup = useMemo(() => buildMunicipioLookup(payload), [payload]);
   const municipioMeta = lookup.get(municipioSlug);
   const fileInputRef = useRef(null);
-  const [previstosRows, setPrevistosRows] = useState([]);
-  const [loadingPrevistos, setLoadingPrevistos] = useState(true);
+  const {
+    previstosRows,
+    setPrevistosRows,
+    loadingPrevistos,
+    previstosError,
+    setPrevistosError,
+  } = usePrevistosMunicipio(municipioSlug);
   const [uploadingPrevistos, setUploadingPrevistos] = useState(false);
   const [previstosMessage, setPrevistosMessage] = useState("");
 
@@ -957,39 +1010,6 @@ function TotalPrevistoPage({ payload, concludedMap }) {
     maximumFractionDigits: 1,
   }).format(percentualAvanco);
   const status = getMunicipioStatusLabel(payload, homeRows, concludedMap, municipioMeta.municipio);
-
-  useEffect(() => {
-    let active = true;
-
-    const loadPrevistos = async () => {
-      setLoadingPrevistos(true);
-      setPrevistosMessage("");
-
-      try {
-        const response = await fetch(`${PREVISTOS_API_URL}/${municipioSlug}`);
-        if (!response.ok) {
-          throw new Error("Falha ao carregar atrativos validados.");
-        }
-
-        const data = await response.json();
-        if (!active) return;
-        setPrevistosRows(data.rows ?? []);
-      } catch (error) {
-        if (!active) return;
-        setPrevistosMessage(error.message || "Falha ao carregar atrativos validados.");
-      } finally {
-        if (active) {
-          setLoadingPrevistos(false);
-        }
-      }
-    };
-
-    loadPrevistos();
-
-    return () => {
-      active = false;
-    };
-  }, [municipioSlug]);
 
   if (!municipioMeta) {
     return <Navigate to="/" replace />;
@@ -1029,6 +1049,7 @@ function TotalPrevistoPage({ payload, concludedMap }) {
 
     setUploadingPrevistos(true);
     setPrevistosMessage("");
+    setPrevistosError("");
 
     try {
       const text = await file.text();
@@ -1116,6 +1137,7 @@ function TotalPrevistoPage({ payload, concludedMap }) {
           </div>
         </div>
         {previstosMessage ? <p className="panel-inline-message">{previstosMessage}</p> : null}
+        {previstosError ? <p className="panel-inline-message">{previstosError}</p> : null}
         <div className="table-wrap">
           <table>
             <thead>
@@ -1160,6 +1182,7 @@ function MunicipioDetailPage({ payload, concludedMap }) {
   const homeRows = useMemo(() => buildHomeRows(payload), [payload]);
   const lookup = useMemo(() => buildMunicipioLookup(payload), [payload]);
   const municipioMeta = lookup.get(municipioSlug);
+  const { previstosRows } = usePrevistosMunicipio(municipioSlug);
 
   if (!municipioMeta) {
     return <Navigate to="/" replace />;
@@ -1171,6 +1194,7 @@ function MunicipioDetailPage({ payload, concludedMap }) {
 
   const detail = computeMunicipioDetail(municipioRows);
   const status = getMunicipioStatusLabel(payload, homeRows, concludedMap, municipioMeta.municipio);
+  const totalPrevisto = previstosRows.length;
 
   return (
     <>
@@ -1219,7 +1243,7 @@ function MunicipioDetailPage({ payload, concludedMap }) {
         />
         <KpiCard
           label="Total previsto"
-          value={formatNumber(municipioMeta.total_previsto)}
+          value={formatNumber(totalPrevisto)}
           help="Abrir detalhamento do previsto"
           href={`/municipio/${municipioSlug}/previsto`}
         />
