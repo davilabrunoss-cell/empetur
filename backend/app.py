@@ -6,6 +6,7 @@ from datetime import datetime
 from functools import lru_cache
 from pathlib import Path
 from typing import Any
+from uuid import uuid4
 from zoneinfo import ZoneInfo
 
 import httpx
@@ -89,6 +90,8 @@ def get_settings() -> dict[str, object]:
         "supabase_schema": os.getenv("SUPABASE_SCHEMA", "public").strip() or "public",
         "supabase_table_status": os.getenv("SUPABASE_TABLE_STATUS", "empetur_municipios_status").strip()
         or "empetur_municipios_status",
+        "supabase_table_base": os.getenv("SUPABASE_TABLE_BASE", "empetur_tabela_base").strip()
+        or "empetur_tabela_base",
         "supabase_table_previstos": os.getenv("SUPABASE_TABLE_PREVISTOS", "empetur_previstos_atrativos").strip()
         or "empetur_previstos_atrativos",
         "cors_origins": parse_cors_origins(os.getenv("EMPETUR_CORS_ORIGINS")),
@@ -145,6 +148,17 @@ class PrevistoRow(BaseModel):
 
 class PrevistoReplaceRequest(BaseModel):
     rows: list[PrevistoRow] = Field(default_factory=list)
+
+
+def parse_generated_timestamp(value: str | None) -> datetime | None:
+    if not value:
+        return None
+    for fmt in ("%d/%m/%Y %H:%M:%S", "%d/%m/%Y %H:%M", "%d/%m/%Y"):
+        try:
+            return datetime.strptime(value, fmt)
+        except ValueError:
+            continue
+    return None
 
 
 def read_payload_from_disk(path: Path) -> dict:
@@ -285,6 +299,11 @@ def build_supabase_previstos_url() -> str:
     return f"{settings['supabase_url']}/rest/v1/{settings['supabase_table_previstos']}"
 
 
+def build_supabase_base_url() -> str:
+    settings = get_settings()
+    return f"{settings['supabase_url']}/rest/v1/{settings['supabase_table_base']}"
+
+
 def read_municipios_status_from_supabase() -> dict[str, bool]:
     url = build_supabase_status_url()
     params = {"select": "municipio_slug,concluido"}
@@ -328,6 +347,132 @@ def write_municipio_status_to_supabase(municipio_slug: str, concluido: bool) -> 
 
 def has_supabase_previstos_backend() -> bool:
     return has_supabase_status_backend()
+
+
+def has_supabase_base_backend() -> bool:
+    return has_supabase_status_backend()
+
+
+def normalize_base_row(row: dict[str, Any]) -> dict[str, str]:
+    normalized: dict[str, str] = {}
+    for field in BASE_FIELDNAMES:
+        normalized[field] = str(row.get(field, "") or "").strip()
+    return normalized
+
+
+def validate_base_rows_for_supabase(rows: list[dict[str, Any]]) -> None:
+    missing_identifiers = [
+        row
+        for row in rows
+        if not str(row.get("codigo_pesquisa", "") or "").strip()
+        or not str(row.get("nro_identificacao", "") or "").strip()
+    ]
+    if missing_identifiers:
+        sample = missing_identifiers[0]
+        raise HTTPException(
+            status_code=422,
+            detail=(
+                "Nao foi possivel persistir a base consolidada no Supabase porque ha registros sem "
+                "'codigo_pesquisa' ou 'nro_identificacao'. "
+                f"Exemplo: questionario='{sample.get('questionario_preenchido', '')}', "
+                f"municipio='{sample.get('municipio', '')}', atrativo='{sample.get('nome_atrativo', '')}'."
+            ),
+        )
+
+
+def read_base_rows_from_supabase() -> list[dict[str, str]]:
+    url = build_supabase_base_url()
+    params = {
+        "select": ",".join(BASE_FIELDNAMES),
+        "order": "data_inicio_coleta.asc.nullslast,questionario_preenchido.asc,nro_identificacao.asc",
+    }
+    with httpx.Client(timeout=60.0) as client:
+        response = client.get(url, params=params, headers=build_supabase_headers())
+    try:
+        response.raise_for_status()
+    except httpx.HTTPStatusError as exc:
+        raise HTTPException(
+            status_code=502,
+            detail=f"Falha ao ler base consolidada no Supabase: {exc.response.status_code}",
+        ) from exc
+
+    data = response.json()
+    if not isinstance(data, list):
+        return []
+    return [normalize_base_row(item or {}) for item in data]
+
+
+def replace_base_rows_for_form_supabase(codigo_pesquisa: int, rows: list[dict[str, Any]]) -> int:
+    url = build_supabase_base_url()
+    codigo = str(codigo_pesquisa)
+    delete_params = {"codigo_pesquisa": f"eq.{codigo}"}
+    with httpx.Client(timeout=60.0) as client:
+        delete_response = client.delete(url, params=delete_params, headers=build_supabase_headers())
+    try:
+        delete_response.raise_for_status()
+    except httpx.HTTPStatusError as exc:
+        raise HTTPException(
+            status_code=502,
+            detail=(
+                f"Falha ao limpar registros anteriores do questionario {codigo_pesquisa} "
+                f"na base consolidada do Supabase: {exc.response.status_code}"
+            ),
+        ) from exc
+
+    normalized_rows = [normalize_base_row(row) for row in rows]
+    if not normalized_rows:
+        return 0
+
+    with httpx.Client(timeout=60.0) as client:
+        insert_response = client.post(
+            url,
+            headers=build_supabase_headers(write=True),
+            json=normalized_rows,
+        )
+    try:
+        insert_response.raise_for_status()
+    except httpx.HTTPStatusError as exc:
+        raise HTTPException(
+            status_code=502,
+            detail=(
+                f"Falha ao gravar registros do questionario {codigo_pesquisa} "
+                f"na base consolidada do Supabase: {exc.response.status_code}"
+            ),
+        ) from exc
+
+    return len(normalized_rows)
+
+
+def persist_base_rows_to_supabase(rows: list[dict[str, Any]]) -> dict[str, int]:
+    validate_base_rows_for_supabase(rows)
+    rows_by_form: dict[int, list[dict[str, Any]]] = {}
+    for row in rows:
+        codigo = int(str(row.get("codigo_pesquisa", "")).strip())
+        rows_by_form.setdefault(codigo, []).append(row)
+
+    persisted_by_form: dict[str, int] = {}
+    for codigo_pesquisa, form_rows in rows_by_form.items():
+        persisted_by_form[str(codigo_pesquisa)] = replace_base_rows_for_form_supabase(codigo_pesquisa, form_rows)
+    return persisted_by_form
+
+
+def build_payload_from_rows(rows: list[dict[str, str]]) -> dict[str, Any]:
+    generated_dt = max(
+        (
+            parsed
+            for parsed in (
+                parse_generated_timestamp(row.get("data_hora_execucao_carga", ""))
+                for row in rows
+            )
+            if parsed is not None
+        ),
+        default=None,
+    )
+    if generated_dt is None:
+        generated_dt = datetime.now(APP_TIMEZONE)
+    exec_timestamp = generated_dt.strftime("%d/%m/%Y %H:%M:%S")
+    exec_date = generated_dt.strftime("%d/%m/%Y")
+    return build_dashboard_payload(rows, exec_date, exec_timestamp)
 
 
 def normalize_previsto_row(municipio_slug: str, row: dict[str, Any]) -> dict[str, str]:
@@ -504,6 +649,14 @@ async def get_dashboard_payload() -> dict:
     if SYNC_CACHE.get("payload"):
         return SYNC_CACHE["payload"]
 
+    if has_supabase_base_backend():
+        supabase_rows = read_base_rows_from_supabase()
+        if supabase_rows:
+            payload = build_payload_from_rows(supabase_rows)
+            SYNC_CACHE["payload"] = payload
+            SYNC_CACHE["generated_at"] = payload.get("generated_at", "")
+            return payload
+
     if payload_url:
         try:
             return await read_payload_from_url(str(payload_url))
@@ -558,6 +711,7 @@ async def sync_ipesquisa(request: SyncRequest) -> dict[str, Any]:
     exec_now = datetime.now(APP_TIMEZONE)
     exec_date = exec_now.strftime("%d/%m/%Y")
     exec_timestamp = exec_now.strftime("%d/%m/%Y %H:%M:%S")
+    sync_run_id = str(uuid4())
 
     timeout = httpx.Timeout(float(settings["ipesquisa_timeout_seconds"]))
     all_rows: list[dict[str, str]] = []
@@ -585,6 +739,9 @@ async def sync_ipesquisa(request: SyncRequest) -> dict[str, Any]:
                     status_code=422,
                     detail=f"Falha ao consolidar o questionario '{questionario}': {exc}",
                 ) from exc
+            for row in rows:
+                row["codigo_pesquisa"] = str(form.codigo_pesquisa)
+                row["sync_run_id"] = sync_run_id
             all_rows.extend(rows)
             download_summary.append(
                 {
@@ -594,18 +751,29 @@ async def sync_ipesquisa(request: SyncRequest) -> dict[str, Any]:
                 }
             )
 
-    payload = build_dashboard_payload(all_rows, exec_date, exec_timestamp)
+    persisted_supabase = False
+    persisted_by_form: dict[str, int] = {}
+    payload_rows = all_rows
+    if has_supabase_base_backend():
+        persisted_by_form = persist_base_rows_to_supabase(all_rows)
+        persisted_supabase = True
+        payload_rows = read_base_rows_from_supabase()
+
+    payload = build_payload_from_rows(payload_rows)
     SYNC_CACHE["payload"] = payload
-    SYNC_CACHE["generated_at"] = exec_timestamp
+    SYNC_CACHE["generated_at"] = str(payload.get("generated_at", exec_timestamp))
 
     if request.persist_local:
-        persist_sync_outputs(payload, all_rows)
+        persist_sync_outputs(payload, payload_rows)
 
     return {
         "status": "ok",
         "generated_at": exec_timestamp,
+        "sync_run_id": sync_run_id,
         "questionarios_processados": len(forms),
         "questionarios_ignorados": skipped_forms,
         "linhas_consolidadas": len(all_rows),
+        "persistido_supabase": persisted_supabase,
+        "linhas_persistidas_por_questionario": persisted_by_form,
         "downloads": download_summary,
     }

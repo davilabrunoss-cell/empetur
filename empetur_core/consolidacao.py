@@ -17,7 +17,9 @@ REFERENCE_DIR = BASE_DIR / "data" / "referencias"
 FILE_PREFIX = "#1265803711 _ EMPETUR - "
 BASE_FIELDNAMES = [
     "arquivo_origem",
+    "codigo_pesquisa",
     "questionario_preenchido",
+    "nro_identificacao",
     "municipio",
     "categoria",
     "nome_atrativo",
@@ -29,6 +31,7 @@ BASE_FIELDNAMES = [
     "linha_origem",
     "data_execucao_carga",
     "data_hora_execucao_carga",
+    "sync_run_id",
 ]
 TEST_NAME_PATTERNS = [
     re.compile(r"^\s*9{2,}\s*$"),
@@ -246,6 +249,7 @@ def consolidate_csv_rows(file_name: str, rows: list[list[str]], exec_date: str, 
         lambda c: "pesquisador:" in normalize_for_match(c) and normalize_for_match(c) != "pesquisador",
     )
     pesquisador_sistema_idx = find_optional_index(header, lambda c: normalize_for_match(c) == "pesquisador")
+    nro_identificacao_idx = find_optional_index(header, lambda c: header_matches(c, "Nro. Identifica"))
     data_inicio_idx = find_optional_index(header, lambda c: header_matches(c, "Data In"))
     data_fim_idx = find_optional_index(header, lambda c: header_matches(c, "Data Fim"))
 
@@ -275,7 +279,9 @@ def consolidate_csv_rows(file_name: str, rows: list[list[str]], exec_date: str, 
         consolidated_rows.append(
             {
                 "arquivo_origem": file_name,
+                "codigo_pesquisa": "",
                 "questionario_preenchido": questionario,
+                "nro_identificacao": get_value(row, nro_identificacao_idx),
                 "municipio": get_value(row, municipio_idx),
                 "categoria": categoria,
                 "nome_atrativo": nome_atrativo,
@@ -287,6 +293,7 @@ def consolidate_csv_rows(file_name: str, rows: list[list[str]], exec_date: str, 
                 "linha_origem": str(row_number),
                 "data_execucao_carga": exec_date,
                 "data_hora_execucao_carga": exec_timestamp,
+                "sync_run_id": "",
             }
         )
 

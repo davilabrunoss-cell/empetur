@@ -87,6 +87,7 @@ Endpoints atuais:
 - `SUPABASE_URL`
 - `SUPABASE_SERVICE_ROLE_KEY`
 - `SUPABASE_SCHEMA`
+- `SUPABASE_TABLE_BASE`
 - `SUPABASE_TABLE_STATUS`
 - `SUPABASE_TABLE_PREVISTOS`
 
@@ -108,3 +109,15 @@ Exemplo:
 - `data/consolidado/resumo_questionarios.csv`
 - `data/consolidado/resumo_pesquisadores.csv`
 - `data/consolidado/resumo_municipio_categoria.csv`
+
+## Persistencia oficial da base
+
+A sincronizacao com o iPesquisa deve usar o `Supabase` como base oficial da producao consolidada.
+
+Regra adotada:
+
+- cada coleta deve guardar `codigo_pesquisa` e `nro_identificacao`
+- a unicidade da origem deve ser controlada por `codigo_pesquisa + nro_identificacao`
+- a cada sincronizacao, o backend remove e reinsere apenas os registros do questionario sincronizado
+
+Isso evita duplicidade e tambem elimina registros antigos que possam ter sido removidos ou corrigidos na origem.
