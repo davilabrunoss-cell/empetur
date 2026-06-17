@@ -524,6 +524,31 @@ main {
   font-size: 0.82rem;
 }
 
+.table-edit-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 14px;
+}
+
+.checkbox-col {
+  width: 52px;
+  text-align: center;
+}
+
+.checkbox-col input {
+  width: 16px;
+  height: 16px;
+}
+
+.danger-button {
+  border-color: rgba(255, 132, 132, 0.34);
+  background: rgba(255, 93, 93, 0.08);
+}
+
+.danger-button:disabled {
+  opacity: 0.55;
+}
+
 .sr-only-input {
   position: absolute;
   width: 1px;

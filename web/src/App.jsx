@@ -999,6 +999,9 @@ function TotalPrevistoPage({ payload, concludedMap }) {
   } = usePrevistosMunicipio(municipioSlug);
   const [uploadingPrevistos, setUploadingPrevistos] = useState(false);
   const [previstosMessage, setPrevistosMessage] = useState("");
+  const [editingPrevistos, setEditingPrevistos] = useState(false);
+  const [selectedPrevistos, setSelectedPrevistos] = useState([]);
+  const [deletingPrevistos, setDeletingPrevistos] = useState(false);
 
   const municipioRows = homeRows.filter((row) => row.municipio_slug === municipioSlug);
   const totalRealizado = municipioRows.length;
@@ -1043,6 +1046,28 @@ function TotalPrevistoPage({ payload, concludedMap }) {
     fileInputRef.current?.click();
   };
 
+  const handleToggleEditing = () => {
+    setEditingPrevistos((current) => !current);
+    setSelectedPrevistos([]);
+    setPrevistosMessage("");
+  };
+
+  const handleToggleSelectAll = () => {
+    if (selectedPrevistos.length === previstosRows.length) {
+      setSelectedPrevistos([]);
+      return;
+    }
+    setSelectedPrevistos(previstosRows.map((_, index) => index));
+  };
+
+  const handleToggleRow = (rowIndex) => {
+    setSelectedPrevistos((current) =>
+      current.includes(rowIndex)
+        ? current.filter((item) => item !== rowIndex)
+        : [...current, rowIndex].sort((a, b) => a - b),
+    );
+  };
+
   const handleUploadFile = async (event) => {
     const file = event.target.files?.[0];
     if (!file) return;
@@ -1076,11 +1101,46 @@ function TotalPrevistoPage({ payload, concludedMap }) {
       const data = await response.json();
       setPrevistosRows(data.rows ?? []);
       setPrevistosMessage(`${formatNumber(data.total ?? 0)} atrativo(s) validado(s) atualizado(s).`);
+      setEditingPrevistos(false);
+      setSelectedPrevistos([]);
     } catch (error) {
       setPrevistosMessage(error.message || "Falha ao processar a planilha de previstos.");
     } finally {
       setUploadingPrevistos(false);
       event.target.value = "";
+    }
+  };
+
+  const handleDeleteSelected = async () => {
+    if (!selectedPrevistos.length) return;
+
+    setDeletingPrevistos(true);
+    setPrevistosMessage("");
+    setPrevistosError("");
+
+    try {
+      const remainingRows = previstosRows.filter((_, index) => !selectedPrevistos.includes(index));
+      const response = await fetch(`${PREVISTOS_API_URL}/${municipioSlug}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ rows: remainingRows }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Falha ao excluir atrativos selecionados.");
+      }
+
+      const data = await response.json();
+      setPrevistosRows(data.rows ?? []);
+      setPrevistosMessage(`${formatNumber(selectedPrevistos.length)} registro(s) excluído(s).`);
+      setSelectedPrevistos([]);
+      setEditingPrevistos(false);
+    } catch (error) {
+      setPrevistosError(error.message || "Falha ao excluir atrativos selecionados.");
+    } finally {
+      setDeletingPrevistos(false);
     }
   };
 
@@ -1118,14 +1178,17 @@ function TotalPrevistoPage({ payload, concludedMap }) {
             <p>Base operacional de referência para comparar previsto e produção realizada.</p>
           </div>
           <div className="panel-actions">
-            <button className="ghost-button" onClick={handleDownloadPrevistos} disabled={uploadingPrevistos}>
+            <button className="ghost-button" onClick={handleDownloadPrevistos} disabled={uploadingPrevistos || deletingPrevistos}>
               Baixar CSV
             </button>
-            <button className="ghost-button" onClick={handleDownloadTemplate} disabled={uploadingPrevistos}>
+            <button className="ghost-button" onClick={handleDownloadTemplate} disabled={uploadingPrevistos || deletingPrevistos}>
               Baixar template
             </button>
-            <button className="ghost-button" onClick={handleUploadClick} disabled={uploadingPrevistos}>
+            <button className="ghost-button" onClick={handleUploadClick} disabled={uploadingPrevistos || deletingPrevistos}>
               {uploadingPrevistos ? "Enviando..." : "Upload da planilha"}
+            </button>
+            <button className="ghost-button" onClick={handleToggleEditing} disabled={uploadingPrevistos || deletingPrevistos || !previstosRows.length}>
+              {editingPrevistos ? "Cancelar edição" : "Editar"}
             </button>
             <input
               ref={fileInputRef}
@@ -1142,6 +1205,15 @@ function TotalPrevistoPage({ payload, concludedMap }) {
           <table>
             <thead>
               <tr>
+                {editingPrevistos ? (
+                  <th className="checkbox-col">
+                    <input
+                      type="checkbox"
+                      checked={previstosRows.length > 0 && selectedPrevistos.length === previstosRows.length}
+                      onChange={handleToggleSelectAll}
+                    />
+                  </th>
+                ) : null}
                 <th>Região</th>
                 <th>Município</th>
                 <th>Categoria</th>
@@ -1157,6 +1229,15 @@ function TotalPrevistoPage({ payload, concludedMap }) {
               ) : previstosRows.length ? (
                 previstosRows.map((row, index) => (
                   <tr key={`${row.atrativo}-${row.referencia}-${index}`}>
+                    {editingPrevistos ? (
+                      <td className="checkbox-col">
+                        <input
+                          type="checkbox"
+                          checked={selectedPrevistos.includes(index)}
+                          onChange={() => handleToggleRow(index)}
+                        />
+                      </td>
+                    ) : null}
                     <td>{row.regiao || municipioMeta.regiao}</td>
                     <td>{row.municipio || municipioMeta.municipio}</td>
                     <td>{row.categoria}</td>
@@ -1166,12 +1247,23 @@ function TotalPrevistoPage({ payload, concludedMap }) {
                 ))
               ) : (
                 <tr>
-                  <td colSpan={5}>Nenhum atrativo validado cadastrado ainda para este município.</td>
+                  <td colSpan={editingPrevistos ? 6 : 5}>Nenhum atrativo validado cadastrado ainda para este município.</td>
                 </tr>
               )}
             </tbody>
           </table>
         </div>
+        {editingPrevistos ? (
+          <div className="table-edit-actions">
+            <button
+              className="ghost-button danger-button"
+              onClick={handleDeleteSelected}
+              disabled={!selectedPrevistos.length || deletingPrevistos}
+            >
+              {deletingPrevistos ? "Excluindo..." : "Excluir selecionados"}
+            </button>
+          </div>
+        ) : null}
       </section>
     </>
   );
