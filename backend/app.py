@@ -515,6 +515,18 @@ def read_previstos_by_municipio_local(municipio_slug: str) -> list[dict[str, str
     return read_previstos_local().get(municipio_slug, [])
 
 
+def read_previstos_summary_local() -> dict[str, Any]:
+    data = read_previstos_local()
+    by_municipio = {
+        municipio_slug: len(rows)
+        for municipio_slug, rows in data.items()
+    }
+    return {
+        "total_previstos": sum(by_municipio.values()),
+        "municipios": by_municipio,
+    }
+
+
 def replace_previstos_by_municipio_local(
     municipio_slug: str, rows: list[dict[str, Any]]
 ) -> list[dict[str, str]]:
@@ -544,6 +556,37 @@ def read_previstos_by_municipio_supabase(municipio_slug: str) -> list[dict[str, 
     if not isinstance(data, list):
         return []
     return [normalize_previsto_row(municipio_slug, item or {}) for item in data]
+
+
+def read_previstos_summary_supabase() -> dict[str, Any]:
+    url = build_supabase_previstos_url()
+    params = {
+        "select": "municipio_slug",
+    }
+    with httpx.Client(timeout=30.0) as client:
+        response = client.get(url, params=params, headers=build_supabase_headers())
+    try:
+        response.raise_for_status()
+    except httpx.HTTPStatusError as exc:
+        raise HTTPException(
+            status_code=502,
+            detail=f"Falha ao ler resumo de previstos no Supabase: {exc.response.status_code}",
+        ) from exc
+    data = response.json()
+    if not isinstance(data, list):
+        return {"total_previstos": 0, "municipios": {}}
+
+    by_municipio: dict[str, int] = {}
+    for item in data:
+        municipio_slug = str((item or {}).get("municipio_slug", "")).strip()
+        if not municipio_slug:
+            continue
+        by_municipio[municipio_slug] = by_municipio.get(municipio_slug, 0) + 1
+
+    return {
+        "total_previstos": sum(by_municipio.values()),
+        "municipios": by_municipio,
+    }
 
 
 def replace_previstos_by_municipio_supabase(
@@ -620,6 +663,16 @@ def get_previstos_by_municipio(municipio_slug: str) -> dict[str, Any]:
         "rows": rows,
         "total": len(rows),
     }
+
+
+@app.get("/api/previstos-resumo")
+def get_previstos_summary() -> dict[str, Any]:
+    summary = (
+        read_previstos_summary_supabase()
+        if has_supabase_previstos_backend()
+        else read_previstos_summary_local()
+    )
+    return summary
 
 
 @app.put("/api/previstos/{municipio_slug}")

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+﻿import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, Navigate, Route, Routes, useParams } from "react-router-dom";
 import {
   buildHomeRows,
@@ -27,6 +27,9 @@ const MUNICIPIOS_STATUS_URL =
 const PREVISTOS_API_URL =
   import.meta.env.VITE_PREVISTOS_API_URL ||
   DASHBOARD_DATA_URL.replace(/\/api\/dashboard\/payload$/, "/api/previstos");
+const PREVISTOS_SUMMARY_URL =
+  import.meta.env.VITE_PREVISTOS_SUMMARY_URL ||
+  DASHBOARD_DATA_URL.replace(/\/api\/dashboard\/payload$/, "/api/previstos-resumo");
 
 function useDashboardData() {
   const [payload, setPayload] = useState(null);
@@ -210,6 +213,41 @@ function usePrevistosMunicipio(municipioSlug) {
     previstosError: error,
     setPrevistosError: setError,
   };
+}
+
+function usePrevistosSummary() {
+  const [summary, setSummary] = useState({ total_previstos: 0, municipios: {} });
+
+  useEffect(() => {
+    let active = true;
+
+    const load = async () => {
+      try {
+        const response = await fetch(PREVISTOS_SUMMARY_URL);
+        if (!response.ok) {
+          throw new Error("Falha ao carregar resumo dos atrativos validados.");
+        }
+        const data = await response.json();
+        if (!active) return;
+        setSummary({
+          total_previstos: Number(data.total_previstos ?? 0),
+          municipios: data.municipios ?? {},
+        });
+      } catch (error) {
+        if (!active) return;
+        setSummary({ total_previstos: 0, municipios: {} });
+        console.error("Falha ao carregar resumo de previstos", error);
+      }
+    };
+
+    load();
+
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  return summary;
 }
 
 function escapeCsvValue(value) {
@@ -771,6 +809,7 @@ function PageHeroWithSummary({ backTo, backLabel, title, subtitle, items }) {
 function HomePage({ payload }) {
   const homeRows = useMemo(() => buildHomeRows(payload), [payload]);
   const grouped = useMemo(() => groupMunicipios(payload), [payload]);
+  const previstosSummary = usePrevistosSummary();
   const [filters, setFilters] = useState({
     regiao: "",
     municipio: "",
@@ -804,10 +843,9 @@ function HomePage({ payload }) {
           help="Tipos de questionário com ocorrências"
         />
         <KpiCard
-          label="Pesquisadores"
-          value={formatNumber(payload.resumo_pesquisadores.length)}
-          help="Responsáveis identificados na base"
-          href="/pesquisadores"
+          label="Total previsto"
+          value={formatNumber(previstosSummary.total_previstos)}
+          help="Soma dos atrativos validados"
         />
       </section>
 
