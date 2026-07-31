@@ -73,3 +73,26 @@ Arquivo lido em:
 
 - o `ID Ipesquisa` e o `Codigo da Pesquisa` usado na API
 - ele nao tem relacao com o identificador interno do Pipefy presente no nome antigo dos arquivos
+
+## Status atual de ativacao no backend
+
+Questionarios mantidos desativados por falta de base real validada:
+
+- `Sistema Marítimo e Fluvial`
+- `Empresas Organizadoras de Eventos`
+
+Questionarios reativados após validacao com bancos reais em 31/07/2026:
+
+- `Folguedos, Crenças Populares`
+- `Informações Turísticas`
+- `Sistema Aéreo`
+- `Sistemas de Comunicações`
+
+## Observacao tecnica sobre nomes de arquivos
+
+O parser passou a aceitar também arquivos duplicados baixados pelo Windows com sufixos como:
+
+- `(... )` no fim do nome, por exemplo `- 2026 (1).csv`
+- `- NOVO (1).csv`
+
+Isso permite integrar múltiplas versões locais do mesmo questionário sem quebrar a extração do nome-base.

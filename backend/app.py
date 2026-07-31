@@ -33,11 +33,7 @@ DEFAULT_MUNICIPIOS_STATUS_PATH = BASE_DIR / "data" / "operacional" / "municipios
 DEFAULT_PREVISTOS_PATH = BASE_DIR / "data" / "operacional" / "previstos_atrativos.json"
 DEFAULT_DISABLED_FORMS = {
     normalize_questionario_name("Sistema Marítimo e Fluvial"),
-    normalize_questionario_name("Sistema Aéreo"),
-    normalize_questionario_name("Sistemas de Comunicações"),
-    normalize_questionario_name("Informações Turísticas"),
     normalize_questionario_name("Empresas Organizadoras de Eventos"),
-    normalize_questionario_name("Folguedos, Crenças Populares"),
 }
 
 

@@ -146,6 +146,7 @@ def extract_questionario(file_name: str) -> str:
     remainder = file_name[len(FILE_PREFIX) :]
     if remainder.lower().endswith(".csv"):
         remainder = remainder[:-4]
+    remainder = re.sub(r"\s*\(\d+\)\s*$", "", remainder)
     questionario = re.sub(r"\s*-\s*NOVO$", "", remainder, flags=re.IGNORECASE)
     questionario = re.sub(r"\s*-\s*\d{4}(?:\s*-\s*Para Revisar)?$", "", questionario, flags=re.IGNORECASE)
     questionario = normalize_questionario_name(questionario)
