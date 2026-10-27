@@ -76,10 +76,14 @@ Arquivo lido em:
 
 ## Status atual de ativacao no backend
 
-Questionarios mantidos desativados por falta de base real validada:
+Questionario mantido desativado por falta de base real validada:
 
 - `Sistema Marítimo e Fluvial`
-- `Empresas Organizadoras de Eventos`
+
+`Empresas Organizadoras de Eventos` (pesquisa 8920) foi validado com o CSV real
+de 24 coletas em 24/09/2026 e passou a ser incluido por padrao. Se
+`IPESQUISA_DISABLED_FORMS` estiver configurada no Render, remover esse nome
+da lista para que a nova regra tenha efeito na proxima sincronizacao.
 
 Questionarios reativados após validacao com bancos reais em 31/07/2026:
 

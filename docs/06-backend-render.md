@@ -95,13 +95,13 @@ Mapeamento de formularios:
 Desativacao temporaria de formularios:
 
 - configurar `IPESQUISA_DISABLED_FORMS` com nomes separados por virgula
-- se a variavel nao existir, o backend ignora por padrao estes formularios:
-  - `Sistema Marítimo e Fluvial`
-  - `Sistema Aéreo`
-  - `Sistemas de Comunicações`
-  - `Informações Turísticas`
-  - `Empresas Organizadoras de Eventos`
-  - `Folguedos, Crenças Populares`
+- se a variavel nao existir, o backend ignora por padrao apenas `Sistema Marítimo e Fluvial`
+- `Empresas Organizadoras de Eventos` (8920) tem base real validada e deve ficar fora
+  da lista de desativacao no Render
+
+As leituras da base consolidada e dos atrativos previstos usam paginacao com
+ordenacao estavel (coluna `id` como desempate), para nao limitar o painel aos
+primeiros 1.000 registros do Supabase.
 
 ## Objetivo operacional
 

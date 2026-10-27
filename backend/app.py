@@ -33,8 +33,8 @@ DEFAULT_MUNICIPIOS_STATUS_PATH = BASE_DIR / "data" / "operacional" / "municipios
 DEFAULT_PREVISTOS_PATH = BASE_DIR / "data" / "operacional" / "previstos_atrativos.json"
 DEFAULT_DISABLED_FORMS = {
     normalize_questionario_name("Sistema Marítimo e Fluvial"),
-    normalize_questionario_name("Empresas Organizadoras de Eventos"),
 }
+SUPABASE_READ_PAGE_SIZE = 500
 
 
 def parse_cors_origins(raw_value: str | None) -> list[str]:
@@ -356,6 +356,33 @@ def normalize_base_row(row: dict[str, Any]) -> dict[str, str]:
     return normalized
 
 
+def read_all_supabase_rows(url: str, params: dict[str, str], error_label: str) -> list[dict[str, Any]]:
+    rows: list[dict[str, Any]] = []
+    with httpx.Client(timeout=60.0) as client:
+        while True:
+            page_params = {
+                **params,
+                "order": params.get("order", "id.asc"),
+                "limit": str(SUPABASE_READ_PAGE_SIZE),
+                "offset": str(len(rows)),
+            }
+            response = client.get(url, params=page_params, headers=build_supabase_headers())
+            try:
+                response.raise_for_status()
+            except httpx.HTTPStatusError as exc:
+                raise HTTPException(
+                    status_code=502,
+                    detail=f"Falha ao ler {error_label} no Supabase: {exc.response.status_code}",
+                ) from exc
+
+            page = response.json()
+            if not isinstance(page, list):
+                raise HTTPException(status_code=502, detail=f"Resposta invalida do Supabase ao ler {error_label}.")
+            rows.extend(page)
+            if len(page) < SUPABASE_READ_PAGE_SIZE:
+                return rows
+
+
 def validate_base_rows_for_supabase(rows: list[dict[str, Any]]) -> None:
     missing_identifiers = [
         row
@@ -380,21 +407,9 @@ def read_base_rows_from_supabase() -> list[dict[str, str]]:
     url = build_supabase_base_url()
     params = {
         "select": ",".join(BASE_FIELDNAMES),
-        "order": "data_inicio_coleta.asc.nullslast,questionario_preenchido.asc,nro_identificacao.asc",
+        "order": "data_inicio_coleta.asc.nullslast,questionario_preenchido.asc,nro_identificacao.asc,id.asc",
     }
-    with httpx.Client(timeout=60.0) as client:
-        response = client.get(url, params=params, headers=build_supabase_headers())
-    try:
-        response.raise_for_status()
-    except httpx.HTTPStatusError as exc:
-        raise HTTPException(
-            status_code=502,
-            detail=f"Falha ao ler base consolidada no Supabase: {exc.response.status_code}",
-        ) from exc
-
-    data = response.json()
-    if not isinstance(data, list):
-        return []
+    data = read_all_supabase_rows(url, params, "base consolidada")
     return [normalize_base_row(item or {}) for item in data]
 
 
@@ -537,40 +552,15 @@ def read_previstos_by_municipio_supabase(municipio_slug: str) -> list[dict[str, 
     params = {
         "select": "municipio_slug,regiao,municipio,categoria,referencia,atrativo",
         "municipio_slug": f"eq.{municipio_slug}",
-        "order": "categoria.asc,referencia.asc,atrativo.asc",
+        "order": "categoria.asc,referencia.asc,atrativo.asc,id.asc",
     }
-    with httpx.Client(timeout=30.0) as client:
-        response = client.get(url, params=params, headers=build_supabase_headers())
-    try:
-        response.raise_for_status()
-    except httpx.HTTPStatusError as exc:
-        raise HTTPException(
-            status_code=502,
-            detail=f"Falha ao ler previstos no Supabase: {exc.response.status_code}",
-        ) from exc
-    data = response.json()
-    if not isinstance(data, list):
-        return []
+    data = read_all_supabase_rows(url, params, "previstos")
     return [normalize_previsto_row(municipio_slug, item or {}) for item in data]
 
 
 def read_previstos_summary_supabase() -> dict[str, Any]:
     url = build_supabase_previstos_url()
-    params = {
-        "select": "municipio_slug",
-    }
-    with httpx.Client(timeout=30.0) as client:
-        response = client.get(url, params=params, headers=build_supabase_headers())
-    try:
-        response.raise_for_status()
-    except httpx.HTTPStatusError as exc:
-        raise HTTPException(
-            status_code=502,
-            detail=f"Falha ao ler resumo de previstos no Supabase: {exc.response.status_code}",
-        ) from exc
-    data = response.json()
-    if not isinstance(data, list):
-        return {"total_previstos": 0, "municipios": {}}
+    data = read_all_supabase_rows(url, {"select": "municipio_slug"}, "resumo de previstos")
 
     by_municipio: dict[str, int] = {}
     for item in data:
