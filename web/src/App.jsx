@@ -1316,12 +1316,14 @@ function Acompanhamento({ municipioSlug, coletas }) {
   if (!data) return null;
 
   const forms = uniqueValues(data.itens, "questionario");
+  const statusOrder = { realizado: 0, "outro-formulario": 1, pendente: 2 };
   const visible = data.itens.filter((item) =>
     (!formFilter || item.questionario === formFilter) &&
     (!statusFilter || item.status === statusFilter) &&
-    (!search || `${item.atrativo} ${item.codigo} ${item.observacao}`.toLocaleLowerCase("pt-BR").includes(search.toLocaleLowerCase("pt-BR"))));
+    (!search || `${item.atrativo} ${item.codigo} ${item.observacao}`.toLocaleLowerCase("pt-BR").includes(search.toLocaleLowerCase("pt-BR"))))
+    .sort((a, b) => statusOrder[a.status] - statusOrder[b.status]);
   const statusLabels = {
-    realizado: "Conciliado",
+    realizado: "Realizado",
     "outro-formulario": "Outro questionário",
     pendente: "Sem vínculo",
   };
@@ -1336,7 +1338,7 @@ function Acompanhamento({ municipioSlug, coletas }) {
       </div>
       <div className="acompanhamento-summary">
         <div><strong>{formatNumber(data.totais.previstos)}</strong><span>Opções previstas</span></div>
-        <div><strong>{formatNumber(data.totais.realizados)}</strong><span>Conciliadas</span></div>
+        <div><strong>{formatNumber(data.totais.realizados)}</strong><span>Realizados</span></div>
         <div><strong>{formatNumber(data.totais.outroFormulario)}</strong><span>Outro questionário</span></div>
         <div><strong>{formatNumber(data.totais.semVinculo)}</strong><span>Sem vínculo</span></div>
       </div>
