@@ -12,6 +12,10 @@ Aplicacao web para acompanhamento da producao de campo do projeto EMPETUR.
 - `docs/`: regras de negocio, arquitetura e fluxo operacional
 - `web/`: aplicacao web do dashboard
 
+Referencia para classificacao de atrativos e escolha de formularios: `docs/11-manual-pesquisador-empetur.md`.
+
+Registro mestre dos codigos de atrativos previstos: `docs/12-catalogo-codigos-atrativos.md`.
+
 ## Arquitetura oficial
 
 - `Cloudflare Pages`: publicacao do frontend

@@ -14,6 +14,7 @@ import {
   slugify,
   uniqueValues,
 } from "./lib/dashboard";
+import { buildAcompanhamento } from "./lib/acompanhamento";
 
 const CONCLUDED_STORAGE_KEY = "empetur-municipios-concluidos";
 const DASHBOARD_DATA_URL =
@@ -1307,6 +1308,91 @@ function TotalPrevistoPage({ payload, concludedMap }) {
   );
 }
 
+function Acompanhamento({ municipioSlug, coletas }) {
+  const [formFilter, setFormFilter] = useState("");
+  const [statusFilter, setStatusFilter] = useState("");
+  const [search, setSearch] = useState("");
+  const data = useMemo(() => buildAcompanhamento(municipioSlug, coletas), [municipioSlug, coletas]);
+  if (!data) return null;
+
+  const forms = uniqueValues(data.itens, "questionario");
+  const visible = data.itens.filter((item) =>
+    (!formFilter || item.questionario === formFilter) &&
+    (!statusFilter || item.status === statusFilter) &&
+    (!search || `${item.atrativo} ${item.codigo} ${item.observacao}`.toLocaleLowerCase("pt-BR").includes(search.toLocaleLowerCase("pt-BR"))));
+  const statusLabels = {
+    realizado: "Conciliado",
+    "outro-formulario": "Outro questionário",
+    pendente: "Sem vínculo",
+  };
+
+  return (
+    <section className="panel acompanhamento-panel">
+      <div className="panel-heading">
+        <div>
+          <h2>Acompanhamento</h2>
+          <p>Projeção provisória por atrativo e questionário. Base revisada em {data.versao.split("-").reverse().join("/")}.</p>
+        </div>
+      </div>
+      <div className="acompanhamento-summary">
+        <div><strong>{formatNumber(data.totais.previstos)}</strong><span>Opções previstas</span></div>
+        <div><strong>{formatNumber(data.totais.realizados)}</strong><span>Conciliadas</span></div>
+        <div><strong>{formatNumber(data.totais.outroFormulario)}</strong><span>Outro questionário</span></div>
+        <div><strong>{formatNumber(data.totais.semVinculo)}</strong><span>Sem vínculo</span></div>
+      </div>
+      <p className="acompanhamento-note">Cada linha é um questionário a aplicar. “Sem vínculo” pede conferência, não comprova ausência de visita. Esta projeção ainda não integra o card de atrativos validados.</p>
+      <div className="acompanhamento-filters">
+        <label>
+          <span>Questionário</span>
+          <select className="inline-select" value={formFilter} onChange={(event) => setFormFilter(event.target.value)}>
+            <option value="">Todos</option>
+            {forms.map((form) => <option key={form} value={form}>{form}</option>)}
+          </select>
+        </label>
+        <label>
+          <span>Situação</span>
+          <select className="inline-select" value={statusFilter} onChange={(event) => setStatusFilter(event.target.value)}>
+            <option value="">Todas</option>
+            {Object.entries(statusLabels).map(([value, label]) => <option key={value} value={value}>{label}</option>)}
+          </select>
+        </label>
+        <label className="acompanhamento-search">
+          <span>Buscar</span>
+          <input value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Atrativo, código ou observação" />
+        </label>
+      </div>
+      <p className="acompanhamento-count">{formatNumber(visible.length)} de {formatNumber(data.itens.length)} opções exibidas</p>
+      <div className="table-wrap acompanhamento-table-wrap">
+        <table className="acompanhamento-table">
+          <thead><tr><th>Código</th><th>Atrativo</th><th>Questionário</th><th>Situação</th><th>Orientação / coleta</th></tr></thead>
+          <tbody>
+            {visible.map((item) => (
+              <tr key={item.codigo}>
+                <td><span className="acompanhamento-code">{item.codigo}</span></td>
+                <td>{item.atrativo}</td>
+                <td>{item.questionario}</td>
+                <td><span className={`acompanhamento-status acompanhamento-status-${item.status}`}>{statusLabels[item.status]}</span></td>
+                <td className="acompanhamento-observation">
+                  {item.observacao || "Sem observação específica."}
+                  {item.coletas.length ? <small>Coleta(s): {item.coletas.map((row) => row.nro_identificacao).join(", ")}</small> : null}
+                </td>
+              </tr>
+            ))}
+            {!visible.length ? <tr><td colSpan={5}>Nenhuma opção encontrada para os filtros selecionados.</td></tr> : null}
+          </tbody>
+        </table>
+      </div>
+      {data.revisar.length ? (
+        <details className="acompanhamento-review">
+          <summary>{formatNumber(data.revisar.length)} coleta(s) sem conciliação nesta projeção</summary>
+          <p>Podem ser atrativos fora da lista, nomes ambíguos ou registros em outro questionário. Não foram marcados como concluídos.</p>
+          <ul>{data.revisar.map((row) => <li key={row.id}>{row.nome_atrativo || "Sem nome"} · {row.questionario_preenchido} · coleta {row.nro_identificacao || "sem ID"}</li>)}</ul>
+        </details>
+      ) : null}
+    </section>
+  );
+}
+
 function MunicipioDetailPage({ payload, concludedMap }) {
   const { municipioSlug } = useParams();
   const homeRows = useMemo(() => buildHomeRows(payload), [payload]);
@@ -1380,6 +1466,7 @@ function MunicipioDetailPage({ payload, concludedMap }) {
       </section>
 
       <TimelineChart rows={municipioRows} />
+      <Acompanhamento municipioSlug={municipioSlug} coletas={municipioRows} />
 
       <div className="dual-grid">
         <ScrollMetricList

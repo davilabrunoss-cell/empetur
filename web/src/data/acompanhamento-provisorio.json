@@ -1,0 +1,4329 @@
+{
+  "versao": "2026-10-28",
+  "descricao": "Projecao provisoria revisada de sete municipios; nao substitui os atrativos validados no Supabase.",
+  "formulariosPorProjeto": {
+    "8900": "A2.8",
+    "8903": "A2.10",
+    "8905": "A2.7",
+    "8906": "A2.5",
+    "8909": "A2.9",
+    "8910": "A2.3",
+    "8911": "B1",
+    "8916": "B2",
+    "8918": "B4",
+    "8919": "B5",
+    "8923": "B9",
+    "8924": "B10",
+    "8925": "B11",
+    "8926": "B12",
+    "8928": "C2",
+    "8930": "C3",
+    "8931": "C4",
+    "9035": "A1",
+    "9055": "A2.1"
+  },
+  "formulariosPorNome": {
+    "Festas Populares e Religiosas": "A2.5",
+    "Folclore-Detalhado": "A2.9",
+    "Atrativos Naturais": "A1",
+    "Atrativos Culturais": "A2.1",
+    "Locais de Convernções, Exposições e Eventos Sociais": "B5",
+    "Transportes Turisticos": "B10",
+    "Alimentação": "B2",
+    "Sistema Médico-Hospitalar": "C3",
+    "Feiras Livres, Mercados Públicos": "A2.7",
+    "Folguedos, Crenças Populares": "A2.3",
+    "Hospedagens": "B1",
+    "Informações Turísticas": "B9",
+    "Outros Servicos de Apoio Turistico": "B11",
+    "Sistema Rodoviário": "C4",
+    "Artesanato-Detalhamento": "A2.8",
+    "Roteiros Turísticos": "B12",
+    "Gastronomia-Detalhado": "A2.10",
+    "Instalações Desportivas": "B4",
+    "Sistema de Segurança": "C2"
+  },
+  "itens": [
+    {
+      "municipio": "Afrânio",
+      "codigo": "B2-0001",
+      "questionario": "B2",
+      "atrativo": "087 Pizza Bar",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Afrânio",
+      "codigo": "A2.5-0002",
+      "questionario": "A2.5",
+      "atrativo": "1ª “Corre, Afrânio!” (corrida de rua)",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Afrânio",
+      "codigo": "A2.1-0003",
+      "questionario": "A2.1",
+      "atrativo": "Antiga Estação Ferroviária de Afrânio",
+      "observacao": "Coleta 3551650 (“Estação Ferroviária”) conciliada por Bruno como o mesmo atrativo em 28/10/2026.",
+      "realizados": [
+        "3551650"
+      ],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Afrânio",
+      "codigo": "A2.2-0004",
+      "questionario": "A2.2",
+      "atrativo": "Artesanato de Afrânio",
+      "observacao": "A2.2 aprovado; confirmar finalidade antes do cadastro",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Afrânio",
+      "codigo": "A2.3-0005",
+      "questionario": "A2.3",
+      "atrativo": "Banda de Pífanos “Divino Espírito Santo”",
+      "observacao": "A2.3: identificar o grupo/Banda de Pífanos e seus integrantes; não substituir o registro da manifestação.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Afrânio",
+      "codigo": "A2.9-0005",
+      "questionario": "A2.9",
+      "atrativo": "Banda de Pífanos “Divino Espírito Santo”",
+      "observacao": "A2.9: registrar a manifestação musical/folclórica, sua ocorrência e características, separadamente do grupo.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Afrânio",
+      "codigo": "A2.1-0006",
+      "questionario": "A2.1",
+      "atrativo": "Casarios Antigos do Centro",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Afrânio",
+      "codigo": "A2.1-0007",
+      "questionario": "A2.1",
+      "atrativo": "Casarios Antigos do Povoado do Caboclo",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Afrânio",
+      "codigo": "A2.1-0008",
+      "questionario": "A2.1",
+      "atrativo": "Centro de Apoio Comunitário Oto Honório de Azevêdo (CAC)",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Afrânio",
+      "codigo": "A2.1-0009",
+      "questionario": "A2.1",
+      "atrativo": "Cerâmica Nova Vida",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Afrânio",
+      "codigo": "A2.8-0010",
+      "questionario": "A2.8",
+      "atrativo": "Cerâmica Sertaneja",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Afrânio",
+      "codigo": "A2.1-0011",
+      "questionario": "A2.1",
+      "atrativo": "Cerâmica Vitória",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Afrânio",
+      "codigo": "A2.10-0012",
+      "questionario": "A2.10",
+      "atrativo": "Doce de Leite de Afrânio",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Afrânio",
+      "codigo": "B2-0013",
+      "questionario": "B2",
+      "atrativo": "Elvys Lanche",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Afrânio",
+      "codigo": "A2.1-0014",
+      "questionario": "A2.1",
+      "atrativo": "Engenho Artur e Família",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Afrânio",
+      "codigo": "B2-0015",
+      "questionario": "B2",
+      "atrativo": "Espetos Nivaldo",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Afrânio",
+      "codigo": "A2.1-0016",
+      "questionario": "A2.1",
+      "atrativo": "Estação de Arizona",
+      "observacao": "Coleta 3551671 (“Estação Ferroviária de Arizona”) conciliada por Bruno como o mesmo atrativo em 28/10/2026.",
+      "realizados": [
+        "3551671"
+      ],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Afrânio",
+      "codigo": "B5-0017",
+      "questionario": "B5",
+      "atrativo": "Expoleite (Parque/Pátio de Eventos)",
+      "observacao": "Distinguir espaço e evento",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Afrânio",
+      "codigo": "A2.4-0018",
+      "questionario": "A2.4",
+      "atrativo": "Expoleite Afrânio",
+      "observacao": "A2.4: feira/exposição periódica. B8 descartado para este item; o parque/pátio de eventos tem entrada B5 própria.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Afrânio",
+      "codigo": "A2.7-0019",
+      "questionario": "A2.7",
+      "atrativo": "Feira Livre de Afrânio",
+      "observacao": "A2.7: descrever a feira livre, seu funcionamento e o espaço de comercialização.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Afrânio",
+      "codigo": "B8-0019",
+      "questionario": "B8",
+      "atrativo": "Feira Livre de Afrânio",
+      "observacao": "B8: verificar estabelecimento ou atividade de compras distinta da feira como um todo; em dúvida, consultar a supervisão.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Afrânio",
+      "codigo": "A2.5-0020",
+      "questionario": "A2.5",
+      "atrativo": "Festa do Divino Espírito Santo",
+      "observacao": "",
+      "realizados": [
+        "3540653"
+      ],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Afrânio",
+      "codigo": "A2.5-0021",
+      "questionario": "A2.5",
+      "atrativo": "Festa do Tamarindo",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Afrânio",
+      "codigo": "A2.5-0022",
+      "questionario": "A2.5",
+      "atrativo": "Festejos Juninos e Aniversário da Cidade",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Afrânio",
+      "codigo": "A2.1-0023",
+      "questionario": "A2.1",
+      "atrativo": "Igreja de São João Batista",
+      "observacao": "Condicional: constatar e registrar valor histórico/arquitetônico no A2.1. Sem evidência, consultar supervisão antes de concluir.",
+      "realizados": [
+        "3483333"
+      ],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Afrânio",
+      "codigo": "B11-0023",
+      "questionario": "B11",
+      "atrativo": "Igreja de São João Batista",
+      "observacao": "Registrar função atual como espaço de culto/apoio. Este formulário não substitui a avaliação histórica prevista no A2.1.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Afrânio",
+      "codigo": "A2.1-0024",
+      "questionario": "A2.1",
+      "atrativo": "Igreja Senhor do Bonfim",
+      "observacao": "Condicional: constatar e registrar valor histórico/arquitetônico no A2.1. Sem evidência, consultar supervisão antes de concluir.",
+      "realizados": [
+        "3735019"
+      ],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Afrânio",
+      "codigo": "B11-0024",
+      "questionario": "B11",
+      "atrativo": "Igreja Senhor do Bonfim",
+      "observacao": "Registrar função atual como espaço de culto/apoio. Este formulário não substitui a avaliação histórica prevista no A2.1.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Afrânio",
+      "codigo": "A2.5-0025",
+      "questionario": "A2.5",
+      "atrativo": "II Corrida 31 de Maio",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Afrânio",
+      "codigo": "A1-0026",
+      "questionario": "A1",
+      "atrativo": "Lagoa da Caveira",
+      "observacao": "",
+      "realizados": [
+        "3551688"
+      ],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Afrânio",
+      "codigo": "A1-0027",
+      "questionario": "A1",
+      "atrativo": "Lagoa Magnesiana",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Afrânio",
+      "codigo": "B2-0028",
+      "questionario": "B2",
+      "atrativo": "LM Hamburgueria e Petiscaria",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Afrânio",
+      "codigo": "A2.5-0029",
+      "questionario": "A2.5",
+      "atrativo": "Louva Afrânio",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Afrânio",
+      "codigo": "A2.1-0030",
+      "questionario": "A2.1",
+      "atrativo": "Memorial José Theodomiro de Araújo",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Afrânio",
+      "codigo": "A1-0031",
+      "questionario": "A1",
+      "atrativo": "Mirante da Serra",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Afrânio",
+      "codigo": "A2.1-0032",
+      "questionario": "A2.1",
+      "atrativo": "Museu de Pai Chico",
+      "observacao": "",
+      "realizados": [
+        "3732099"
+      ],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Afrânio",
+      "codigo": "B1-0033",
+      "questionario": "B1",
+      "atrativo": "Pousada Gabriella",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Afrânio",
+      "codigo": "B1-0034",
+      "questionario": "B1",
+      "atrativo": "Pousada Reis",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Afrânio",
+      "codigo": "A2.1-0035",
+      "questionario": "A2.1",
+      "atrativo": "Praça São João Batista",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Afrânio",
+      "codigo": "A2.1-0036",
+      "questionario": "A2.1",
+      "atrativo": "Quilombo Sítio Araçá",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Afrânio",
+      "codigo": "A2.3-0037",
+      "questionario": "A2.3",
+      "atrativo": "Reisado de Lagoa Comprida",
+      "observacao": "Identificar o grupo responsável pelo Reisado; confirmar se há grupo próprio para este cadastro.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Afrânio",
+      "codigo": "A2.9-0037",
+      "questionario": "A2.9",
+      "atrativo": "Reisado de Lagoa Comprida",
+      "observacao": "Descrever a manifestação Reisado e sua ocorrência, independentemente do cadastro do grupo.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Afrânio",
+      "codigo": "C4-0038",
+      "questionario": "C4",
+      "atrativo": "Rodoviária de Afrânio",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Afrânio",
+      "codigo": "A2.9-0039",
+      "questionario": "A2.9",
+      "atrativo": "Samba de Roda do Sítio Boa Vista",
+      "observacao": "A2.9 aprovado; A2.3-0039 reservado",
+      "realizados": [
+        "3551004"
+      ],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Afrânio",
+      "codigo": "A1-0040",
+      "questionario": "A1",
+      "atrativo": "Serra dos Dois Irmãos",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Afrânio",
+      "codigo": "A2.1-0041",
+      "questionario": "A2.1",
+      "atrativo": "Sítio Arqueológico da Chapada do Alegre",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Afrânio",
+      "codigo": "A2.1-0042",
+      "questionario": "A2.1",
+      "atrativo": "Sítio Histórico do Caboclo",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Afrânio",
+      "codigo": "A1-0043",
+      "questionario": "A1",
+      "atrativo": "Tamarindeiro Centenário",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Afrânio",
+      "codigo": "B1-0044",
+      "questionario": "B1",
+      "atrativo": "Topázio Park Hotel",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Afrânio",
+      "codigo": "A2.5-0045",
+      "questionario": "A2.5",
+      "atrativo": "Vaquejada do Parque Dominic",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "A2.1-0046",
+      "questionario": "A2.1",
+      "atrativo": "Açude de Bodocó",
+      "observacao": "CONFIRMAR EM CAMPO: Descrição chama o açude de natural e construído ao mesmo tempo. A2.1 vale para açude construído; confirmar a natureza da obra (manual p. 24, 33).",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "B2-0047",
+      "questionario": "B2",
+      "atrativo": "Amanda Lanches",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "A1-0048",
+      "questionario": "A1",
+      "atrativo": "APA da Chapada do Araripe",
+      "observacao": "CONFIRMAR EM CAMPO: distinguir a APA (unidade protegida) da Chapada do Araripe (formação/área); se forem o mesmo objeto inventariado, conciliar os IDs 0048 e 0072 antes do upload.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "B4-0049",
+      "questionario": "B4",
+      "atrativo": "Arena Flow",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "A2.10-0050",
+      "questionario": "A2.10",
+      "atrativo": "Baião de Dois",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "A2.3-0051",
+      "questionario": "A2.3",
+      "atrativo": "Banda de Pífano de Jardim",
+      "observacao": "Identificar a Banda de Pífano como grupo e seus integrantes.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "A2.9-0051",
+      "questionario": "A2.9",
+      "atrativo": "Banda de Pífano de Jardim",
+      "observacao": "CONDICIONAL: registrar manifestação musical/folclórica distinta do grupo; confirmar ocorrência em campo.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "B2-0052",
+      "questionario": "B2",
+      "atrativo": "Bar e Restaurante Mandacaru",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "A2.1-0053",
+      "questionario": "A2.1",
+      "atrativo": "Biblioteca Pública Videlina Gomes da Silva",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "B4-0054",
+      "questionario": "B4",
+      "atrativo": "Bodocas Beacht",
+      "observacao": "Confirmar grafia do nome comercial em campo.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "B11-0055",
+      "questionario": "B11",
+      "atrativo": "Bodocó.Net",
+      "observacao": "CONFIRMAR EM CAMPO: identificar o serviço de Bodocó.Net; se for comunicação/provedor, revisar C1 em vez de B11.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "B2-0056",
+      "questionario": "B2",
+      "atrativo": "Café e Restaurante Vó Palmira",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "A1-0057",
+      "questionario": "A1",
+      "atrativo": "Caldeirão da Pedra da Jibóia",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "B2-0058",
+      "questionario": "B2",
+      "atrativo": "Caldinho Batista",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "B4-0059",
+      "questionario": "B4",
+      "atrativo": "Campo de Society - Arena Bodocó",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "B4-0060",
+      "questionario": "B4",
+      "atrativo": "Campo de Society - Carlos Alberto Bezerra Alves",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "B4-0061",
+      "questionario": "B4",
+      "atrativo": "Campo de Society - Sipaúba",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "A1-0062",
+      "questionario": "A1",
+      "atrativo": "Cânion do Brejo de Santo Antônio",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "A2.1-0063",
+      "questionario": "A2.1",
+      "atrativo": "Capela de Santo Antônio",
+      "observacao": "CONDICIONAL: constatar e registrar valor histórico/arquitetônico; sem evidência, consultar supervisão antes de concluir.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "B11-0063",
+      "questionario": "B11",
+      "atrativo": "Capela de Santo Antônio",
+      "observacao": "Registrar uso atual como espaço de culto/apoio; o A2.1 histórico é avaliação separada.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "A1-0064",
+      "questionario": "A1",
+      "atrativo": "Cascata do Cristal - Riacho do Suturno",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "B8-0065",
+      "questionario": "B8",
+      "atrativo": "Centro de Artesanato de Bodocó",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "B3-0066",
+      "questionario": "B3",
+      "atrativo": "Chácara da Sol",
+      "observacao": "CONFIRMAR EM CAMPO: Confirmar se a chácara oferece lazer/entretenimento ao público; propriedade privada sem serviço não basta para B3 (manual p. 63).",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "B3-0067",
+      "questionario": "B3",
+      "atrativo": "Chácara Feitoza",
+      "observacao": "CONFIRMAR EM CAMPO: Confirmar se a chácara oferece lazer/entretenimento ao público; propriedade privada sem serviço não basta para B3 (manual p. 63).",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "B3-0068",
+      "questionario": "B3",
+      "atrativo": "Chácara Luz do Luar",
+      "observacao": "CONFIRMAR EM CAMPO: Confirmar se a chácara oferece lazer/entretenimento ao público; propriedade privada sem serviço não basta para B3 (manual p. 63).",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "B3-0069",
+      "questionario": "B3",
+      "atrativo": "Chácara Maria Flor",
+      "observacao": "CONFIRMAR EM CAMPO: Confirmar se a chácara oferece lazer/entretenimento ao público; propriedade privada sem serviço não basta para B3 (manual p. 63).",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "B3-0070",
+      "questionario": "B3",
+      "atrativo": "Chácara MC",
+      "observacao": "CONFIRMAR EM CAMPO: Confirmar se a chácara oferece lazer/entretenimento ao público; propriedade privada sem serviço não basta para B3 (manual p. 63).",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "B3-0071",
+      "questionario": "B3",
+      "atrativo": "Chácara Xavier",
+      "observacao": "CONFIRMAR EM CAMPO: Confirmar se a chácara oferece lazer/entretenimento ao público; propriedade privada sem serviço não basta para B3 (manual p. 63).",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "A1-0072",
+      "questionario": "A1",
+      "atrativo": "Chapada do Araripe",
+      "observacao": "CONFIRMAR EM CAMPO: distinguir a Chapada do Araripe da APA da Chapada do Araripe; se forem o mesmo objeto inventariado, conciliar os IDs 0072 e 0048 antes do upload.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "B1-0073",
+      "questionario": "B1",
+      "atrativo": "Churrascaria e Pousada Claranã",
+      "observacao": "Confirmar hospedagem da unidade Claranã. Fontes: linhas 29, 30; não cadastrar a churrascaria como outro atrativo.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "B2-0073",
+      "questionario": "B2",
+      "atrativo": "Churrascaria e Pousada Claranã",
+      "observacao": "Confirmar alimentação da unidade Claranã. Fontes: linhas 29, 30; não duplicar o estabelecimento.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "B1-0074",
+      "questionario": "B1",
+      "atrativo": "Churrascaria e Pousada Paiva",
+      "observacao": "Confirmar hospedagem da unidade Paiva. Fontes: linhas 31, 33; não cadastrar a churrascaria como outro atrativo.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "B2-0074",
+      "questionario": "B2",
+      "atrativo": "Churrascaria e Pousada Paiva",
+      "observacao": "Confirmar alimentação da unidade Paiva. Fontes: linhas 31, 33; não duplicar o estabelecimento.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "B2-0075",
+      "questionario": "B2",
+      "atrativo": "Churrascaria JG",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "B2-0076",
+      "questionario": "B2",
+      "atrativo": "Churrascaria Raimundão",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "A2.10-0077",
+      "questionario": "A2.10",
+      "atrativo": "Cuscuz",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "C2-0078",
+      "questionario": "C2",
+      "atrativo": "Delegacia de Polícia Civil - 203ª Circunscrição",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "A2.4-0079",
+      "questionario": "A2.4",
+      "atrativo": "ExpoMarço - Festival e Feira Agropecuária",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "A2.4-0080",
+      "questionario": "A2.4",
+      "atrativo": "Feira do Queijo",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "A2.7-0081",
+      "questionario": "A2.7",
+      "atrativo": "Feira Livre de Bodocó",
+      "observacao": "Descrever feira livre, funcionamento e espaço.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "B8-0081",
+      "questionario": "B8",
+      "atrativo": "Feira Livre de Bodocó",
+      "observacao": "CONDICIONAL: verificar estabelecimento/atividade de compras distinta da feira como um todo; em dúvida, consultar supervisão.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "A2.5-0082",
+      "questionario": "A2.5",
+      "atrativo": "Festa de Santos Reis",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "A2.5-0083",
+      "questionario": "A2.5",
+      "atrativo": "Festa de São José - Festa Religiosa",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "A2.10-0084",
+      "questionario": "A2.10",
+      "atrativo": "Galinha caipira sertaneja",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "A1-0085",
+      "questionario": "A1",
+      "atrativo": "Gruta da Pedra do Claranã",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "B2-0086",
+      "questionario": "B2",
+      "atrativo": "Hangar Society Bar",
+      "observacao": "Verificar serviço de alimentação do bar.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "B4-0086",
+      "questionario": "B4",
+      "atrativo": "Hangar Society Bar",
+      "observacao": "Verificar instalação desportiva do campo de society.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "C3-0087",
+      "questionario": "C3",
+      "atrativo": "Hospital Municipal Eulina Silva Lócio de Alencar",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "B1-0088",
+      "questionario": "B1",
+      "atrativo": "Hotel Bodocó",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "A2.1-0089",
+      "questionario": "A2.1",
+      "atrativo": "Igreja de São Francisco",
+      "observacao": "CONDICIONAL: constatar e registrar valor histórico/arquitetônico; sem evidência, consultar supervisão antes de concluir.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "B11-0089",
+      "questionario": "B11",
+      "atrativo": "Igreja de São Francisco",
+      "observacao": "Registrar uso atual como espaço de culto/apoio; o A2.1 histórico é avaliação separada.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "A2.1-0090",
+      "questionario": "A2.1",
+      "atrativo": "Igreja de São Vicente - Igrejinha",
+      "observacao": "CONDICIONAL: constatar e registrar valor histórico/arquitetônico; sem evidência, consultar supervisão antes de concluir.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "B11-0090",
+      "questionario": "B11",
+      "atrativo": "Igreja de São Vicente - Igrejinha",
+      "observacao": "Registrar uso atual como espaço de culto/apoio; o A2.1 histórico é avaliação separada.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "A2.1-0091",
+      "questionario": "A2.1",
+      "atrativo": "Igreja Matriz de São José",
+      "observacao": "CONDICIONAL: constatar e registrar valor histórico/arquitetônico; sem evidência, consultar supervisão antes de concluir.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "B11-0091",
+      "questionario": "B11",
+      "atrativo": "Igreja Matriz de São José",
+      "observacao": "Registrar uso atual como espaço de culto/apoio; o A2.1 histórico é avaliação separada.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "A2.10-0092",
+      "questionario": "A2.10",
+      "atrativo": "Macaxeira",
+      "observacao": "CONFIRMAR EM CAMPO: Nome genérico de ingrediente/produto; especificar expressão gastronômica típica e preparo antes de A2.10 (manual p. 54).",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "A2.1-0093",
+      "questionario": "A2.1",
+      "atrativo": "Marco da cidade",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "A1-0094",
+      "questionario": "A1",
+      "atrativo": "Mirante da Pedra do Claranã",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "A1-0095",
+      "questionario": "A1",
+      "atrativo": "Mirante da Primavera",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "A1-0096",
+      "questionario": "A1",
+      "atrativo": "Mirante do Cristal/Xiringo",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "A1-0097",
+      "questionario": "A1",
+      "atrativo": "Mirante do Espiador",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "A1-0098",
+      "questionario": "A1",
+      "atrativo": "Mirante do Piqui",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "A1-0099",
+      "questionario": "A1",
+      "atrativo": "Mirante do Suturno",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "A1-0100",
+      "questionario": "A1",
+      "atrativo": "Mirante Feitoria",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "B4-0101",
+      "questionario": "B4",
+      "atrativo": "Módulo Esportivo Olavo Calado de Souza",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "A2.1-0102",
+      "questionario": "A2.1",
+      "atrativo": "Museu Dona Luiza Lopes de Siqueira Amorim",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "B5-0103",
+      "questionario": "B5",
+      "atrativo": "Parque de Exposições Antônio Bezerra da Rocha",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "B5-0104",
+      "questionario": "B5",
+      "atrativo": "Pátio de eventos Bodocó",
+      "observacao": "",
+      "realizados": [
+        "3468146"
+      ],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "A1-0105",
+      "questionario": "A1",
+      "atrativo": "Pedra cai mais não cai",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "A1-0106",
+      "questionario": "A1",
+      "atrativo": "Pedra da Tartaruga",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "A1-0107",
+      "questionario": "A1",
+      "atrativo": "Pedra do Cipó",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "A1-0108",
+      "questionario": "A1",
+      "atrativo": "Pedra do Claranã",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "A1-0109",
+      "questionario": "A1",
+      "atrativo": "Pedra do Menino",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "A1-0110",
+      "questionario": "A1",
+      "atrativo": "Pedra do Mocó",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "A1-0111",
+      "questionario": "A1",
+      "atrativo": "Picorôto do Bom Princípio",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "B2-0112",
+      "questionario": "B2",
+      "atrativo": "Pizzaria Boca de Caieira",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "B2-0113",
+      "questionario": "B2",
+      "atrativo": "Pizzaria Divina Pizza",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "B2-0114",
+      "questionario": "B2",
+      "atrativo": "Pizzaria e Lanchonete Vilar Delivery",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "B2-0115",
+      "questionario": "B2",
+      "atrativo": "Pizzaria Host",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "B2-0116",
+      "questionario": "B2",
+      "atrativo": "Pizzaria Vôo de Águia",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "C2-0117",
+      "questionario": "C2",
+      "atrativo": "Polícia Militar - 7º BPM (Destacamento Bodocó)",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "A2.1-0118",
+      "questionario": "A2.1",
+      "atrativo": "Praça da Matriz",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "A2.1-0119",
+      "questionario": "A2.1",
+      "atrativo": "Praça José Gomes de Sá",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "A2.1-0120",
+      "questionario": "A2.1",
+      "atrativo": "Praça Pedro Modesto",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "A2.1-0121",
+      "questionario": "A2.1",
+      "atrativo": "Praça São Francisco",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "A2.10-0122",
+      "questionario": "A2.10",
+      "atrativo": "Queijo",
+      "observacao": "CONFIRMAR EM CAMPO: Nome genérico de ingrediente/produto; especificar expressão gastronômica típica e preparo antes de A2.10 (manual p. 54).",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "B2-0123",
+      "questionario": "B2",
+      "atrativo": "Rainha do Caldo",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "A2.3-0124",
+      "questionario": "A2.3",
+      "atrativo": "Reisado de Couro da Várzea e do Meio",
+      "observacao": "CONDICIONAL: identificar o grupo responsável pelo Reisado.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "A2.9-0124",
+      "questionario": "A2.9",
+      "atrativo": "Reisado de Couro da Várzea e do Meio",
+      "observacao": "CONDICIONAL: descrever a manifestação Reisado separadamente do grupo.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "B2-0125",
+      "questionario": "B2",
+      "atrativo": "Restaurante Casa de Taipa",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "B2-0126",
+      "questionario": "B2",
+      "atrativo": "Restaurante da Rosa",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "B2-0127",
+      "questionario": "B2",
+      "atrativo": "Restaurante Pé da Pedra",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "B2-0128",
+      "questionario": "B2",
+      "atrativo": "Restaurante Puro Sabor",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "B2-0129",
+      "questionario": "B2",
+      "atrativo": "Restaurante Só Baião",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "B2-0130",
+      "questionario": "B2",
+      "atrativo": "Restaurante Traxatão",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "A2.5-0131",
+      "questionario": "A2.5",
+      "atrativo": "São João dos Bairros",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "B11-0132",
+      "questionario": "B11",
+      "atrativo": "Secretaria de Cultura, Esportes, Juventude e Turismo",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Bodocó",
+      "codigo": "B3-0133",
+      "questionario": "B3",
+      "atrativo": "Sesc Ler Bodocó",
+      "observacao": "CONFIRMAR EM CAMPO: Confirmar serviço de entretenimento/lazer oferecido pelo Sesc Ler; não inferir B3 só pelo nome (manual p. 63).",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Inajá",
+      "codigo": "A2.6-0134",
+      "questionario": "A2.6",
+      "atrativo": "Artesão Pereira",
+      "observacao": "Coleta 3476871 (“pereira artes”) foi feita em A2.8, não em A2.6; manter observação, sem marcar esta opção como realizada.",
+      "realizados": [],
+      "outroFormulario": [
+        "3476871"
+      ]
+    },
+    {
+      "municipio": "Inajá",
+      "codigo": "A2.1-0135",
+      "questionario": "A2.1",
+      "atrativo": "Capela de São José",
+      "observacao": "Condicional: constatar valor histórico/arquitetônico; sem evidência, consultar supervisão antes de concluir.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Inajá",
+      "codigo": "B11-0135",
+      "questionario": "B11",
+      "atrativo": "Capela de São José",
+      "observacao": "Registrar função atual de culto/apoio; não confundir com o valor histórico de A2.1.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Inajá",
+      "codigo": "A2.1-0136",
+      "questionario": "A2.1",
+      "atrativo": "Casario da Praça Maria dos Prazeres",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Inajá",
+      "codigo": "A2.1-0137",
+      "questionario": "A2.1",
+      "atrativo": "Cruzeiro de Inajá",
+      "observacao": "Coleta 3551329 (“cruzeiro de inajá”) foi feita em B12, não em A2.1; manter observação, sem marcar esta opção como realizada.",
+      "realizados": [],
+      "outroFormulario": [
+        "3551329"
+      ]
+    },
+    {
+      "municipio": "Inajá",
+      "codigo": "A2.7-0138",
+      "questionario": "A2.7",
+      "atrativo": "Feira Livre de Inajá",
+      "observacao": "Registrar a feira livre como conjunto. Coleta 3548607 (“feira livre”) foi feita em B2, não em A2.7; manter observação, sem marcar esta opção como realizada.",
+      "realizados": [],
+      "outroFormulario": [
+        "3548607"
+      ]
+    },
+    {
+      "municipio": "Inajá",
+      "codigo": "B8-0138",
+      "questionario": "B8",
+      "atrativo": "Feira Livre de Inajá",
+      "observacao": "Condicional: somente se houver atividade/estabelecimento de compras distinto da feira; não duplicar o mesmo objeto.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Inajá",
+      "codigo": "A2.5-0139",
+      "questionario": "A2.5",
+      "atrativo": "Festa de Santo Antônio",
+      "observacao": "",
+      "realizados": [
+        "3527672"
+      ],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Inajá",
+      "codigo": "A2.5-0140",
+      "questionario": "A2.5",
+      "atrativo": "Festa de São José",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Inajá",
+      "codigo": "A2.1-0141",
+      "questionario": "A2.1",
+      "atrativo": "Grupo Indígena Kambiwá",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Inajá",
+      "codigo": "A2.1-0142",
+      "questionario": "A2.1",
+      "atrativo": "Grupo Indígena Tuxá",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Inajá",
+      "codigo": "A2.1-0143",
+      "questionario": "A2.1",
+      "atrativo": "Igreja de Santo Antônio",
+      "observacao": "Condicional: constatar valor histórico/arquitetônico; sem evidência, consultar supervisão antes de concluir. Coleta 3483835 (“igreja de santo Antônio”) foi feita em B12, não em A2.1; manter observação, sem marcar esta opção como realizada.",
+      "realizados": [],
+      "outroFormulario": [
+        "3483835"
+      ]
+    },
+    {
+      "municipio": "Inajá",
+      "codigo": "B11-0143",
+      "questionario": "B11",
+      "atrativo": "Igreja de Santo Antônio",
+      "observacao": "Registrar função atual de culto/apoio; não confundir com o valor histórico de A2.1. Coleta 3483835 (“igreja de santo Antônio”) foi feita em B12, não em B11; manter observação, sem marcar esta opção como realizada.",
+      "realizados": [],
+      "outroFormulario": [
+        "3483835"
+      ]
+    },
+    {
+      "municipio": "Inajá",
+      "codigo": "A2.1-0144",
+      "questionario": "A2.1",
+      "atrativo": "Igreja Matriz da Sagrada Família",
+      "observacao": "Condicional: constatar valor histórico/arquitetônico; sem evidência, consultar supervisão antes de concluir. Coleta 3527723 (“igreja matriz sagrada família”) foi feita em A2.5, não em A2.1; manter observação, sem marcar esta opção como realizada.",
+      "realizados": [],
+      "outroFormulario": [
+        "3527723"
+      ]
+    },
+    {
+      "municipio": "Inajá",
+      "codigo": "B11-0144",
+      "questionario": "B11",
+      "atrativo": "Igreja Matriz da Sagrada Família",
+      "observacao": "Registrar função atual de culto/apoio; não confundir com o valor histórico de A2.1. Coleta 3527723 (“igreja matriz sagrada família”) foi feita em A2.5, não em B11; manter observação, sem marcar esta opção como realizada.",
+      "realizados": [],
+      "outroFormulario": [
+        "3527723"
+      ]
+    },
+    {
+      "municipio": "Inajá",
+      "codigo": "A1-0145",
+      "questionario": "A1",
+      "atrativo": "Mirante do Cruzeiro",
+      "observacao": "Confirmar se o mirante é natural ou estrutura construída; ajustar formulário se necessário.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Inajá",
+      "codigo": "B7-0146",
+      "questionario": "B7",
+      "atrativo": "Neném Turismo",
+      "observacao": "Coleta 3656799 (“nenê turismo”) foi feita em B10, não em B7; manter observação, sem marcar esta opção como realizada.",
+      "realizados": [],
+      "outroFormulario": [
+        "3656799"
+      ]
+    },
+    {
+      "municipio": "Inajá",
+      "codigo": "B2-0147",
+      "questionario": "B2",
+      "atrativo": "Pizzaria Farrancho",
+      "observacao": "",
+      "realizados": [
+        "3520961"
+      ],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Inajá",
+      "codigo": "A2.1-0148",
+      "questionario": "A2.1",
+      "atrativo": "Praça Maria dos Prazeres",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Inajá",
+      "codigo": "A2.1-0149",
+      "questionario": "A2.1",
+      "atrativo": "Quilombo Enjeitado e Poço Dantas",
+      "observacao": "Confirmar se designa uma comunidade/território ou duas unidades distintas antes de desmembrar.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Inajá",
+      "codigo": "B2-0150",
+      "questionario": "B2",
+      "atrativo": "Restaurante Cheiro da Terra",
+      "observacao": "",
+      "realizados": [
+        "3639035"
+      ],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Inajá",
+      "codigo": "B2-0151",
+      "questionario": "B2",
+      "atrativo": "Restaurante e Pastelaria Central",
+      "observacao": "Coleta 3639028 (“pastelaria central”) conciliada por Bruno como o mesmo atrativo em 28/10/2026.",
+      "realizados": [
+        "3639028"
+      ],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Inajá",
+      "codigo": "A1-0152",
+      "questionario": "A1",
+      "atrativo": "Riacho Juazeiro e Riacho Coité",
+      "observacao": "Confirmar em campo se são dois cursos/atrativos distintos; desmembrar somente após identificação.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Inajá",
+      "codigo": "A1-0153",
+      "questionario": "A1",
+      "atrativo": "Rio Moxotó",
+      "observacao": "Coleta 3545603 (“Rio moxoto”) foi feita em B12, não em A1; manter observação, sem marcar esta opção como realizada.",
+      "realizados": [],
+      "outroFormulario": [
+        "3545603"
+      ]
+    },
+    {
+      "municipio": "Inajá",
+      "codigo": "B11-0154",
+      "questionario": "B11",
+      "atrativo": "Secretaria de Cultura, Turismo e Esporte",
+      "observacao": "Coleta 3547719 (“secretaria de cultura turismo e esporte”) foi feita em B9, não em B11; manter observação, sem marcar esta opção como realizada.",
+      "realizados": [],
+      "outroFormulario": [
+        "3547719"
+      ]
+    },
+    {
+      "municipio": "Inajá",
+      "codigo": "A1-0155",
+      "questionario": "A1",
+      "atrativo": "Serras e Trilhas (Serra Grande)",
+      "observacao": "Distinguir serra, trilhas e eventuais pontos de visitação; manter conjunto até identificação individual. Coleta 3476756 (“trilha serra grande”) foi feita em B12, não em A1; manter observação, sem marcar esta opção como realizada.",
+      "realizados": [],
+      "outroFormulario": [
+        "3476756"
+      ]
+    },
+    {
+      "municipio": "Inajá",
+      "codigo": "B2-0156",
+      "questionario": "B2",
+      "atrativo": "Silver Pizzaria",
+      "observacao": "",
+      "realizados": [
+        "3639016"
+      ],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Inajá",
+      "codigo": "C4-0157",
+      "questionario": "C4",
+      "atrativo": "Terminal Rodoviário de Inajá",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Inajá",
+      "codigo": "A2.1-0416",
+      "questionario": "A2.1",
+      "atrativo": "Comunidade Quilombola (identificar nome)",
+      "observacao": "Bruno esclareceu que se trata de comunidade quilombola. Coleta iPesquisa 3476850 foi em A2.3; A2.1 previsto para a comunidade não está realizado. Identificar nome próprio e conferir vínculo com Quilombo Enjeitado e Poço Dantas (0149).",
+      "realizados": [],
+      "outroFormulario": [
+        "3476850"
+      ]
+    },
+    {
+      "municipio": "Inajá",
+      "codigo": "B1-0417",
+      "questionario": "B1",
+      "atrativo": "Pousada Nossa Casa",
+      "observacao": "Coleta iPesquisa 3550684 em B1; nova referência oriunda do campo.",
+      "realizados": [
+        "3550684"
+      ],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Inajá",
+      "codigo": "B1-0418",
+      "questionario": "B1",
+      "atrativo": "Pousada Trevo",
+      "observacao": "Coleta iPesquisa 3604470 em B1. Hospedagem provável; confirmar nome/grafia antes de cadastrar opção no iPesquisa.",
+      "realizados": [
+        "3604470"
+      ],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Inajá",
+      "codigo": "B1-0419",
+      "questionario": "B1",
+      "atrativo": "Pousada Bigbem",
+      "observacao": "Coleta iPesquisa 3604674 em B1; confirmar grafia comercial.",
+      "realizados": [
+        "3604674"
+      ],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Inajá",
+      "codigo": "B2-0420",
+      "questionario": "B2",
+      "atrativo": "Salve Jorge",
+      "observacao": "Coleta iPesquisa 3539910 em B2; confirmar nome completo e tipo do estabelecimento.",
+      "realizados": [
+        "3539910"
+      ],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Inajá",
+      "codigo": "B2-0421",
+      "questionario": "B2",
+      "atrativo": "Restaurante de Dó",
+      "observacao": "Coleta iPesquisa 3604322 em B2; nova referência oriunda do campo.",
+      "realizados": [
+        "3604322"
+      ],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "A2.5-0158",
+      "questionario": "A2.5",
+      "atrativo": "Aniversário de Emancipação Política de Exu",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "A2.10-0159",
+      "questionario": "A2.10",
+      "atrativo": "Baião-de-dois",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "A2.10-0160",
+      "questionario": "A2.10",
+      "atrativo": "Bodega de João Barela",
+      "observacao": "Descrição aponta arquitetura civil (A2.1), mas 'bodega' pode ser comércio/alimentação (B2/B8). Confirmar uso e relevância do imóvel (manual p. 17, 33, 59, 78).",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "A2.10-0161",
+      "questionario": "A2.10",
+      "atrativo": "Buchada",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "A2.1-0162",
+      "questionario": "A2.1",
+      "atrativo": "Capela de São Francisco",
+      "observacao": "Condicional: constatar valor histórico/arquitetônico; sem evidência, consultar supervisão antes de concluir. Coleta 3560853 (“Capela de São Francisco de Assis da Chapada da União”) conciliada por Bruno como o mesmo atrativo em 28/10/2026.",
+      "realizados": [
+        "3560853"
+      ],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "B11-0162",
+      "questionario": "B11",
+      "atrativo": "Capela de São Francisco",
+      "observacao": "Registrar função atual de culto/apoio; não confundir com A2.1 histórico.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "B2-0163",
+      "questionario": "B2",
+      "atrativo": "Caraíbas Bar e Restaurante",
+      "observacao": "",
+      "realizados": [
+        "3567429"
+      ],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "A2.9-0164",
+      "questionario": "A2.9",
+      "atrativo": "Caretas de Viração",
+      "observacao": "Caretas nomeia manifestação; A2.3 exige grupo responsável identificado separadamente (manual p. 16, 41, 53).",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "B1-0165",
+      "questionario": "B1",
+      "atrativo": "Casa da Rosa – receptivo, trilhas, hospedagem e camping",
+      "observacao": "B1 para hospedagem/camping; confirmar se receptivo e trilhas são serviços autônomos que exigem outro formulário. Coleta 3468763 (“Pousada Casa da Rosa”) conciliada por Bruno como o mesmo atrativo em 28/10/2026.",
+      "realizados": [
+        "3468763"
+      ],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "A2.1-0166",
+      "questionario": "A2.1",
+      "atrativo": "Casa de Januário",
+      "observacao": "Coleta 3508234 (“Casa de Januário, pai de Luiz Gonzaga.”) conciliada por Bruno como o mesmo atrativo em 28/10/2026.",
+      "realizados": [
+        "3508234"
+      ],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "A2.1-0167",
+      "questionario": "A2.1",
+      "atrativo": "Casa Grande da Fazenda Caiçara",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "A2.1-0168",
+      "questionario": "A2.1",
+      "atrativo": "Casa Grande do Barão de Exu",
+      "observacao": "Coleta 3508232 (“Casa do Barão de Exu - Gualter Martiniano de Alencar Araripe”) conciliada por Bruno como o mesmo atrativo em 28/10/2026.",
+      "realizados": [
+        "3508232"
+      ],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "B9-0169",
+      "questionario": "B9",
+      "atrativo": "CAT Gonzaguinha – Centro de Atendimento ao Turista",
+      "observacao": "Coleta 3508227 (“CAT Gonzaguinha”) conciliada por Bruno como o mesmo atrativo em 28/10/2026.",
+      "realizados": [
+        "3508227"
+      ],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "A2.1-0170",
+      "questionario": "A2.1",
+      "atrativo": "Centro Cultural Chapada da União",
+      "observacao": "",
+      "realizados": [
+        "3560851"
+      ],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "A1-0171",
+      "questionario": "A1",
+      "atrativo": "Chapada do Araripe",
+      "observacao": "Bruno confirmou a Chapada em Exu e Bodocó; manter códigos municipais separados. A distinção entre Chapada e APA dentro de Bodocó segue pendente.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "B2-0172",
+      "questionario": "B2",
+      "atrativo": "Churrascaria de Bené",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "B2-0173",
+      "questionario": "B2",
+      "atrativo": "Churrascaria Itamaragi",
+      "observacao": "",
+      "realizados": [
+        "3466984"
+      ],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "B2-0174",
+      "questionario": "B2",
+      "atrativo": "Churrascaria Sabor do Sertão",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "A2.1-0175",
+      "questionario": "A2.1",
+      "atrativo": "Cineclube Gonzagão",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "B12-0176",
+      "questionario": "B12",
+      "atrativo": "Circuito das Pedras",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "A2.1-0177",
+      "questionario": "A2.1",
+      "atrativo": "Complexo Arqueogeológico Pedra do Caboclo",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "A1-0178",
+      "questionario": "A1",
+      "atrativo": "Cruz do Vaqueiro",
+      "observacao": "'Cruz' sugere monumento construído (A2.1), não atrativo natural A1. Confirmar natureza do local (manual p. 24, 33).",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "A1-0179",
+      "questionario": "A1",
+      "atrativo": "Desfiladeiro da Serra das Camarinhas",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "B2-0180",
+      "questionario": "B2",
+      "atrativo": "Donatos – Cuscuz e Pastelaria",
+      "observacao": "Coleta 3477764 (“Pastelaria Donattus - Nosso negócio é encher o 'buxo'”) conciliada por Bruno como o mesmo atrativo em 28/10/2026.",
+      "realizados": [
+        "3477764"
+      ],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "B5-0181",
+      "questionario": "B5",
+      "atrativo": "Encontro de Saberes da Caatinga",
+      "observacao": "'Encontro' parece evento A2.5; B5 é local físico. Confirmar se a linha nomeia evento ou espaço (manual p. 45, 70).",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "A1-0182",
+      "questionario": "A1",
+      "atrativo": "EREMITA – bushcraft, camping, hiking, trekking e outdoor",
+      "observacao": "Nome parece operador de atividades outdoor/camping, não formação natural. Confirmar se é serviço B3/B7/B1 e qual atividade efetivamente oferece (manual p. 24, 55, 63, 76). Coleta 3787906 (“Recanto do Eremita - bushcraft, camping, hiking, treking e outdoor”) conciliada por Bruno como o mesmo atrativo em 28/10/2026.",
+      "realizados": [
+        "3787906"
+      ],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "A2.1-0183",
+      "questionario": "A2.1",
+      "atrativo": "Espaço Cultural Parque Asa Branca",
+      "observacao": "Espaço cultural distinto do Museu do Gonzagão na mesma área; confirmar limites dos cadastros.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "A2.1-0184",
+      "questionario": "A2.1",
+      "atrativo": "Estátua de Luíz Gonzaga",
+      "observacao": "",
+      "realizados": [
+        "3508225"
+      ],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "A2.1-0185",
+      "questionario": "A2.1",
+      "atrativo": "Exu-Velho",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "A2.7-0186",
+      "questionario": "A2.7",
+      "atrativo": "Feira Livre de Exu",
+      "observacao": "Registrar a feira livre como conjunto.",
+      "realizados": [
+        "3478537"
+      ],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "B8-0186",
+      "questionario": "B8",
+      "atrativo": "Feira Livre de Exu",
+      "observacao": "Condicional: apenas atividade/estabelecimento de compras distinto da feira; não duplicar o mesmo objeto.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "A2.5-0187",
+      "questionario": "A2.5",
+      "atrativo": "Festa da Saudade (Agosto)",
+      "observacao": "Coleta 3560848 (“Festa da Saudade do Rei do Baião.”) conciliada por Bruno como o mesmo atrativo em 28/10/2026.",
+      "realizados": [
+        "3560848"
+      ],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "A2.5-0188",
+      "questionario": "A2.5",
+      "atrativo": "Festejos",
+      "observacao": "'Festejos' é genérico; identificar nome e ocasião do evento antes de criar opção A2.5 (manual p. 45).",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "A2.5-0189",
+      "questionario": "A2.5",
+      "atrativo": "Festival Viva Gonzagão (Dezembro)",
+      "observacao": "Coleta 3560847 (“Festival Viva Gonzagão”) conciliada por Bruno como o mesmo atrativo em 28/10/2026.",
+      "realizados": [
+        "3560847"
+      ],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "A2.10-0190",
+      "questionario": "A2.10",
+      "atrativo": "Galinha de Cabidela",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "B10-0191",
+      "questionario": "B10",
+      "atrativo": "Gontijo Transporte e Turismo",
+      "observacao": "Transportadora rodoviária é serviço B10; C4 descreve terminal/sistema rodoviário (manual p. 82, 97). Coleta 3466989 (“Agência Progresso/ Gontijo”) foi feita em C4, não em B10; manter observação, sem marcar esta opção como realizada.",
+      "realizados": [],
+      "outroFormulario": [
+        "3466989"
+      ]
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "A2.3-0192",
+      "questionario": "A2.3",
+      "atrativo": "Grupo de Reisado da Chapada",
+      "observacao": "A2.3 para o grupo. A2.9 requer manifestação identificada separadamente; não duplicar por inferência.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "A1-0193",
+      "questionario": "A1",
+      "atrativo": "Gruta Lagoa Seca",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "B10-0194",
+      "questionario": "B10",
+      "atrativo": "Guanabara Transporte e Turismo",
+      "observacao": "Transportadora rodoviária é serviço B10; C4 descreve terminal/sistema rodoviário (manual p. 82, 97). Coleta 3466985 (“Agência Pernambucana/Guanabara.”) foi feita em C4, não em B10; manter observação, sem marcar esta opção como realizada.",
+      "realizados": [],
+      "outroFormulario": [
+        "3466985"
+      ]
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "C3-0195",
+      "questionario": "C3",
+      "atrativo": "Hospital Municipal José Pinto Saraiva",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "A2.1-0196",
+      "questionario": "A2.1",
+      "atrativo": "Igreja de São João Batista do Araripe",
+      "observacao": "Condicional: constatar valor histórico/arquitetônico; sem evidência, consultar supervisão antes de concluir.",
+      "realizados": [
+        "3508231"
+      ],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "B11-0196",
+      "questionario": "B11",
+      "atrativo": "Igreja de São João Batista do Araripe",
+      "observacao": "Registrar função atual de culto/apoio; não confundir com A2.1 histórico.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "A2.1-0197",
+      "questionario": "A2.1",
+      "atrativo": "Igreja de São Sebastião e Nossa Senhora da Assunção",
+      "observacao": "Condicional: constatar valor histórico/arquitetônico; sem evidência, consultar supervisão antes de concluir.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "B11-0197",
+      "questionario": "B11",
+      "atrativo": "Igreja de São Sebastião e Nossa Senhora da Assunção",
+      "observacao": "Registrar função atual de culto/apoio; não confundir com A2.1 histórico.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "A2.1-0198",
+      "questionario": "A2.1",
+      "atrativo": "Igreja do Bom Jesus dos Aflitos",
+      "observacao": "Condicional: constatar valor histórico/arquitetônico; sem evidência, consultar supervisão antes de concluir. Coleta 3468761 (“Igreja Matriz do Bom Jesus dos Aflitos”) conciliada por Bruno como o mesmo atrativo em 28/10/2026.",
+      "realizados": [
+        "3468761"
+      ],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "B11-0198",
+      "questionario": "B11",
+      "atrativo": "Igreja do Bom Jesus dos Aflitos",
+      "observacao": "Registrar função atual de culto/apoio; não confundir com A2.1 histórico.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "A2.1-0199",
+      "questionario": "A2.1",
+      "atrativo": "Letreiro \"Eu Amo Exu\"",
+      "observacao": "",
+      "realizados": [
+        "3508226"
+      ],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "B2-0200",
+      "questionario": "B2",
+      "atrativo": "Lourdes do Palácio",
+      "observacao": "Coleta 3466988 (“Restaurante Lourdes do Palácio”) conciliada por Bruno como o mesmo atrativo em 28/10/2026.",
+      "realizados": [
+        "3466988"
+      ],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "A2.10-0201",
+      "questionario": "A2.10",
+      "atrativo": "Mão de Vaca",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "A2.1-0202",
+      "questionario": "A2.1",
+      "atrativo": "Marco da Cidade",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "A2.1-0203",
+      "questionario": "A2.1",
+      "atrativo": "Marco onde nasceu o Rei do Baião",
+      "observacao": "Coleta 3560850 (“Marco da casa que Luiz Gonzaga nasceu.”) conciliada por Bruno como o mesmo atrativo em 28/10/2026.",
+      "realizados": [
+        "3560850"
+      ],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "A2.1-0204",
+      "questionario": "A2.1",
+      "atrativo": "Memorial Histórico Cultural Antônio Saraiva Albuquerque",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "A2.1-0205",
+      "questionario": "A2.1",
+      "atrativo": "Memorial Sítio Cacimbinha",
+      "observacao": "",
+      "realizados": [
+        "3560882"
+      ],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "A1-0206",
+      "questionario": "A1",
+      "atrativo": "Mirante Meu Araripe (mirante, camping e trilhas)",
+      "observacao": "A1 para mirante natural e trilhas do mesmo ponto; se uma trilha for atrativo autônomo, identificá-la separadamente.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "B1-0206",
+      "questionario": "B1",
+      "atrativo": "Mirante Meu Araripe (mirante, camping e trilhas)",
+      "observacao": "Condicional: preencher B1 se houver camping operacional com estrutura/serviço de hospedagem; não concluir só pela menção no nome.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "A2.10-0207",
+      "questionario": "A2.10",
+      "atrativo": "Munguzá",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "A2.1-0208",
+      "questionario": "A2.1",
+      "atrativo": "Museu de Bárbara de Alencar",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "A2.1-0209",
+      "questionario": "A2.1",
+      "atrativo": "Museu do Gonzagão (Parque Asa Branca)",
+      "observacao": "Museu distinto do espaço cultural Parque Asa Branca; confirmar limites dos cadastros.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "A2.1-0210",
+      "questionario": "A2.1",
+      "atrativo": "Museu Oficina – Chico Aprígio",
+      "observacao": "Coleta 3567431 (“Museu Oficina Mestre Chico Aprígio”) conciliada por Bruno como o mesmo atrativo em 28/10/2026.",
+      "realizados": [
+        "3567431"
+      ],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "A2.1-0211",
+      "questionario": "A2.1",
+      "atrativo": "Museu Oficina – Mestre José Venceslau",
+      "observacao": "Coleta 3567430 (“Museu Oficina do Mestre Zé Venceslau”) conciliada por Bruno como o mesmo atrativo em 28/10/2026.",
+      "realizados": [
+        "3567430"
+      ],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "A2.1-0212",
+      "questionario": "A2.1",
+      "atrativo": "Museu Oficina – Tonho dos Couros",
+      "observacao": "Coleta 3567432 (“Museu Oficina Mestre Antônio dos Couros”) conciliada por Bruno como o mesmo atrativo em 28/10/2026.",
+      "realizados": [
+        "3567432"
+      ],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "A2.5-0213",
+      "questionario": "A2.5",
+      "atrativo": "Novenário de Nossa Senhora das Graças",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "A2.5-0214",
+      "questionario": "A2.5",
+      "atrativo": "Novenário do Bom Jesus dos Aflitos",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "B2-0215",
+      "questionario": "B2",
+      "atrativo": "Pão com Carne",
+      "observacao": "B2 mantido por Bruno; não tratar como gastronomia típica local A2.10. Coleta 3459752 (“Petiscaria Pão com Carne”) conciliada por Bruno como o mesmo atrativo em 28/10/2026.",
+      "realizados": [
+        "3459752"
+      ],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "B4-0216",
+      "questionario": "B4",
+      "atrativo": "Parque de Vaquejada Luiz Gonzaga",
+      "observacao": "B4 lista explicitamente parques de vaquejada/cavalhada (manual p. 66). Coleta 3508229 (“Parque de Vaquejada e Eventos Luiz Gonzaga.”) foi feita em A2.3, não em B4; manter observação, sem marcar esta opção como realizada.",
+      "realizados": [],
+      "outroFormulario": [
+        "3508229"
+      ]
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "A2.9-0217",
+      "questionario": "A2.9",
+      "atrativo": "Pastoril e Lapinha da Igreja de São Sebastião",
+      "observacao": "Pastoril/Lapinha nomeia manifestação; A2.3 exige grupo identificado separadamente (manual p. 16, 41, 53).",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "A1-0218",
+      "questionario": "A1",
+      "atrativo": "Pedra da Moça Encantada",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "A1-0219",
+      "questionario": "A1",
+      "atrativo": "Pedra da Pamonha",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "A1-0220",
+      "questionario": "A1",
+      "atrativo": "Pedra Preta ou Pedra da Princesa",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "A1-0221",
+      "questionario": "A1",
+      "atrativo": "Pico do Cabeça Redondo",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "A2.1-0222",
+      "questionario": "A2.1",
+      "atrativo": "Pórtico da Cidade",
+      "observacao": "Coleta 3508228 (“Prótico Luiz Gonzaga”) conciliada por Bruno como o mesmo atrativo em 28/10/2026.",
+      "realizados": [
+        "3508228"
+      ],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "B1-0223",
+      "questionario": "B1",
+      "atrativo": "Pousada Albuquerque",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "B1-0224",
+      "questionario": "B1",
+      "atrativo": "Pousada Estrada da Vida",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "B1-0225",
+      "questionario": "B1",
+      "atrativo": "Pousada J Alves",
+      "observacao": "",
+      "realizados": [
+        "3466982"
+      ],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "B1-0226",
+      "questionario": "B1",
+      "atrativo": "Pousada Lucena",
+      "observacao": "",
+      "realizados": [
+        "3466981"
+      ],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "B1-0227",
+      "questionario": "B1",
+      "atrativo": "Pousada Oliveira",
+      "observacao": "",
+      "realizados": [
+        "3478535"
+      ],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "B1-0228",
+      "questionario": "B1",
+      "atrativo": "Pousada Sabiá",
+      "observacao": "",
+      "realizados": [
+        "3468762"
+      ],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "A2.1-0229",
+      "questionario": "A2.1",
+      "atrativo": "Povoado de Tabocas",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "A2.1-0230",
+      "questionario": "A2.1",
+      "atrativo": "Praça Castelo Branco – Luíz Gonzaga",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "A2.1-0231",
+      "questionario": "A2.1",
+      "atrativo": "Praça de Eventos Francisco Miranda Parente",
+      "observacao": "Praça pode ser A2.1; se o cadastro se refere ao espaço de eventos equipado, avaliar B5. Confirmar finalidade (manual p. 33, 70). Coleta 3478538 (“Praça de Eventos Francisco Miranda Parente.”) foi feita em B5, não em A2.1; manter observação, sem marcar esta opção como realizada.",
+      "realizados": [],
+      "outroFormulario": [
+        "3478538"
+      ]
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "A2.1-0232",
+      "questionario": "A2.1",
+      "atrativo": "Praça João Batista",
+      "observacao": "Coleta 3478536 (“Praça Padre João Batista de Holanda.”) conciliada por Bruno como o mesmo atrativo em 28/10/2026.",
+      "realizados": [
+        "3478536"
+      ],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "A2.1-0233",
+      "questionario": "A2.1",
+      "atrativo": "Praça Luiz Gonzaga",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "B10-0234",
+      "questionario": "B10",
+      "atrativo": "Progresso Transporte e Turismo",
+      "observacao": "Transportadora rodoviária é serviço B10; C4 descreve terminal/sistema rodoviário (manual p. 82, 97). Coleta 3466989 (“Agência Progresso/ Gontijo”) foi feita em C4, não em B10; manter observação, sem marcar esta opção como realizada.",
+      "realizados": [],
+      "outroFormulario": [
+        "3466989"
+      ]
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "A2.10-0235",
+      "questionario": "A2.10",
+      "atrativo": "Queijaria Maná do Araripe (João)",
+      "observacao": "Nome identifica produtor/queijaria, não um queijo típico. Confirmar se é instalação cultural A2.1, venda B8 ou produto A2.10 (manual p. 17, 33, 54, 78).",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "A2.10-0236",
+      "questionario": "A2.10",
+      "atrativo": "Queijaria Nascimento (Márcio)",
+      "observacao": "Nome identifica produtor/queijaria, não um queijo típico. Confirmar se é instalação cultural A2.1, venda B8 ou produto A2.10 (manual p. 17, 33, 54, 78).",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "A2.10-0237",
+      "questionario": "A2.10",
+      "atrativo": "Queijos Costa (Eron)",
+      "observacao": "Nome identifica produtor/queijaria, não um queijo típico. Confirmar se é instalação cultural A2.1, venda B8 ou produto A2.10 (manual p. 17, 33, 54, 78).",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "A2.10-0238",
+      "questionario": "A2.10",
+      "atrativo": "Queijos Laureano (André)",
+      "observacao": "Nome identifica produtor/queijaria, não um queijo típico. Confirmar se é instalação cultural A2.1, venda B8 ou produto A2.10 (manual p. 17, 33, 54, 78).",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "B2-0239",
+      "questionario": "B2",
+      "atrativo": "Quiosque Asa Branca",
+      "observacao": "",
+      "realizados": [
+        "3442034"
+      ],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "B2-0240",
+      "questionario": "B2",
+      "atrativo": "Quiosque Dona Neuza",
+      "observacao": "",
+      "realizados": [
+        "3459750"
+      ],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "B2-0241",
+      "questionario": "B2",
+      "atrativo": "Quiosque Sabiá",
+      "observacao": "",
+      "realizados": [
+        "3459751"
+      ],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "B1-0242",
+      "questionario": "B1",
+      "atrativo": "Receptivo Duarte – Receptivo e Hospedagem",
+      "observacao": "B1 para hospedagem; confirmar se receptivo é serviço autônomo de agenciamento antes de prever B7. Coleta 3560852 (“Receptivo Duarte”) conciliada por Bruno como o mesmo atrativo em 28/10/2026.",
+      "realizados": [
+        "3560852"
+      ],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "B1-0243",
+      "questionario": "B1",
+      "atrativo": "Receptivo Flor do Araripe – Receptivo e Hospedagem",
+      "observacao": "B1 para hospedagem; confirmar se receptivo é serviço autônomo de agenciamento antes de prever B7. Coleta 3477763 (“Pousada e receptivo Flor do Araripe”) conciliada por Bruno como o mesmo atrativo em 28/10/2026.",
+      "realizados": [
+        "3477763"
+      ],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "B1-0244",
+      "questionario": "B1",
+      "atrativo": "Receptivo Pilar Residência – Receptivo e Hospedagem",
+      "observacao": "B1 para hospedagem; confirmar se receptivo é serviço autônomo de agenciamento antes de prever B7.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "B2-0245",
+      "questionario": "B2",
+      "atrativo": "Restaurante Pedra do Caboclo",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "B12-0246",
+      "questionario": "B12",
+      "atrativo": "Rota do Baião",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "B12-0247",
+      "questionario": "B12",
+      "atrativo": "Rota do Queijo",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "A1-0248",
+      "questionario": "A1",
+      "atrativo": "Santuário Ecológico do Cantarino",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "A2.9-0249",
+      "questionario": "A2.9",
+      "atrativo": "São Gonçalo de Viração",
+      "observacao": "São Gonçalo nomeia manifestação; A2.3 exige grupo identificado separadamente (manual p. 16, 41, 53).",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "B11-0250",
+      "questionario": "B11",
+      "atrativo": "Secretaria de Cultura, Turismo e Desportos",
+      "observacao": "",
+      "realizados": [
+        "3468760"
+      ],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "A1-0251",
+      "questionario": "A1",
+      "atrativo": "Sítio Mangueiras",
+      "observacao": "'Sítio Mangueiras' não identifica qual atrativo natural será inventariado. Confirmar formação, trilha ou paisagem específica (manual p. 24).",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "A2.1-0252",
+      "questionario": "A2.1",
+      "atrativo": "Trevo Meu Araripe",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "A1-0253",
+      "questionario": "A1",
+      "atrativo": "Trilha da Macambira",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "A1-0254",
+      "questionario": "A1",
+      "atrativo": "Trilha da Pedra do Boi",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "A1-0255",
+      "questionario": "A1",
+      "atrativo": "Trilha da Pedra do Sabonete",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "A1-0256",
+      "questionario": "A1",
+      "atrativo": "Trilha da Pedra Furada",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "A1-0257",
+      "questionario": "A1",
+      "atrativo": "Trilha Pedra das Lajes",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "A1-0258",
+      "questionario": "A1",
+      "atrativo": "Trilha Pedra do Afeto",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "A1-0259",
+      "questionario": "A1",
+      "atrativo": "Trilha Pedra do Caboclo",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "A1-0260",
+      "questionario": "A1",
+      "atrativo": "Trilha Pedra do Dente",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "A1-0261",
+      "questionario": "A1",
+      "atrativo": "Trilha Pedra do Lago",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "A2.5-0262",
+      "questionario": "A2.5",
+      "atrativo": "Vaquejada",
+      "observacao": "Vaquejada, se tratada como evento, enquadra-se em A2.5; parque de vaquejada físico é B4 (manual p. 45, 66).",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "A2.5-0411",
+      "questionario": "A2.5",
+      "atrativo": "4º Encontro de Tiradeiras de Renovação da Chapada da União",
+      "observacao": "Coleta iPesquisa 3560855 feita em A2.3; prever A2.5 por ser evento. Não contar o A2.5 como realizado; confirmar objeto e periodicidade.",
+      "realizados": [],
+      "outroFormulario": [
+        "3560855"
+      ]
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "B1-0412",
+      "questionario": "B1",
+      "atrativo": "Pousada Gonzaga",
+      "observacao": "Coleta iPesquisa 3466983 em B1; verificar se é unidade distinta de Pousada Gonzaga e Ana (0413).",
+      "realizados": [
+        "3466983"
+      ],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "B1-0413",
+      "questionario": "B1",
+      "atrativo": "Pousada Gonzaga e Ana",
+      "observacao": "Coleta iPesquisa 3466986 em B1; verificar se é unidade distinta de Pousada Gonzaga (0412).",
+      "realizados": [
+        "3466986"
+      ],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "A2.1-0414",
+      "questionario": "A2.1",
+      "atrativo": "Segunda Casa de Januário, pai de Luiz Gonzaga",
+      "observacao": "Coleta iPesquisa 3508233 em A2.1; não fundir automaticamente com Casa de Januário (0166).",
+      "realizados": [
+        "3508233"
+      ],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Exu",
+      "codigo": "A2.1-0415",
+      "questionario": "A2.1",
+      "atrativo": "Cineclube Araripe",
+      "observacao": "Coleta iPesquisa 3565255 em A2.1; não fundir automaticamente com Cineclube Gonzagão (0175).",
+      "realizados": [
+        "3565255"
+      ],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Dormentes",
+      "codigo": "A2.1-0263",
+      "questionario": "A2.1",
+      "atrativo": "Açude Lagoa Grande",
+      "observacao": "Confirmar estrutura construída e categoria interna de A2.1; se corpo natural, reavaliar A1.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Dormentes",
+      "codigo": "A2.1-0264",
+      "questionario": "A2.1",
+      "atrativo": "Açude Monte Orebe",
+      "observacao": "Confirmar estrutura construída e categoria interna de A2.1; se corpo natural, reavaliar A1.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Dormentes",
+      "codigo": "A2.3-0265",
+      "questionario": "A2.3",
+      "atrativo": "Banda de Pífano do Monte Orebe",
+      "observacao": "A2.3 para o grupo; A2.9 somente se manifestação identificada separadamente.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Dormentes",
+      "codigo": "A2.8-0266",
+      "questionario": "A2.8",
+      "atrativo": "Bonecas de pano",
+      "observacao": "Peça/técnica artesanal específica pertence a A2.8, não a folguedo ou folclore (manual p. 15, 51).",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Dormentes",
+      "codigo": "A2.1-0267",
+      "questionario": "A2.1",
+      "atrativo": "Capela de Nossa Senhora do Perpétuo Socorro",
+      "observacao": "Condicional: constatar valor histórico/arquitetônico; sem evidência, consultar supervisão antes de concluir.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Dormentes",
+      "codigo": "B11-0267",
+      "questionario": "B11",
+      "atrativo": "Capela de Nossa Senhora do Perpétuo Socorro",
+      "observacao": "Registrar função atual de culto/apoio; não confundir com A2.1 histórico.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Dormentes",
+      "codigo": "A1-0268",
+      "questionario": "A1",
+      "atrativo": "Casa de Pedra",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Dormentes",
+      "codigo": "A2.1-0269",
+      "questionario": "A2.1",
+      "atrativo": "Centro Cultural e Memorial Geomarco Coelho de Sousa",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Dormentes",
+      "codigo": "A2.8-0270",
+      "questionario": "A2.8",
+      "atrativo": "Cestaria em palha de milho",
+      "observacao": "Peça/técnica artesanal específica pertence a A2.8, não a folguedo ou folclore (manual p. 15, 51).",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Dormentes",
+      "codigo": "B2-0271",
+      "questionario": "B2",
+      "atrativo": "Churrascaria Nordestina",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Dormentes",
+      "codigo": "B2-0272",
+      "questionario": "B2",
+      "atrativo": "Churrascaria Ponto da Devassa",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Dormentes",
+      "codigo": "A2.1-0273",
+      "questionario": "A2.1",
+      "atrativo": "Cruzeiro do Monte Orebe",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Dormentes",
+      "codigo": "C2-0274",
+      "questionario": "C2",
+      "atrativo": "Delegacia de Polícia da 217ª Circunscrição",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Dormentes",
+      "codigo": "C2-0275",
+      "questionario": "C2",
+      "atrativo": "Destacamento da Polícia Militar",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Dormentes",
+      "codigo": "B4-0276",
+      "questionario": "B4",
+      "atrativo": "Estádio Olimpão",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Dormentes",
+      "codigo": "B2-0277",
+      "questionario": "B2",
+      "atrativo": "Fazenda Nossa Senhora Aparecida",
+      "observacao": "'Fazenda' não demonstra serviço de alimentação B2. Confirmar restaurante aberto ao público ou reclassificar a instalação (manual p. 59).",
+      "realizados": [
+        "3513494"
+      ],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Dormentes",
+      "codigo": "A2.7-0278",
+      "questionario": "A2.7",
+      "atrativo": "Feira de Animais",
+      "observacao": "Feira de Animais é distinta da Feira na Praça (ID 0279), conforme Bruno. Confirmar se é feira livre recorrente A2.7 ou exposição/feira temporária A2.4 (manual p. 16, 43, 49).",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Dormentes",
+      "codigo": "A2.7-0279",
+      "questionario": "A2.7",
+      "atrativo": "Feira na Praça",
+      "observacao": "Feira na Praça consolida a feira das linhas 18 e 30 por orientação de Bruno; confirmar identidade em campo. Distinta da Feira de Animais (ID 0278).",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Dormentes",
+      "codigo": "B8-0279",
+      "questionario": "B8",
+      "atrativo": "Feira na Praça",
+      "observacao": "B8 condicional: somente atividade/estabelecimento de compras distinto da feira; confirmar em campo. Não criar outra opção Feira de Dormentes.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Dormentes",
+      "codigo": "B4-0280",
+      "questionario": "B4",
+      "atrativo": "Ginásio Poliesportivo Francinildo Antônio Albuquerque Rodrigues",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Dormentes",
+      "codigo": "C3-0281",
+      "questionario": "C3",
+      "atrativo": "Hospital Municipal Nossa Senhora da Paz",
+      "observacao": "Coleta 3513850 (“HOSPITAL NOSSA SENHORA DA PAZ”) conciliada por Bruno como o mesmo atrativo em 28/10/2026.",
+      "realizados": [
+        "3513850"
+      ],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Dormentes",
+      "codigo": "A2.1-0282",
+      "questionario": "A2.1",
+      "atrativo": "Igreja de São José",
+      "observacao": "Condicional: constatar valor histórico/arquitetônico; sem evidência, consultar supervisão antes de concluir.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Dormentes",
+      "codigo": "B11-0282",
+      "questionario": "B11",
+      "atrativo": "Igreja de São José",
+      "observacao": "Registrar função atual de culto/apoio; não confundir com A2.1 histórico.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Dormentes",
+      "codigo": "A2.8-0283",
+      "questionario": "A2.8",
+      "atrativo": "Miniaturas de carros em madeira",
+      "observacao": "Peça/técnica artesanal específica pertence a A2.8, não a folguedo ou folclore (manual p. 15, 51).",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Dormentes",
+      "codigo": "A1-0284",
+      "questionario": "A1",
+      "atrativo": "Mirante do Monte Orebe",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Dormentes",
+      "codigo": "A1-0285",
+      "questionario": "A1",
+      "atrativo": "Monte Orebe",
+      "observacao": "Coleta 3514046 (“Morro do Monte Orebe”) foi feita em A2.1, não em A1; manter observação, sem marcar esta opção como realizada.",
+      "realizados": [],
+      "outroFormulario": [
+        "3514046"
+      ]
+    },
+    {
+      "municipio": "Dormentes",
+      "codigo": "A2.1-0286",
+      "questionario": "A2.1",
+      "atrativo": "Museu Casa da Roça",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Dormentes",
+      "codigo": "B5-0287",
+      "questionario": "B5",
+      "atrativo": "Pátio de Feiras e Eventos Ervércio Coelho de Macedo",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Dormentes",
+      "codigo": "A1-0288",
+      "questionario": "A1",
+      "atrativo": "Pedra da Letra",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Dormentes",
+      "codigo": "A1-0289",
+      "questionario": "A1",
+      "atrativo": "Pedra de Cal",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Dormentes",
+      "codigo": "B1-0290",
+      "questionario": "B1",
+      "atrativo": "Pousada Avenida",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Dormentes",
+      "codigo": "A2.1-0291",
+      "questionario": "A2.1",
+      "atrativo": "Praça da Matriz e Centro",
+      "observacao": "A2.1 para a praça física. A feira citada na mesma fonte (linha 30) foi conciliada com Feira na Praça (ID 0279); confirmar identidade em campo.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Dormentes",
+      "codigo": "A2.1-0292",
+      "questionario": "A2.1",
+      "atrativo": "Praça Francisco Machado",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Dormentes",
+      "codigo": "B1-0293",
+      "questionario": "B1",
+      "atrativo": "Reis Hotel",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Dormentes",
+      "codigo": "B2-0294",
+      "questionario": "B2",
+      "atrativo": "Restaurante Chico de Rosa",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Dormentes",
+      "codigo": "A1-0295",
+      "questionario": "A1",
+      "atrativo": "Riacho Amarante",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Dormentes",
+      "codigo": "A1-0296",
+      "questionario": "A1",
+      "atrativo": "Riacho Baixa das Aroeiras",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Dormentes",
+      "codigo": "A1-0297",
+      "questionario": "A1",
+      "atrativo": "Riacho Baixa de São Bento",
+      "observacao": "Verificar se é curso distinto de Riacho São Bento (ID 0308); manter IDs separados até confirmação.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Dormentes",
+      "codigo": "A1-0298",
+      "questionario": "A1",
+      "atrativo": "Riacho Baixa do Cal",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Dormentes",
+      "codigo": "A1-0299",
+      "questionario": "A1",
+      "atrativo": "Riacho da Água Preta",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Dormentes",
+      "codigo": "A1-0300",
+      "questionario": "A1",
+      "atrativo": "Riacho da Caipora",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Dormentes",
+      "codigo": "A1-0301",
+      "questionario": "A1",
+      "atrativo": "Riacho da Melancia",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Dormentes",
+      "codigo": "A1-0302",
+      "questionario": "A1",
+      "atrativo": "Riacho da Roça",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Dormentes",
+      "codigo": "A1-0303",
+      "questionario": "A1",
+      "atrativo": "Riacho das Lagoas",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Dormentes",
+      "codigo": "A1-0304",
+      "questionario": "A1",
+      "atrativo": "Riacho do Dormente",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Dormentes",
+      "codigo": "A1-0305",
+      "questionario": "A1",
+      "atrativo": "Riacho do Medubim",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Dormentes",
+      "codigo": "A1-0306",
+      "questionario": "A1",
+      "atrativo": "Riacho do Poço Barreiro",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Dormentes",
+      "codigo": "A1-0307",
+      "questionario": "A1",
+      "atrativo": "Riacho Porto da Prensa",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Dormentes",
+      "codigo": "A1-0308",
+      "questionario": "A1",
+      "atrativo": "Riacho São Bento",
+      "observacao": "Verificar se é curso distinto de Riacho Baixa de São Bento (ID 0297); manter IDs separados até confirmação.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Dormentes",
+      "codigo": "A1-0309",
+      "questionario": "A1",
+      "atrativo": "Riacho São Domingos",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Dormentes",
+      "codigo": "B11-0310",
+      "questionario": "B11",
+      "atrativo": "Secretaria de Cultura, Turismo e Esportes (SECTUR)",
+      "observacao": "Secretaria é órgão oficial de turismo, previsto em B11; B9 é CAT/centro de atendimento (manual p. 80, 85).",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Dormentes",
+      "codigo": "C4-0311",
+      "questionario": "C4",
+      "atrativo": "Terminal Rodoviário de Dormentes",
+      "observacao": "Terminal rodoviário é infraestrutura C4; B10 é serviço/transportadora (manual p. 82, 97).",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Dormentes",
+      "codigo": "C3-0312",
+      "questionario": "C3",
+      "atrativo": "Unidade Básica do SAMU (192)",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Dormentes",
+      "codigo": "C3-0410",
+      "questionario": "C3",
+      "atrativo": "Policlínica Geomarco Coelho de Sousa",
+      "observacao": "Coleta iPesquisa 3514003 em C3; nova referência oriunda do campo.",
+      "realizados": [
+        "3514003"
+      ],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Itacuruba",
+      "codigo": "A2.1-0313",
+      "questionario": "A2.1",
+      "atrativo": "Aldeia Serrote dos Campos",
+      "observacao": "Aldeia/comunidade e Serrote dos Campos (A1) são objetos distintos; confirmar vínculo e autorização para registro da comunidade.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Itacuruba",
+      "codigo": "A2.1-0314",
+      "questionario": "A2.1",
+      "atrativo": "Antiga Sede",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Itacuruba",
+      "codigo": "A2.10-0315",
+      "questionario": "A2.10",
+      "atrativo": "Baião de Dois",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Itacuruba",
+      "codigo": "A2.8-0316",
+      "questionario": "A2.8",
+      "atrativo": "Bordado",
+      "observacao": "A2.8 corresponde a bordado, mas a descrição diz 'Manifestações Populares'. Corrigir descrição (manual p. 51).",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Itacuruba",
+      "codigo": "A2.10-0317",
+      "questionario": "A2.10",
+      "atrativo": "Buchada",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Itacuruba",
+      "codigo": "A2.1-0318",
+      "questionario": "A2.1",
+      "atrativo": "Centro de Observação Astronômica do Sertão de Itaparica (OASI)",
+      "observacao": "Observatório científico; distinguir do mirante adjacente (linha 22).",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Itacuruba",
+      "codigo": "A2.1-0319",
+      "questionario": "A2.1",
+      "atrativo": "Cruzeiro",
+      "observacao": "Cruzeiro construído; distinguir do Morro do Cruzeiro (A1, linha 23).",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Itacuruba",
+      "codigo": "A2.10-0320",
+      "questionario": "A2.10",
+      "atrativo": "Cuscuz",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Itacuruba",
+      "codigo": "A2.9-0321",
+      "questionario": "A2.9",
+      "atrativo": "Dança do Toré",
+      "observacao": "'Dança do Toré' é manifestação; A2.3 exige grupo identificado separadamente (manual p. 16, 41, 53).",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Itacuruba",
+      "codigo": "C2-0322",
+      "questionario": "C2",
+      "atrativo": "Delegacia de Polícia da 192ª Circunscrição (Polícia Civil)",
+      "observacao": "Coleta 3441462 (“Delegacia de Polícia da 192ª Circunscrição (Polícia Civil) - ITACURUBA - PE”) conciliada por Bruno como o mesmo atrativo em 28/10/2026.",
+      "realizados": [
+        "3441462"
+      ],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Itacuruba",
+      "codigo": "A2.10-0323",
+      "questionario": "A2.10",
+      "atrativo": "Doce de Batata doce",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Itacuruba",
+      "codigo": "A2.10-0324",
+      "questionario": "A2.10",
+      "atrativo": "Doce de Coco Verde",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Itacuruba",
+      "codigo": "A2.10-0325",
+      "questionario": "A2.10",
+      "atrativo": "Doce de Leite",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Itacuruba",
+      "codigo": "A1-0326",
+      "questionario": "A1",
+      "atrativo": "Encontro dos rios Pajeú e São Francisco",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Itacuruba",
+      "codigo": "B4-0327",
+      "questionario": "B4",
+      "atrativo": "Estádio de Futebol Gaudêncio",
+      "observacao": "",
+      "realizados": [
+        "3461288"
+      ],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Itacuruba",
+      "codigo": "A2.7-0328",
+      "questionario": "A2.7",
+      "atrativo": "Feira livre de Itacuruba",
+      "observacao": "Registrar a feira livre como conjunto; B8 só se houver compras distintas.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Itacuruba",
+      "codigo": "B8-0328",
+      "questionario": "B8",
+      "atrativo": "Feira livre de Itacuruba",
+      "observacao": "Condicional: apenas estabelecimento/atividade de compras distinta da feira; não duplicar A2.7.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Itacuruba",
+      "codigo": "A2.1-0329",
+      "questionario": "A2.1",
+      "atrativo": "Igreja Nossa Senhora do Ó",
+      "observacao": "Condicional: constatar valor histórico/arquitetônico antes de concluir; sem evidência, consultar supervisão.",
+      "realizados": [
+        "3462087"
+      ],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Itacuruba",
+      "codigo": "B11-0329",
+      "questionario": "B11",
+      "atrativo": "Igreja Nossa Senhora do Ó",
+      "observacao": "Registrar função atual de culto/apoio.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Itacuruba",
+      "codigo": "A1-0330",
+      "questionario": "A1",
+      "atrativo": "Ilha do Coité",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Itacuruba",
+      "codigo": "A2.1-0331",
+      "questionario": "A2.1",
+      "atrativo": "Ingazeira",
+      "observacao": "'Ingazeira' é nome ambíguo para a categoria de povos/comunidades. Confirmar se designa comunidade, localidade ou formação natural (manual p. 24, 33).",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Itacuruba",
+      "codigo": "A2.1-0332",
+      "questionario": "A2.1",
+      "atrativo": "Mini Cristo Redentor",
+      "observacao": "",
+      "realizados": [
+        "3462013"
+      ],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Itacuruba",
+      "codigo": "A2.1-0333",
+      "questionario": "A2.1",
+      "atrativo": "Mirante do Observatório (OASI)",
+      "observacao": "A2.1 provisório: confirmar mirante construído/belvedere; se natural, reclassificar A1. Distinguir do observatório (linha 7). (manual p. 24, 33). Coleta 3441440 (“Mirante do Observatório, localizado ao lado Centro de Observação Astronômica do Sertão de Itaparica (OASI)”) conciliada por Bruno como o mesmo atrativo em 28/10/2026.",
+      "realizados": [
+        "3441440"
+      ],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Itacuruba",
+      "codigo": "A1-0334",
+      "questionario": "A1",
+      "atrativo": "Morro do Cruzeiro",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Itacuruba",
+      "codigo": "A2.10-0335",
+      "questionario": "A2.10",
+      "atrativo": "Mungunzá",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Itacuruba",
+      "codigo": "A2.10-0336",
+      "questionario": "A2.10",
+      "atrativo": "Mungunzá Salgado",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Itacuruba",
+      "codigo": "A2.1-0337",
+      "questionario": "A2.1",
+      "atrativo": "Negros de Gilú",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Itacuruba",
+      "codigo": "A2.5-0338",
+      "questionario": "A2.5",
+      "atrativo": "Nossa Senhora Aparecida (evento de 12 de outubro)",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Itacuruba",
+      "codigo": "A2.5-0339",
+      "questionario": "A2.5",
+      "atrativo": "Novenário Nossa Senhora do Ó (8 a 18 de dezembro)",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Itacuruba",
+      "codigo": "A2.1-0340",
+      "questionario": "A2.1",
+      "atrativo": "Parque Ialter Rocha Cantarelli",
+      "observacao": "A2.1 provisório; se parque público de lazer, reavaliar B3 (manual p. 33, 63). Coleta 3461898 (“Parque Ialter Rocha Cantarelli”) foi feita em B4, não em A2.1; manter observação, sem marcar esta opção como realizada.",
+      "realizados": [],
+      "outroFormulario": [
+        "3461898"
+      ]
+    },
+    {
+      "municipio": "Itacuruba",
+      "codigo": "B3-0341",
+      "questionario": "B3",
+      "atrativo": "Passeios de Barco pelo Rio São Francisco",
+      "observacao": "Confirmar serviço de passeio/lazer; transporte turístico como atividade distinta exigiria avaliação de B10.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Itacuruba",
+      "codigo": "A2.8-0342",
+      "questionario": "A2.8",
+      "atrativo": "Peças em Cerâmica",
+      "observacao": "A2.8 corresponde a peças em cerâmica, mas a descrição diz 'Manifestações Populares'. Corrigir descrição (manual p. 51).",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Itacuruba",
+      "codigo": "A2.3-0343",
+      "questionario": "A2.3",
+      "atrativo": "Penitentes",
+      "observacao": "Condicional: apenas grupo de penitentes identificado separadamente do rito; confirmar em campo.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Itacuruba",
+      "codigo": "A2.9-0343",
+      "questionario": "A2.9",
+      "atrativo": "Penitentes",
+      "observacao": "Registrar manifestação/rito dos penitentes; distinguir de eventual grupo A2.3.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Itacuruba",
+      "codigo": "A2.1-0344",
+      "questionario": "A2.1",
+      "atrativo": "Poço dos Cavalos",
+      "observacao": "A2.1 provisório; confirmar se é comunidade, patrimônio construído ou local natural (A1). Não concluir sem identificação (manual p. 24, 33).",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Itacuruba",
+      "codigo": "C2-0345",
+      "questionario": "C2",
+      "atrativo": "Polícia Militar de Pernambuco - Pelotão Itacuruba",
+      "observacao": "Coleta 3441389 (“POLÍCIA MILITAR DE PERNAMBUCO - 2 PELOTÃO DE ITACURUBA - 1CIPM PMPE”) conciliada por Bruno como o mesmo atrativo em 28/10/2026.",
+      "realizados": [
+        "3441389"
+      ],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Itacuruba",
+      "codigo": "A2.1-0346",
+      "questionario": "A2.1",
+      "atrativo": "Povo Indígena Atikum Umã",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Itacuruba",
+      "codigo": "A2.1-0347",
+      "questionario": "A2.1",
+      "atrativo": "Povo Indígena Tuxá Campos (Aldeia Serra do Jatinã)",
+      "observacao": "Comunidade indígena e Serra do Jatinã (A1) são objetos distintos; confirmar vínculo e autorização para registro.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Itacuruba",
+      "codigo": "A2.1-0348",
+      "questionario": "A2.1",
+      "atrativo": "Povo Indígena Tuxá Pajeú",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Itacuruba",
+      "codigo": "A2.1-0349",
+      "questionario": "A2.1",
+      "atrativo": "Praça da Avenida Central",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Itacuruba",
+      "codigo": "A2.1-0350",
+      "questionario": "A2.1",
+      "atrativo": "Praça da Criança",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Itacuruba",
+      "codigo": "A2.1-0351",
+      "questionario": "A2.1",
+      "atrativo": "Praça da Matriz",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Itacuruba",
+      "codigo": "A2.1-0352",
+      "questionario": "A2.1",
+      "atrativo": "Praça de Eventos",
+      "observacao": "A2.1 provisório para a praça; se houver espaço de eventos autônomo, avaliar B5 separadamente (manual p. 33, 70).",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Itacuruba",
+      "codigo": "A2.1-0353",
+      "questionario": "A2.1",
+      "atrativo": "Praça Emília Rufina Cantarelli",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Itacuruba",
+      "codigo": "A2.1-0354",
+      "questionario": "A2.1",
+      "atrativo": "Praça Manoel Touro",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Itacuruba",
+      "codigo": "A2.9-0356",
+      "questionario": "A2.9",
+      "atrativo": "São Gonçalo",
+      "observacao": "São Gonçalo nomeia manifestação; A2.3 exige grupo identificado separadamente (manual p. 16, 41, 53). Coleta 3664154 (“São Gonçalo - Atração cultural religiosa”) foi feita em A2.5, não em A2.9; manter observação, sem marcar esta opção como realizada.",
+      "realizados": [],
+      "outroFormulario": [
+        "3664154"
+      ]
+    },
+    {
+      "municipio": "Itacuruba",
+      "codigo": "B11-0357",
+      "questionario": "B11",
+      "atrativo": "Secretaria de Cultura, Turismo e Esportes",
+      "observacao": "",
+      "realizados": [
+        "3441295"
+      ],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Itacuruba",
+      "codigo": "A1-0358",
+      "questionario": "A1",
+      "atrativo": "Serra do Jatinã",
+      "observacao": "Coleta 3664156 (“Serra do Jatinã - Serra da Santa”) foi feita em A2.5, não em A1; manter observação, sem marcar esta opção como realizada.",
+      "realizados": [],
+      "outroFormulario": [
+        "3664156"
+      ]
+    },
+    {
+      "municipio": "Itacuruba",
+      "codigo": "A1-0359",
+      "questionario": "A1",
+      "atrativo": "Serrinha",
+      "observacao": "Serrinha e Trilha da Serrinha (linha 54) podem ser formação e percurso distintos; verificar em campo.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Itacuruba",
+      "codigo": "A1-0360",
+      "questionario": "A1",
+      "atrativo": "Serrote dos Campos",
+      "observacao": "Serrote natural e Aldeia Serrote dos Campos (linha 2) são objetos distintos.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Itacuruba",
+      "codigo": "A2.8-0361",
+      "questionario": "A2.8",
+      "atrativo": "Tecelagem",
+      "observacao": "Tecelagem é tipo de artesanato no A2.8, não folguedo ou manifestação (manual p. 15, 51).",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Itacuruba",
+      "codigo": "C4-0362",
+      "questionario": "C4",
+      "atrativo": "Terminal Rodoviário de Itacuruba",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Itacuruba",
+      "codigo": "A2.5-0363",
+      "questionario": "A2.5",
+      "atrativo": "Missa do Vaqueiro de agosto",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Itacuruba",
+      "codigo": "A2.5-0364",
+      "questionario": "A2.5",
+      "atrativo": "Tríduo de Santo Antônio (15 de junho)",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Itacuruba",
+      "codigo": "A1-0365",
+      "questionario": "A1",
+      "atrativo": "Trilha da Serrinha",
+      "observacao": "Trilha e Serrinha (linha 48) podem ser percurso e formação distintos; verificar em campo.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Itacuruba",
+      "codigo": "C3-0366",
+      "questionario": "C3",
+      "atrativo": "Unidade Mista Dr. Manoel Novaes - Urgência e Emergência",
+      "observacao": "Coleta 3418583 (“HOSPITAL - Unidade Mista Dr. Manoel Novaes - Urgência e Emergência”) conciliada por Bruno como o mesmo atrativo em 28/10/2026.",
+      "realizados": [
+        "3418583"
+      ],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Itacuruba",
+      "codigo": "A2.10-0422",
+      "questionario": "A2.10",
+      "atrativo": "Tripa Assada",
+      "observacao": "Coleta iPesquisa 3461959 em A2.10; confirmar se é preparação típica local (manual p. 54).",
+      "realizados": [
+        "3461959"
+      ],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Belém do São Francisco",
+      "codigo": "A2.1-0368",
+      "questionario": "A2.1",
+      "atrativo": "Bica do Porto da Barra",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Belém do São Francisco",
+      "codigo": "A2.1-0369",
+      "questionario": "A2.1",
+      "atrativo": "Bica do Tadeu",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Belém do São Francisco",
+      "codigo": "A2.3-0370",
+      "questionario": "A2.3",
+      "atrativo": "Bonecos Gigantes",
+      "observacao": "Condicional: somente se grupo/apresentadores dos Bonecos Gigantes forem identificados; se artefato artesanal, reavaliar A2.8.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Belém do São Francisco",
+      "codigo": "A2.9-0370",
+      "questionario": "A2.9",
+      "atrativo": "Bonecos Gigantes",
+      "observacao": "Condicional: somente se houver manifestação cultural identificada; distinguir de grupo A2.3 e artefato A2.8.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Belém do São Francisco",
+      "codigo": "A2.10-0371",
+      "questionario": "A2.10",
+      "atrativo": "Buchada",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Belém do São Francisco",
+      "codigo": "A2.10-0372",
+      "questionario": "A2.10",
+      "atrativo": "Carne de Bode",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Belém do São Francisco",
+      "codigo": "A2.1-0373",
+      "questionario": "A2.1",
+      "atrativo": "Casarios",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Belém do São Francisco",
+      "codigo": "A2.1-0374",
+      "questionario": "A2.1",
+      "atrativo": "Cemitério Antigo (Ruínas)",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Belém do São Francisco",
+      "codigo": "A2.9-0375",
+      "questionario": "A2.9",
+      "atrativo": "Dança de São Gonçalo",
+      "observacao": "Dança de São Gonçalo nomeia manifestação; A2.3 exige grupo identificado separadamente (manual p. 16, 41, 53).",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Belém do São Francisco",
+      "codigo": "B4-0376",
+      "questionario": "B4",
+      "atrativo": "Estádio Geraldo Lustosa",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Belém do São Francisco",
+      "codigo": "A2.5-0377",
+      "questionario": "A2.5",
+      "atrativo": "Festa de São Pedro",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Belém do São Francisco",
+      "codigo": "A2.10-0379",
+      "questionario": "A2.10",
+      "atrativo": "Galinha de Capoeira",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Belém do São Francisco",
+      "codigo": "A2.1-0380",
+      "questionario": "A2.1",
+      "atrativo": "Igreja de Nossa Senhora do Patrocínio",
+      "observacao": "Condicional: constatar valor histórico/arquitetônico antes de concluir; sem evidência, consultar supervisão.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Belém do São Francisco",
+      "codigo": "B11-0380",
+      "questionario": "B11",
+      "atrativo": "Igreja de Nossa Senhora do Patrocínio",
+      "observacao": "Registrar uso atual como espaço de culto/apoio.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Belém do São Francisco",
+      "codigo": "A2.1-0381",
+      "questionario": "A2.1",
+      "atrativo": "Igreja de Nossa Senhora do Perpétuo Socorro",
+      "observacao": "Condicional: constatar valor histórico/arquitetônico antes de concluir; sem evidência, consultar supervisão.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Belém do São Francisco",
+      "codigo": "B11-0381",
+      "questionario": "B11",
+      "atrativo": "Igreja de Nossa Senhora do Perpétuo Socorro",
+      "observacao": "Registrar uso atual como espaço de culto/apoio.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Belém do São Francisco",
+      "codigo": "A2.1-0382",
+      "questionario": "A2.1",
+      "atrativo": "Igreja do Menino Jesus de Praga",
+      "observacao": "Condicional: constatar valor histórico/arquitetônico antes de concluir; sem evidência, consultar supervisão.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Belém do São Francisco",
+      "codigo": "B11-0382",
+      "questionario": "B11",
+      "atrativo": "Igreja do Menino Jesus de Praga",
+      "observacao": "Registrar uso atual como espaço de culto/apoio.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Belém do São Francisco",
+      "codigo": "A2.1-0383",
+      "questionario": "A2.1",
+      "atrativo": "Igreja do Senhor do Bonfim",
+      "observacao": "Condicional: constatar valor histórico/arquitetônico antes de concluir; sem evidência, consultar supervisão.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Belém do São Francisco",
+      "codigo": "B11-0383",
+      "questionario": "B11",
+      "atrativo": "Igreja do Senhor do Bonfim",
+      "observacao": "Registrar uso atual como espaço de culto/apoio.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Belém do São Francisco",
+      "codigo": "A2.1-0384",
+      "questionario": "A2.1",
+      "atrativo": "IPA - Estação Experimental de Belém do São Francisco",
+      "observacao": "Confirmar função/visitação turística da estação experimental; A2.1 não decorre automaticamente do nome.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Belém do São Francisco",
+      "codigo": "A2.9-0385",
+      "questionario": "A2.9",
+      "atrativo": "Malhação de Judas",
+      "observacao": "Malhação de Judas nomeia manifestação; A2.3 exige grupo identificado separadamente (manual p. 16, 41, 53).",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Belém do São Francisco",
+      "codigo": "A2.1-0386",
+      "questionario": "A2.1",
+      "atrativo": "Marco da Cidade",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Belém do São Francisco",
+      "codigo": "A2.1-0387",
+      "questionario": "A2.1",
+      "atrativo": "Memorial Zé Pereira e Vitalina",
+      "observacao": "Memorial distinto da Folia (linha 13); cadastrar o espaço físico em A2.1.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Belém do São Francisco",
+      "codigo": "A2.7-0388",
+      "questionario": "A2.7",
+      "atrativo": "Mercado Público Municipal",
+      "observacao": "A2.7 para mercado público como conjunto; B8 somente se houver comércio/estabelecimento distinto, não duplicar automaticamente.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Belém do São Francisco",
+      "codigo": "A2.5-0389",
+      "questionario": "A2.5",
+      "atrativo": "Movimento Serenata & Eu",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Belém do São Francisco",
+      "codigo": "A2.1-0390",
+      "questionario": "A2.1",
+      "atrativo": "Museu Elísio Caribé",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Belém do São Francisco",
+      "codigo": "A2.1-0391",
+      "questionario": "A2.1",
+      "atrativo": "Orla de Belém do São Francisco",
+      "observacao": "Orla construída distinta do Rio São Francisco natural (linha 38).",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Belém do São Francisco",
+      "codigo": "B3-0392",
+      "questionario": "B3",
+      "atrativo": "Passeios de Barco",
+      "observacao": "Confirmar serviço de lazer/passeio; transporte turístico como atividade distinta exigiria avaliar B10.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Belém do São Francisco",
+      "codigo": "A2.9-0393",
+      "questionario": "A2.9",
+      "atrativo": "Pastoril",
+      "observacao": "Pastoril nomeia manifestação; A2.3 exige grupo identificado separadamente (manual p. 16, 41, 53).",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Belém do São Francisco",
+      "codigo": "A2.10-0394",
+      "questionario": "A2.10",
+      "atrativo": "Peixe",
+      "observacao": "'Peixe' é genérico; identificar prato/produto ou preparo típico antes de cadastrar/concluir A2.10.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Belém do São Francisco",
+      "codigo": "A2.1-0395",
+      "questionario": "A2.1",
+      "atrativo": "Postais da Cidade",
+      "observacao": "Confirmar se são peças/obras, instalação cultural ou outro objeto; A2.1 provisório até identificar em campo.",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Belém do São Francisco",
+      "codigo": "C3-0396",
+      "questionario": "C3",
+      "atrativo": "Posto de Saúde PSF Beira Rio",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Belém do São Francisco",
+      "codigo": "A2.1-0397",
+      "questionario": "A2.1",
+      "atrativo": "Praça Acioly Roriz",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Belém do São Francisco",
+      "codigo": "A2.1-0398",
+      "questionario": "A2.1",
+      "atrativo": "Praça Antônio Teodósio",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Belém do São Francisco",
+      "codigo": "A2.1-0399",
+      "questionario": "A2.1",
+      "atrativo": "Praça da Bandeira",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Belém do São Francisco",
+      "codigo": "A2.1-0400",
+      "questionario": "A2.1",
+      "atrativo": "Praça Elísio Caribé",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Belém do São Francisco",
+      "codigo": "A1-0401",
+      "questionario": "A1",
+      "atrativo": "Praia da Ilha Caxaiú",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Belém do São Francisco",
+      "codigo": "A1-0402",
+      "questionario": "A1",
+      "atrativo": "Reserva Siriema",
+      "observacao": "Confirmar se é unidade de conservação formal ou nome de área natural (A1 em ambos os casos).",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Belém do São Francisco",
+      "codigo": "A1-0403",
+      "questionario": "A1",
+      "atrativo": "Rio São Francisco",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Belém do São Francisco",
+      "codigo": "A2.1-0404",
+      "questionario": "A2.1",
+      "atrativo": "Roda d'água",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Belém do São Francisco",
+      "codigo": "A1-0405",
+      "questionario": "A1",
+      "atrativo": "Serra da Canoa",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Belém do São Francisco",
+      "codigo": "A1-0406",
+      "questionario": "A1",
+      "atrativo": "Serra da Jurema",
+      "observacao": "Confirmar se é unidade de conservação formal ou apenas serra (manual p. 24).",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Belém do São Francisco",
+      "codigo": "C4-0407",
+      "questionario": "C4",
+      "atrativo": "Terminal Rodoviário de Belém do São Francisco",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Belém do São Francisco",
+      "codigo": "C3-0408",
+      "questionario": "C3",
+      "atrativo": "USF Alto do Bom Jesus",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    },
+    {
+      "municipio": "Belém do São Francisco",
+      "codigo": "B1-0409",
+      "questionario": "B1",
+      "atrativo": "Village Hotel Belém",
+      "observacao": "",
+      "realizados": [],
+      "outroFormulario": []
+    }
+  ]
+}
