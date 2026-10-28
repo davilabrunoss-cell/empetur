@@ -14,6 +14,12 @@ O painel compara as opcoes com `base_rows` da carga corrente, exclusivamente no 
 
 Coletas nao conciliadas aparecem em uma lista de revisao, inclusive registros ambiguos, divergentes e objetos excluidos do planejamento. A carga do dashboard continua vindo do backend/Supabase; o bloco nao grava dados nem altera as planilhas, o iPesquisa ou a base de atrativos validados.
 
+## Visualizacao publica de campo
+
+Cada municipio tem um link `/campo/{municipio_slug}` (por exemplo, `/campo/afranio`), disponivel na tabela de municipios e na pagina municipal, onde tambem pode ser copiado. A rota mostra somente o cabecalho de leitura, municipio, tres indicadores de coleta, linha do tempo e acompanhamento. Nao mostra botao de sincronizacao, controles de status, upload/exclusao, tabela detalhada, pesquisadores ou links para outras paginas do dashboard. Para municipios ainda sem catalogo provisorio, exibe um aviso em vez da tabela de acompanhamento.
+
+Essa e apenas uma **simplificacao de interface**, sem autenticacao nem restricao real por municipio. O frontend continua recebendo o payload completo pela API existente e as demais rotas publicas permanecem acessiveis. Nao apresentar o link como controle de privacidade ou permissao; se isso passar a ser necessario, proteger a API e as rotas em trabalho separado.
+
 ## Atualizacao
 
 Ao aprovar mudancas no catalogo, atualizar o JSON a partir da planilha municipal, preservando codigos e observacoes por questionario; manter `realizados` apenas para vinculos confirmados e `outroFormulario` para referencias divergentes. Conferir unicidade dos codigos, equivalencia com a listagem por questionario, build do frontend e contagens por municipio antes de publicar. No retrato de 28/10/2026, a carga analisada tinha 101 coletas nesses municipios, 71 opcoes conciliadas no mesmo formulario e 22 opcoes com evidencia em outro formulario (algumas referencias divergentes apontam para mais de uma opcao).

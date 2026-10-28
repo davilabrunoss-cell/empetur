@@ -812,6 +812,72 @@ tbody tr:hover {
   margin-bottom: 0;
 }
 
+.campo-share {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-top: 16px;
+  font-size: 0.78rem;
+}
+
+.campo-share a,
+.campo-share button {
+  padding: 8px 12px;
+  border: 1px solid rgba(101, 199, 255, 0.35);
+  border-radius: 10px;
+  color: var(--highlight);
+  background: rgba(101, 199, 255, 0.08);
+  cursor: pointer;
+}
+
+.campo-share a:hover,
+.campo-share button:hover {
+  background: rgba(101, 199, 255, 0.18);
+}
+
+.campo-share span {
+  color: var(--muted);
+}
+
+.campo-shell {
+  width: min(1120px, calc(100% - 48px));
+}
+
+.campo-header .header-meta {
+  min-width: 180px;
+}
+
+.campo-hero {
+  margin-bottom: 24px;
+  padding: 24px;
+}
+
+.campo-hero h2 {
+  margin: 0;
+  font-family: "Sora", sans-serif;
+  font-size: clamp(1.2rem, 2.6vw, 1.8rem);
+}
+
+.campo-hero > p:not(.eyebrow) {
+  margin: 8px 0 14px;
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+.campo-hero > span {
+  display: inline-block;
+  padding: 6px 10px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--highlight);
+  font-size: 0.72rem;
+}
+
+.campo-kpi-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
 .municipio-researchers {
   min-width: 320px;
   max-width: 420px;
@@ -910,6 +976,10 @@ tbody tr:hover {
     grid-template-columns: 1fr 1fr;
   }
 
+  .campo-shell {
+    width: min(100% - 28px, 1120px);
+  }
+
   .header-actions {
     width: 100%;
     flex-direction: column;
@@ -936,6 +1006,14 @@ tbody tr:hover {
   .filters-grid,
   .mosaic-grid {
     grid-template-columns: 1fr;
+  }
+
+  .campo-header {
+    padding: 18px;
+  }
+
+  .campo-header .header-meta {
+    width: 100%;
   }
 
   .search-field {

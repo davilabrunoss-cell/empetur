@@ -1,5 +1,5 @@
 ﻿import { useEffect, useMemo, useRef, useState } from "react";
-import { Link, Navigate, Route, Routes, useParams } from "react-router-dom";
+import { Link, Navigate, Route, Routes, useLocation, useParams } from "react-router-dom";
 import {
   buildHomeRows,
   buildMunicipioLookup,
@@ -457,6 +457,51 @@ function Shell({ children, generatedAt, onSync, syncing, syncMessage }) {
         </div>
       </header>
       <main>{children}</main>
+    </div>
+  );
+}
+
+function CampoShell({ children, generatedAt }) {
+  return (
+    <div className="app-shell campo-shell">
+      <header className="app-header campo-header">
+        <div className="brand-lockup">
+          <div className="brand-logo">
+            <img src="/assets/logo_agora.png" alt="Ágora Pesquisa" />
+          </div>
+          <div className="brand-copy">
+            <p className="eyebrow">Acompanhamento de campo</p>
+            <h1>Inventário Turístico de Pernambuco | EMPETUR</h1>
+          </div>
+        </div>
+        <div className="header-meta">
+          <span>Atualização da carga</span>
+          <strong>{generatedAt || "Carregando..."}</strong>
+        </div>
+      </header>
+      <main>{children}</main>
+    </div>
+  );
+}
+
+function CampoShareLink({ municipioSlug }) {
+  const [copyMessage, setCopyMessage] = useState("");
+  const path = `/campo/${municipioSlug}`;
+
+  const copyLink = async () => {
+    try {
+      await navigator.clipboard.writeText(new URL(path, window.location.origin).href);
+      setCopyMessage("Link copiado");
+    } catch {
+      setCopyMessage("Não foi possível copiar; abra o link para compartilhá-lo.");
+    }
+  };
+
+  return (
+    <div className="campo-share">
+      <Link to={path} target="_blank" rel="noopener noreferrer">Abrir painel de campo</Link>
+      <button type="button" onClick={copyLink}>Copiar link</button>
+      {copyMessage ? <span role="status">{copyMessage}</span> : null}
     </div>
   );
 }
@@ -941,6 +986,7 @@ function MunicipiosPage({ payload, concludedMap, setConcluded }) {
                 <th>Total de dias de campo</th>
                 <th>Última coleta realizada</th>
                 <th>Concluir</th>
+                <th>Painel de campo</th>
               </tr>
             </thead>
             <tbody>
@@ -966,6 +1012,11 @@ function MunicipiosPage({ payload, concludedMap, setConcluded }) {
                       <option value="andamento">Em andamento</option>
                       <option value="concluido">Concluído</option>
                     </select>
+                  </td>
+                  <td>
+                    <Link className="table-link" to={`/campo/${item.municipioSlug}`} target="_blank" rel="noopener noreferrer">
+                      Abrir link
+                    </Link>
                   </td>
                 </tr>
               ))}
@@ -1308,12 +1359,19 @@ function TotalPrevistoPage({ payload, concludedMap }) {
   );
 }
 
-function Acompanhamento({ municipioSlug, coletas }) {
+function Acompanhamento({ municipioSlug, coletas, showEmpty = false }) {
   const [formFilter, setFormFilter] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
   const [search, setSearch] = useState("");
   const data = useMemo(() => buildAcompanhamento(municipioSlug, coletas), [municipioSlug, coletas]);
-  if (!data) return null;
+  if (!data) {
+    return showEmpty ? (
+      <section className="panel empty-state acompanhamento-panel">
+        <h2>Acompanhamento ainda não preparado</h2>
+        <p>As opções provisórias deste município ainda não foram catalogadas.</p>
+      </section>
+    ) : null;
+  }
 
   const forms = uniqueValues(data.itens, "questionario");
   const statusOrder = { realizado: 0, "outro-formulario": 1, pendente: 2 };
@@ -1431,6 +1489,7 @@ function MunicipioDetailPage({ payload, concludedMap }) {
             <span className={`status-pill status-${slugify(status)}`}>{status}</span>
           </div>
           <p>{municipioMeta.regiao}</p>
+          <CampoShareLink municipioSlug={municipioSlug} />
         </div>
         <div className="municipio-researchers">
           <span>Pesquisador{detail.pesquisadores.length > 1 ? "es" : ""}</span>
@@ -1490,7 +1549,63 @@ function MunicipioDetailPage({ payload, concludedMap }) {
   );
 }
 
-export default function App() {
+function CampoMunicipioPage({ payload }) {
+  const { municipioSlug } = useParams();
+  const lookup = useMemo(() => buildMunicipioLookup(payload), [payload]);
+  const municipioMeta = lookup.get(municipioSlug);
+  const rows = useMemo(() => buildHomeRows(payload), [payload]);
+
+  if (!municipioMeta) {
+    return <section className="panel empty-state"><h2>Município não encontrado</h2></section>;
+  }
+
+  const municipioRows = rows.filter((row) => row.municipio_slug === municipioSlug);
+  const detail = computeMunicipioDetail(municipioRows);
+
+  return (
+    <>
+      <section className="panel campo-hero">
+        <p className="eyebrow">Painel do município</p>
+        <h2>{municipioMeta.municipio}</h2>
+        <p>{municipioMeta.regiao}</p>
+        <span>Consulta pública · somente leitura</span>
+      </section>
+      <section className="kpi-grid campo-kpi-grid">
+        <KpiCard label="Questionários preenchidos" value={formatNumber(detail.totalQuestionarios)} help="Registros do município" />
+        <KpiCard label="Primeira coleta" value={formatDateTime(detail.primeiraColeta)} help="Data inicial encontrada" valueClassName="kpi-value-datetime" />
+        <KpiCard label="Última coleta" value={formatDateTime(detail.ultimaColeta)} help="Data mais recente encontrada" valueClassName="kpi-value-datetime" />
+      </section>
+      <TimelineChart rows={municipioRows} />
+      <Acompanhamento municipioSlug={municipioSlug} coletas={municipioRows} showEmpty />
+    </>
+  );
+}
+
+function CampoApp() {
+  const { payload, error } = useDashboardData();
+
+  if (!payload) {
+    return (
+      <CampoShell>
+        <section className="panel empty-state">
+          <h2>{error ? "Falha ao carregar o painel" : "Carregando painel"}</h2>
+          <p>{error || "Preparando os dados do município."}</p>
+        </section>
+      </CampoShell>
+    );
+  }
+
+  return (
+    <CampoShell generatedAt={payload.generated_at}>
+      {error ? <section className="panel empty-state"><p>{error}</p></section> : null}
+      <Routes>
+        <Route path="/campo/:municipioSlug" element={<CampoMunicipioPage payload={payload} />} />
+      </Routes>
+    </CampoShell>
+  );
+}
+
+function DashboardApp() {
   const { payload, error, syncing, syncMessage, triggerSync } = useDashboardData();
   const { concluded, update } = useConcludedMunicipios();
 
@@ -1533,4 +1648,9 @@ export default function App() {
       </Routes>
     </Shell>
   );
+}
+
+export default function App() {
+  const { pathname } = useLocation();
+  return pathname.startsWith("/campo/") ? <CampoApp /> : <DashboardApp />;
 }
