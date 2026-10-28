@@ -472,6 +472,13 @@ main {
   margin: 0 0 10px;
 }
 
+.acompanhamento-updated {
+  display: block;
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: 0.74rem;
+}
+
 .acompanhamento-table {
   min-width: 760px;
   font-size: 0.79rem;
@@ -522,10 +529,40 @@ main {
 .acompanhamento-review ul { margin: 8px 0 0; padding-left: 18px; }
 .acompanhamento-review li + li { margin-top: 5px; }
 
+.campo-main {
+  padding-top: 0;
+}
+
+.campo-shell .acompanhamento-panel {
+  margin-bottom: 0;
+}
+
+.campo-shell .panel-heading h1,
+.campo-shell .empty-state h1 {
+  margin: 0;
+  font-family: "Sora", sans-serif;
+  font-size: clamp(1.1rem, 2vw, 1.4rem);
+}
+
 @media (max-width: 700px) {
   .acompanhamento-panel { padding: 18px; }
   .acompanhamento-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .acompanhamento-filters { grid-template-columns: 1fr; }
+
+  .campo-shell .acompanhamento-table { min-width: 0; }
+  .campo-shell .acompanhamento-table thead { display: none; }
+  .campo-shell .acompanhamento-table tbody,
+  .campo-shell .acompanhamento-table tr,
+  .campo-shell .acompanhamento-table td { display: block; width: 100%; }
+  .campo-shell .acompanhamento-table tr { padding: 12px 14px; border-bottom: 1px solid var(--line); }
+  .campo-shell .acompanhamento-table td { padding: 5px 0; border: 0; }
+  .campo-shell .acompanhamento-table td[data-label]::before {
+    content: attr(data-label);
+    display: block;
+    margin-bottom: 3px;
+    color: var(--muted);
+    font-size: 0.68rem;
+  }
 }
 
 .bars-list {
@@ -844,40 +881,6 @@ tbody tr:hover {
   width: min(1120px, calc(100% - 48px));
 }
 
-.campo-header .header-meta {
-  min-width: 180px;
-}
-
-.campo-hero {
-  margin-bottom: 24px;
-  padding: 24px;
-}
-
-.campo-hero h2 {
-  margin: 0;
-  font-family: "Sora", sans-serif;
-  font-size: clamp(1.2rem, 2.6vw, 1.8rem);
-}
-
-.campo-hero > p:not(.eyebrow) {
-  margin: 8px 0 14px;
-  color: var(--muted);
-  font-size: 0.78rem;
-}
-
-.campo-hero > span {
-  display: inline-block;
-  padding: 6px 10px;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  color: var(--highlight);
-  font-size: 0.72rem;
-}
-
-.campo-kpi-grid {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-
 .municipio-researchers {
   min-width: 320px;
   max-width: 420px;
@@ -1006,14 +1009,6 @@ tbody tr:hover {
   .filters-grid,
   .mosaic-grid {
     grid-template-columns: 1fr;
-  }
-
-  .campo-header {
-    padding: 18px;
-  }
-
-  .campo-header .header-meta {
-    width: 100%;
   }
 
   .search-field {

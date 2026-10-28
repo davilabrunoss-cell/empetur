@@ -16,7 +16,7 @@ Coletas nao conciliadas aparecem em uma lista de revisao, inclusive registros am
 
 ## Visualizacao publica de campo
 
-Cada municipio tem um link `/campo/{municipio_slug}` (por exemplo, `/campo/afranio`), disponivel na tabela de municipios e na pagina municipal, onde tambem pode ser copiado. A rota mostra somente o cabecalho de leitura, municipio, tres indicadores de coleta, linha do tempo e acompanhamento. Nao mostra botao de sincronizacao, controles de status, upload/exclusao, tabela detalhada, pesquisadores ou links para outras paginas do dashboard. Para municipios ainda sem catalogo provisorio, exibe um aviso em vez da tabela de acompanhamento.
+Cada municipio tem um link `/campo/{municipio_slug}` (por exemplo, `/campo/afranio`), disponivel na tabela de municipios e na pagina municipal, onde tambem pode ser copiado. A rota mostra **somente o painel Acompanhamento**, com o nome do municipio no titulo e a data de atualizacao da carga. Busca e filtros continuam disponiveis dentro do painel; no celular, cada linha da tabela e apresentada como bloco. Nao mostra cabecalho do dashboard, indicadores, linha do tempo, botao de sincronizacao, controles de status, upload/exclusao, tabela detalhada, pesquisadores ou links para outras paginas. Para municipios ainda sem catalogo provisorio, exibe apenas um aviso.
 
 Essa e apenas uma **simplificacao de interface**, sem autenticacao nem restricao real por municipio. O frontend continua recebendo o payload completo pela API existente e as demais rotas publicas permanecem acessiveis. Nao apresentar o link como controle de privacidade ou permissao; se isso passar a ser necessario, proteger a API e as rotas em trabalho separado.
 

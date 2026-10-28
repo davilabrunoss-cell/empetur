@@ -461,25 +461,10 @@ function Shell({ children, generatedAt, onSync, syncing, syncMessage }) {
   );
 }
 
-function CampoShell({ children, generatedAt }) {
+function CampoShell({ children }) {
   return (
     <div className="app-shell campo-shell">
-      <header className="app-header campo-header">
-        <div className="brand-lockup">
-          <div className="brand-logo">
-            <img src="/assets/logo_agora.png" alt="Ágora Pesquisa" />
-          </div>
-          <div className="brand-copy">
-            <p className="eyebrow">Acompanhamento de campo</p>
-            <h1>Inventário Turístico de Pernambuco | EMPETUR</h1>
-          </div>
-        </div>
-        <div className="header-meta">
-          <span>Atualização da carga</span>
-          <strong>{generatedAt || "Carregando..."}</strong>
-        </div>
-      </header>
-      <main>{children}</main>
+      <main className="campo-main">{children}</main>
     </div>
   );
 }
@@ -499,8 +484,8 @@ function CampoShareLink({ municipioSlug }) {
 
   return (
     <div className="campo-share">
-      <Link to={path} target="_blank" rel="noopener noreferrer">Abrir painel de campo</Link>
-      <button type="button" onClick={copyLink}>Copiar link</button>
+      <Link to={path} target="_blank" rel="noopener noreferrer">Abrir acompanhamento</Link>
+      <button type="button" onClick={copyLink}>Copiar link do acompanhamento</button>
       {copyMessage ? <span role="status">{copyMessage}</span> : null}
     </div>
   );
@@ -986,7 +971,7 @@ function MunicipiosPage({ payload, concludedMap, setConcluded }) {
                 <th>Total de dias de campo</th>
                 <th>Última coleta realizada</th>
                 <th>Concluir</th>
-                <th>Painel de campo</th>
+                <th>Acompanhamento</th>
               </tr>
             </thead>
             <tbody>
@@ -1359,7 +1344,7 @@ function TotalPrevistoPage({ payload, concludedMap }) {
   );
 }
 
-function Acompanhamento({ municipioSlug, coletas, showEmpty = false }) {
+function Acompanhamento({ municipioSlug, coletas, showEmpty = false, municipioNome = "", generatedAt = "" }) {
   const [formFilter, setFormFilter] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
   const [search, setSearch] = useState("");
@@ -1367,7 +1352,7 @@ function Acompanhamento({ municipioSlug, coletas, showEmpty = false }) {
   if (!data) {
     return showEmpty ? (
       <section className="panel empty-state acompanhamento-panel">
-        <h2>Acompanhamento ainda não preparado</h2>
+        {municipioNome ? <h1>Acompanhamento | {municipioNome}</h1> : <h2>Acompanhamento ainda não preparado</h2>}
         <p>As opções provisórias deste município ainda não foram catalogadas.</p>
       </section>
     ) : null;
@@ -1390,8 +1375,9 @@ function Acompanhamento({ municipioSlug, coletas, showEmpty = false }) {
     <section className="panel acompanhamento-panel">
       <div className="panel-heading">
         <div>
-          <h2>Acompanhamento</h2>
+          {municipioNome ? <h1>Acompanhamento | {municipioNome}</h1> : <h2>Acompanhamento</h2>}
           <p>Projeção provisória por atrativo e questionário. Base revisada em {data.versao.split("-").reverse().join("/")}.</p>
+          {generatedAt ? <span className="acompanhamento-updated">Dados atualizados em {generatedAt}</span> : null}
         </div>
       </div>
       <div className="acompanhamento-summary">
@@ -1400,7 +1386,10 @@ function Acompanhamento({ municipioSlug, coletas, showEmpty = false }) {
         <div><strong>{formatNumber(data.totais.outroFormulario)}</strong><span>Outro questionário</span></div>
         <div><strong>{formatNumber(data.totais.semVinculo)}</strong><span>Sem vínculo</span></div>
       </div>
-      <p className="acompanhamento-note">Cada linha é um questionário a aplicar. “Sem vínculo” pede conferência, não comprova ausência de visita. Esta projeção ainda não integra o card de atrativos validados.</p>
+      <p className="acompanhamento-note">
+        Cada linha é um questionário a aplicar. “Sem vínculo” pede conferência, não comprova ausência de visita.
+        {!municipioNome ? " Esta projeção ainda não integra o card de atrativos validados." : null}
+      </p>
       <div className="acompanhamento-filters">
         <label>
           <span>Questionário</span>
@@ -1428,11 +1417,11 @@ function Acompanhamento({ municipioSlug, coletas, showEmpty = false }) {
           <tbody>
             {visible.map((item) => (
               <tr key={item.codigo}>
-                <td><span className="acompanhamento-code">{item.codigo}</span></td>
-                <td>{item.atrativo}</td>
-                <td>{item.questionario}</td>
-                <td><span className={`acompanhamento-status acompanhamento-status-${item.status}`}>{statusLabels[item.status]}</span></td>
-                <td className="acompanhamento-observation">
+                <td data-label="Código"><span className="acompanhamento-code">{item.codigo}</span></td>
+                <td data-label="Atrativo">{item.atrativo}</td>
+                <td data-label="Questionário">{item.questionario}</td>
+                <td data-label="Situação"><span className={`acompanhamento-status acompanhamento-status-${item.status}`}>{statusLabels[item.status]}</span></td>
+                <td data-label="Orientação / coleta" className="acompanhamento-observation">
                   {item.observacao || "Sem observação específica."}
                   {item.coletas.length ? <small>Coleta(s): {item.coletas.map((row) => row.nro_identificacao).join(", ")}</small> : null}
                 </td>
@@ -1560,24 +1549,15 @@ function CampoMunicipioPage({ payload }) {
   }
 
   const municipioRows = rows.filter((row) => row.municipio_slug === municipioSlug);
-  const detail = computeMunicipioDetail(municipioRows);
 
   return (
-    <>
-      <section className="panel campo-hero">
-        <p className="eyebrow">Painel do município</p>
-        <h2>{municipioMeta.municipio}</h2>
-        <p>{municipioMeta.regiao}</p>
-        <span>Consulta pública · somente leitura</span>
-      </section>
-      <section className="kpi-grid campo-kpi-grid">
-        <KpiCard label="Questionários preenchidos" value={formatNumber(detail.totalQuestionarios)} help="Registros do município" />
-        <KpiCard label="Primeira coleta" value={formatDateTime(detail.primeiraColeta)} help="Data inicial encontrada" valueClassName="kpi-value-datetime" />
-        <KpiCard label="Última coleta" value={formatDateTime(detail.ultimaColeta)} help="Data mais recente encontrada" valueClassName="kpi-value-datetime" />
-      </section>
-      <TimelineChart rows={municipioRows} />
-      <Acompanhamento municipioSlug={municipioSlug} coletas={municipioRows} showEmpty />
-    </>
+    <Acompanhamento
+      municipioSlug={municipioSlug}
+      municipioNome={municipioMeta.municipio}
+      generatedAt={payload.generated_at}
+      coletas={municipioRows}
+      showEmpty
+    />
   );
 }
 
@@ -1596,7 +1576,7 @@ function CampoApp() {
   }
 
   return (
-    <CampoShell generatedAt={payload.generated_at}>
+    <CampoShell>
       {error ? <section className="panel empty-state"><p>{error}</p></section> : null}
       <Routes>
         <Route path="/campo/:municipioSlug" element={<CampoMunicipioPage payload={payload} />} />
