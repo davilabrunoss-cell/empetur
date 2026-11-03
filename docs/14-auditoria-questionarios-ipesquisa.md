@@ -150,3 +150,17 @@ As tres perguntas foram inseridas apos P0. Cada uma tem 31 filtros explicitos `P
 **Cuidado com o multisseletor do iPesquisa:** clicar no corpo de `Opcoes apresentadas` depois de tres chips selecionados pode atingir o `x` de um chip e remover silenciosamente uma opcao. Em B11/Bodoco, a primeira gravacao deixou apenas 2 dos 6 itens; em A2.9/Belem do Sao Francisco, apenas 2 dos 4. As duas regras incompletas foram substituidas, selecionando cada item pelo campo de busca do multisseletor e conferindo os valores selecionados antes de `Incluir`. Os respectivos wizards foram concluidos novamente e o formulario web confirmou as listas completas. Nos proximos formularios, usar o campo de busca, nao o corpo do seletor, e comparar a regra gravada com o catalogo antes do teste.
 
 Foi feita uma auditoria preventiva de **todos os 18 formularios ja atualizados**: para cada municipio, comparou-se a contagem de opcoes codificadas da regra `P0 Igual` com o catalogo provisorio e confirmou-se a presenca de `Outro`. Apos as duas correcoes acima, todos tem 31 regras municipais e as contagens esperadas. Esta auditoria de contagem nao substitui uma comparacao exaustiva dos rotulos/codigos nem teste de todas as 31 cidades na versao web. Estado atual: **18 de 29** formularios atualizados, **11** pendentes. Ainda falta validar em producao uma coleta real codificada na conciliacao do dashboard.
+
+## Quinto lote em 03/11/2026
+
+| Formulario | Projeto | Pergunta nova | Opcoes previstas | Campo antigo condicionado | Coletas preservadas | Teste web |
+| --- | ---: | ---: | ---: | --- | ---: | --- |
+| A2.5 | 8906 | 359961 | 26 + Outro | 3. Nome do Atrativo | 129 | Afranio (7 itens); codigo oculta o nome, Outro o exibe; INATIVO ainda salta para 11. Pesquisador |
+| A2.10 | 8903 | 359962 | 29 + Outro | 3. Nome do Atrativo | 32 | Afranio (1 item) e Dormentes (somente Outro); codigo oculta o nome, Outro o exibe |
+| B2 | 8916 | 359963 | 46 + Outro | 3. Nome | 205 | Bodoco (21 itens) e Arcoverde (somente Outro); codigo oculta o nome, Outro o exibe |
+
+As tres perguntas foram posicionadas imediatamente apos P0. Cada formulario recebeu 31 filtros explicitos `P0. Municipio Igual`, inclusive somente `Outro` para cidades sem item no catalogo. Diferentemente da auditoria anterior de contagem, neste lote todos os rotulos e codigos de cada regra gravada foram comparados exatamente com o catalogo; nao houve divergencias. A regra `Atrativo previsto diferente de Outro -> Esconder campo antigo` foi conferida na tabela de regras, e cada wizard avancou ate `Concluir`. Nenhuma pergunta antiga foi apagada.
+
+Em A2.5, a regra preexistente `INATIVO -> Saltar para 11. Pesquisador` foi preservada e testada na versao web depois da inclusao da nova pergunta. Em B2, a primeira tentativa de incluir a regra nova nao gravou porque o seletor de condicao havia sido limpo; a condicao `Diferente` foi selecionada novamente e a regra gravada foi conferida antes de concluir. Nenhuma entrevista de teste foi enviada e nao foi baixado novo CSV neste lote.
+
+Estado apos o lote: **21 de 29** formularios atualizados, **8** pendentes (A1, A2.1, A2.3, B6, B9, C1, C5, C6). Os cinco formularios com dois campos antigos de nome (A2.3, B6, B9, C1, C5) exigem revisao individual; B6, C1, C5 e C6 ainda nao tem itens no catalogo provisorio. A conciliacao de uma coleta real codificada no dashboard permanece sem validacao de ponta a ponta.
