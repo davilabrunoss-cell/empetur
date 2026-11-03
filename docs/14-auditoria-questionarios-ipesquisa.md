@@ -120,4 +120,19 @@ As perguntas foram colocadas imediatamente depois de P0. Em cada formulario foi 
 
 Em A2.2, um filtro `P0 diferente de Afranio -> Outro` foi salvo como experimento, mas **nao restringiu** Bodoco no formulario web. Os 31 filtros explicitos foram entao cadastrados; Bodoco e Trindade exibiram somente Outro. Essa regra redundante ainda aparece no editor de A2.2 e nao deve ser replicada. Para todos os demais formularios, usar apenas regras explicitas por municipio e testar um municipio com previsao e outro sem previsao.
 
-Estado: **9 de 29** formularios com nova pergunta (incluindo A2.4). Os outros 20 continuam sem a lista fechada. Quatro codigos de formulario ainda nao possuem atrativos no catalogo provisorio; nao preencher opcoes inventadas. Os cinco projetos com dois campos antigos de nome precisam de decisao individual sobre qual texto manter em `Outro`. B12, B5, C4 e C2 foram concluidos no wizard, mantendo respectivamente 47, 49, 13 e 25 coletas preexistentes no painel. Nenhuma entrevista de teste foi finalizada.
+Estado ao fim desse lote: **9 de 29** formularios com nova pergunta (incluindo A2.4). Os outros 20 ainda estavam sem a lista fechada. Quatro codigos de formulario ainda nao possuem atrativos no catalogo provisorio; nao preencher opcoes inventadas. Os cinco projetos com dois campos antigos de nome precisam de decisao individual sobre qual texto manter em `Outro`. B12, B5, C4 e C2 foram concluidos no wizard, mantendo respectivamente 47, 49, 13 e 25 coletas preexistentes no painel. Nenhuma entrevista de teste foi finalizada.
+
+## Novo lote de formularios em 03/11/2026
+
+| Formulario | Projeto | Pergunta nova | Opcoes previstas | Campo antigo condicionado | Coletas preservadas | Teste web de filtros |
+| --- | ---: | ---: | ---: | --- | ---: | --- |
+| A2.8 | 8900 | 359952 | 7 + Outro | 3. Nome do Atrativo | 12 | Dormentes (3 itens) e Bodoco (somente Outro) |
+| B8 | 8922 | 359953 | 7 + Outro | 3. Nome / Entidade | 104 | Bodoco (2 itens) e Arcoverde (somente Outro) |
+| A2.7 | 8905 | 359954 | 8 + Outro | 3. Nome do Atrativo | 22 | Dormentes (2 itens) e Arcoverde (somente Outro) |
+| C3 | 8930 | 359955 | 8 + Outro | 2. Nome / Entidade | 50 | Dormentes (3 itens) e Afranio (somente Outro) |
+| B3 | 8917 | 359956 | 9 + Outro | 3. Nome | 62 | Bodoco (7 itens) e Afranio (somente Outro) |
+| B4 | 8918 | 359957 | 12 + Outro | 3. Nome | 48 | Bodoco (7 itens) e Afranio (somente Outro) |
+
+Em cada projeto, a nova pergunta de selecao unica foi posicionada imediatamente apos P0 e recebeu os rotulos `Nome | CODIGO` do catalogo provisorio. Foram conferidas **31 regras explicitas** `P0. Municipio Igual` por projeto, sem repetir o experimento de filtro `Diferente`. Para cidade sem item previsto na categoria, a unica opcao e `Outro atrativo nao listado`. A regra `Atrativo previsto diferente de Outro -> Esconder campo antigo` foi conferida na tabela de regras, e o wizard foi avancado ate `Concluir`. Nenhuma pergunta antiga foi apagada.
+
+Os testes web deste lote verificaram as opcoes apresentadas em uma cidade com itens e outra sem itens por projeto. **Nao** avancaram ate o antigo campo de nome, nao enviaram entrevistas e nao baixaram novo CSV apos as edicoes; esses comportamentos ainda precisam de verificacao posterior. As contagens dos seis paineis permaneceram iguais as da auditoria anterior. Com este lote, **15 de 29** formularios tem a nova pergunta; **14** permanecem pendentes. A conciliacao de uma coleta real codificada no dashboard ainda nao foi validada de ponta a ponta.
