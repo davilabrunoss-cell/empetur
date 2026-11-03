@@ -31,6 +31,9 @@ const PREVISTOS_API_URL =
 const PREVISTOS_SUMMARY_URL =
   import.meta.env.VITE_PREVISTOS_SUMMARY_URL ||
   DASHBOARD_DATA_URL.replace(/\/api\/dashboard\/payload$/, "/api/previstos-resumo");
+const CRONOGRAMA_API_URL =
+  import.meta.env.VITE_CRONOGRAMA_API_URL ||
+  DASHBOARD_DATA_URL.replace(/\/api\/dashboard\/payload$/, "/api/cronograma");
 
 function useDashboardData() {
   const [payload, setPayload] = useState(null);
@@ -1344,11 +1347,80 @@ function TotalPrevistoPage({ payload, concludedMap }) {
   );
 }
 
-function Acompanhamento({ municipioSlug, coletas, showEmpty = false, municipioNome = "", generatedAt = "" }) {
+function formatCronogramaDate(value) {
+  return value ? value.split("-").reverse().join("/") : "A definir";
+}
+
+function Acompanhamento({ municipioSlug, coletas, showEmpty = false, municipioNome = "", generatedAt = "", allowEditing = false }) {
   const [formFilter, setFormFilter] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
   const [search, setSearch] = useState("");
+  const [cronograma, setCronograma] = useState({});
+  const [draftDates, setDraftDates] = useState({});
+  const [editToken, setEditToken] = useState("");
+  const [canEdit, setCanEdit] = useState(false);
+  const [cronogramaError, setCronogramaError] = useState("");
+  const [savedCode, setSavedCode] = useState("");
+  const [savingCode, setSavingCode] = useState("");
   const data = useMemo(() => buildAcompanhamento(municipioSlug, coletas), [municipioSlug, coletas]);
+
+  useEffect(() => {
+    if (!data) return undefined;
+    let active = true;
+    let token = "";
+    if (allowEditing) {
+      const storageKey = `empetur-cronograma-${municipioSlug}`;
+      const fragmentToken = new URLSearchParams(window.location.hash.slice(1)).get("editar");
+      if (fragmentToken) {
+        window.sessionStorage.setItem(storageKey, fragmentToken);
+        window.history.replaceState(window.history.state, "", window.location.pathname + window.location.search);
+      }
+      token = fragmentToken || window.sessionStorage.getItem(storageKey) || "";
+    }
+    setEditToken(token);
+    setCanEdit(false);
+    setCronogramaError("");
+    fetch(`${CRONOGRAMA_API_URL}/${municipioSlug}`, {
+      headers: token ? { "X-Cronograma-Token": token } : {},
+    }).then(async (response) => {
+      if (!response.ok) throw new Error("Não foi possível carregar o cronograma.");
+      return response.json();
+    }).then((result) => {
+      if (!active) return;
+      setCronograma(result.datas ?? {});
+      setDraftDates({});
+      setCanEdit(Boolean(result.pode_editar));
+      if (token && !result.pode_editar) {
+        window.sessionStorage.removeItem(`empetur-cronograma-${municipioSlug}`);
+        setCronogramaError("Link de edição inválido para este município.");
+      }
+    }).catch((error) => {
+      if (active) setCronogramaError(error.message);
+    });
+    return () => { active = false; };
+  }, [municipioSlug, allowEditing, Boolean(data)]);
+
+  const saveDate = async (codigo) => {
+    setSavingCode(codigo);
+    setSavedCode("");
+    setCronogramaError("");
+    try {
+      const response = await fetch(`${CRONOGRAMA_API_URL}/${municipioSlug}/${encodeURIComponent(codigo)}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json", "X-Cronograma-Token": editToken },
+        body: JSON.stringify({ data_visita: draftDates[codigo] || null }),
+      });
+      if (!response.ok) throw new Error("Não foi possível salvar a data. Tente novamente.");
+      const saved = await response.json();
+      setCronograma((current) => ({ ...current, [codigo]: saved.data_visita }));
+      setSavedCode(codigo);
+    } catch (error) {
+      setCronogramaError(error.message);
+    } finally {
+      setSavingCode("");
+    }
+  };
+
   if (!data) {
     return showEmpty ? (
       <section className="panel empty-state acompanhamento-panel">
@@ -1390,6 +1462,8 @@ function Acompanhamento({ municipioSlug, coletas, showEmpty = false, municipioNo
         Cada linha é um questionário a aplicar. “Sem vínculo” pede conferência, não comprova ausência de visita.
         {!municipioNome ? " Esta projeção ainda não integra o card de atrativos validados." : null}
       </p>
+      {canEdit ? <p className="acompanhamento-edit-note">Edição habilitada: somente a data do cronograma pode ser alterada.</p> : null}
+      {cronogramaError ? <p className="acompanhamento-error" role="alert">{cronogramaError}</p> : null}
       <div className="acompanhamento-filters">
         <label>
           <span>Questionário</span>
@@ -1413,7 +1487,7 @@ function Acompanhamento({ municipioSlug, coletas, showEmpty = false, municipioNo
       <p className="acompanhamento-count">{formatNumber(visible.length)} de {formatNumber(data.itens.length)} opções exibidas</p>
       <div className="table-wrap acompanhamento-table-wrap">
         <table className="acompanhamento-table">
-          <thead><tr><th>Código</th><th>Atrativo</th><th>Questionário</th><th>Situação</th><th>Orientação / coleta</th></tr></thead>
+          <thead><tr><th>Código</th><th>Atrativo</th><th>Questionário</th><th>Situação</th><th>Orientação / coleta</th><th>Cronograma</th></tr></thead>
           <tbody>
             {visible.map((item) => (
               <tr key={item.codigo}>
@@ -1425,9 +1499,28 @@ function Acompanhamento({ municipioSlug, coletas, showEmpty = false, municipioNo
                   {item.observacao || "Sem observação específica."}
                   {item.coletas.length ? <small>Coleta(s): {item.coletas.map((row) => row.nro_identificacao).join(", ")}</small> : null}
                 </td>
+                <td data-label="Cronograma" className="acompanhamento-date">
+                  {canEdit ? (
+                    <div className="acompanhamento-date-editor">
+                      <input
+                        type="date"
+                        aria-label={`Data de visita de ${item.atrativo} (${item.codigo})`}
+                        value={draftDates[item.codigo] ?? cronograma[item.codigo] ?? ""}
+                        onChange={(event) => setDraftDates((current) => ({ ...current, [item.codigo]: event.target.value }))}
+                      />
+                      <button
+                        type="button"
+                        aria-label={`Salvar cronograma de ${item.atrativo} (${item.codigo})`}
+                        disabled={savingCode === item.codigo || (draftDates[item.codigo] ?? cronograma[item.codigo] ?? "") === (cronograma[item.codigo] ?? "")}
+                        onClick={() => saveDate(item.codigo)}
+                      >{savingCode === item.codigo ? "Salvando..." : "Salvar"}</button>
+                      {savedCode === item.codigo ? <small role="status">Data salva</small> : null}
+                    </div>
+                  ) : formatCronogramaDate(cronograma[item.codigo])}
+                </td>
               </tr>
             ))}
-            {!visible.length ? <tr><td colSpan={5}>Nenhuma opção encontrada para os filtros selecionados.</td></tr> : null}
+            {!visible.length ? <tr><td colSpan={6}>Nenhuma opção encontrada para os filtros selecionados.</td></tr> : null}
           </tbody>
         </table>
       </div>
@@ -1557,6 +1650,7 @@ function CampoMunicipioPage({ payload }) {
       generatedAt={payload.generated_at}
       coletas={municipioRows}
       showEmpty
+      allowEditing
     />
   );
 }

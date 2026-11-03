@@ -2,7 +2,11 @@ from __future__ import annotations
 
 import json
 import os
-from datetime import datetime
+import hashlib
+import hmac
+import re
+import unicodedata
+from datetime import date, datetime, timezone
 from functools import lru_cache
 from pathlib import Path
 from typing import Any
@@ -10,9 +14,9 @@ from uuid import uuid4
 from zoneinfo import ZoneInfo
 
 import httpx
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, Header, HTTPException, Response
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 
 from empetur_core.consolidacao import (
     BASE_FIELDNAMES,
@@ -31,6 +35,7 @@ DEFAULT_PAYLOAD_PATH = BASE_DIR / "data" / "consolidado" / "dashboard_payload.js
 DEFAULT_BASE_CSV_PATH = BASE_DIR / "data" / "consolidado" / "empetur_tabela_base.csv"
 DEFAULT_MUNICIPIOS_STATUS_PATH = BASE_DIR / "data" / "operacional" / "municipios_status.json"
 DEFAULT_PREVISTOS_PATH = BASE_DIR / "data" / "operacional" / "previstos_atrativos.json"
+ACOMPANHAMENTO_PATH = BASE_DIR / "web" / "src" / "data" / "acompanhamento-provisorio.json"
 DEFAULT_DISABLED_FORMS = {
     normalize_questionario_name("Sistema Marítimo e Fluvial"),
 }
@@ -90,6 +95,8 @@ def get_settings() -> dict[str, object]:
         or "empetur_tabela_base",
         "supabase_table_previstos": os.getenv("SUPABASE_TABLE_PREVISTOS", "empetur_previstos_atrativos").strip()
         or "empetur_previstos_atrativos",
+        "supabase_table_cronograma": "empetur_cronograma",
+        "supabase_table_cronograma_tokens": "empetur_cronograma_edit_tokens",
         "cors_origins": parse_cors_origins(os.getenv("EMPETUR_CORS_ORIGINS")),
         "ipesquisa_base_url": os.getenv("IPESQUISA_BASE_URL", "https://sistema.ipesquisa.net").rstrip("/"),
         "ipesquisa_api_path": os.getenv("IPESQUISA_API_PATH", "/api/v1/pesquisa/{id}/get-csv-cases").strip(),
@@ -144,6 +151,12 @@ class PrevistoRow(BaseModel):
 
 class PrevistoReplaceRequest(BaseModel):
     rows: list[PrevistoRow] = Field(default_factory=list)
+
+
+class CronogramaUpdate(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    data_visita: date | None
 
 
 def parse_generated_timestamp(value: str | None) -> datetime | None:
@@ -298,6 +311,93 @@ def build_supabase_previstos_url() -> str:
 def build_supabase_base_url() -> str:
     settings = get_settings()
     return f"{settings['supabase_url']}/rest/v1/{settings['supabase_table_base']}"
+
+
+def build_supabase_cronograma_url(tokens: bool = False) -> str:
+    settings = get_settings()
+    table = settings["supabase_table_cronograma_tokens" if tokens else "supabase_table_cronograma"]
+    return f"{settings['supabase_url']}/rest/v1/{table}"
+
+
+def slugify_municipio(value: str) -> str:
+    plain = unicodedata.normalize("NFD", value)
+    plain = "".join(char for char in plain if unicodedata.category(char) != "Mn")
+    return re.sub(r"(^-+|-+$)", "", re.sub(r"[^a-z0-9]+", "-", plain.lower()))
+
+
+@lru_cache
+def catalogo_cronograma() -> dict[str, set[str]]:
+    items = json.loads(ACOMPANHAMENTO_PATH.read_text(encoding="utf-8"))["itens"]
+    catalog: dict[str, set[str]] = {}
+    for item in items:
+        catalog.setdefault(slugify_municipio(item["municipio"]), set()).add(item["codigo"])
+    return catalog
+
+
+def validate_cronograma_target(municipio_slug: str, codigo: str | None = None) -> None:
+    codes = catalogo_cronograma().get(municipio_slug)
+    if not codes or (codigo is not None and codigo not in codes):
+        raise HTTPException(status_code=404, detail="Opcao de acompanhamento nao encontrada.")
+
+
+def read_cronograma_token_hash(municipio_slug: str) -> str | None:
+    with httpx.Client(timeout=30.0) as client:
+        response = client.get(
+            build_supabase_cronograma_url(tokens=True),
+            params={"select": "token_hash", "municipio_slug": f"eq.{municipio_slug}", "limit": "1"},
+            headers=build_supabase_headers(),
+        )
+    try:
+        response.raise_for_status()
+    except httpx.HTTPStatusError as exc:
+        raise HTTPException(status_code=502, detail="Falha ao validar acesso ao cronograma.") from exc
+    rows = response.json()
+    return rows[0]["token_hash"] if rows else None
+
+
+def can_edit_cronograma(municipio_slug: str, token: str) -> bool:
+    if not re.fullmatch(r"[0-9a-f]{64}", token):
+        return False
+    stored_hash = read_cronograma_token_hash(municipio_slug)
+    return bool(stored_hash) and hmac.compare_digest(hashlib.sha256(token.encode()).hexdigest(), stored_hash)
+
+
+def read_cronograma(municipio_slug: str) -> dict[str, str | None]:
+    with httpx.Client(timeout=30.0) as client:
+        response = client.get(
+            build_supabase_cronograma_url(),
+            params={"select": "codigo,data_visita", "municipio_slug": f"eq.{municipio_slug}", "order": "codigo.asc"},
+            headers=build_supabase_headers(),
+        )
+    try:
+        response.raise_for_status()
+    except httpx.HTTPStatusError as exc:
+        raise HTTPException(status_code=502, detail="Falha ao carregar cronograma.") from exc
+    return {row["codigo"]: row["data_visita"] for row in response.json()}
+
+
+def save_cronograma(municipio_slug: str, codigo: str, data_visita: date | None) -> dict[str, str | None]:
+    payload = [{
+        "municipio_slug": municipio_slug,
+        "codigo": codigo,
+        "data_visita": data_visita.isoformat() if data_visita else None,
+        "updated_at": datetime.now(timezone.utc).isoformat(),
+    }]
+    with httpx.Client(timeout=30.0) as client:
+        response = client.post(
+            build_supabase_cronograma_url(),
+            params={"on_conflict": "municipio_slug,codigo"},
+            headers=build_supabase_headers(write=True),
+            json=payload,
+        )
+    try:
+        response.raise_for_status()
+    except httpx.HTTPStatusError as exc:
+        raise HTTPException(status_code=502, detail="Falha ao salvar cronograma.") from exc
+    rows = response.json()
+    if not rows:
+        raise HTTPException(status_code=502, detail="Supabase nao confirmou o cronograma.")
+    return {"codigo": rows[0]["codigo"], "data_visita": rows[0]["data_visita"]}
 
 
 def read_municipios_status_from_supabase() -> dict[str, bool]:
@@ -612,6 +712,37 @@ def replace_previstos_by_municipio_supabase(
 @app.get("/healthz")
 def healthcheck() -> dict[str, str]:
     return {"status": "ok"}
+
+
+@app.get("/api/cronograma/{municipio_slug}")
+def get_cronograma(
+    municipio_slug: str,
+    response: Response,
+    x_cronograma_token: str = Header(default=""),
+) -> dict[str, Any]:
+    response.headers["Cache-Control"] = "no-store"
+    validate_cronograma_target(municipio_slug)
+    if not has_supabase_status_backend():
+        raise HTTPException(status_code=503, detail="Cronograma sem persistencia configurada.")
+    return {
+        "datas": read_cronograma(municipio_slug),
+        "pode_editar": can_edit_cronograma(municipio_slug, x_cronograma_token) if x_cronograma_token else False,
+    }
+
+
+@app.put("/api/cronograma/{municipio_slug}/{codigo}")
+def update_cronograma(
+    municipio_slug: str,
+    codigo: str,
+    request: CronogramaUpdate,
+    x_cronograma_token: str = Header(default=""),
+) -> dict[str, str | None]:
+    validate_cronograma_target(municipio_slug, codigo)
+    if not has_supabase_status_backend():
+        raise HTTPException(status_code=503, detail="Cronograma sem persistencia configurada.")
+    if not can_edit_cronograma(municipio_slug, x_cronograma_token):
+        raise HTTPException(status_code=403, detail="Link de edicao invalido para este municipio.")
+    return save_cronograma(municipio_slug, codigo, request.data_visita)
 
 
 @app.get("/api/municipios/status")

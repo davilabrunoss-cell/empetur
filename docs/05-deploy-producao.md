@@ -39,6 +39,9 @@ Colocar o dashboard no ar imediatamente com a estrutura atual e evoluir o projet
 - armazenar a tabela-base consolidada
 - armazenar status operacionais dos municipios
 - armazenar historico de sincronizacao
+- armazenar datas do Cronograma e hashes dos links privados por municipio nas duas tabelas de `docs/15-supabase-cronograma.sql`
+
+O Cronograma exige `SUPABASE_URL` e `SUPABASE_SERVICE_ROLE_KEY` no Render. Nao incluir tokens de edicao em variaveis publicas `VITE_*`, no Git ou no payload do dashboard. As tabelas antigas `empetur_municipios_status`, `empetur_previstos_atrativos` e `empetur_tabela_base` aparecem sem RLS no advisor do Supabase em 03/11/2026; revisar a seguranca delas separadamente, considerando clientes existentes, antes de mudar permissoes.
 
 ## Politica de versionamento
 

@@ -435,6 +435,15 @@ main {
   margin: 14px 0 18px;
 }
 
+.acompanhamento-edit-note,
+.acompanhamento-error {
+  margin: -5px 0 16px;
+  font-size: 0.78rem;
+}
+
+.acompanhamento-edit-note { color: #82e4c0; }
+.acompanhamento-error { color: #ffd18c; }
+
 .acompanhamento-filters {
   display: grid;
   grid-template-columns: minmax(130px, 180px) minmax(150px, 200px) minmax(220px, 1fr);
@@ -480,7 +489,7 @@ main {
 }
 
 .acompanhamento-table {
-  min-width: 760px;
+  min-width: 920px;
   font-size: 0.79rem;
 }
 
@@ -494,6 +503,29 @@ main {
 .acompanhamento-table th:nth-child(2) { width: 24%; }
 .acompanhamento-table th:nth-child(3) { width: 110px; }
 .acompanhamento-table th:nth-child(4) { width: 150px; }
+.acompanhamento-table th:nth-child(6) { width: 170px; }
+
+.acompanhamento-date { white-space: nowrap; }
+
+.acompanhamento-date-editor {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.acompanhamento-date-editor input,
+.acompanhamento-date-editor button {
+  min-height: 34px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.acompanhamento-date-editor input { width: 145px; padding: 0 5px; }
+.acompanhamento-date-editor button { padding: 0 10px; cursor: pointer; }
+.acompanhamento-date-editor button:disabled { opacity: 0.45; cursor: not-allowed; }
+.acompanhamento-date-editor small { width: 100%; color: #82e4c0; }
 
 .acompanhamento-code {
   color: var(--highlight);
