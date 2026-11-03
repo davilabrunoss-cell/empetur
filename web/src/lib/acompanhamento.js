@@ -10,6 +10,10 @@ function normalizeName(value) {
     .trim();
 }
 
+function selectedCode(value) {
+  return (String(value || "").match(/\|\s*((?:A\d+(?:\.\d+)?|B\d+|C\d+)-\d{4})\s*$/i)?.[1] || "").toUpperCase();
+}
+
 function formFor(row) {
   return plano.formulariosPorProjeto[String(row.codigo_pesquisa)] ||
     plano.formulariosPorNome[row.questionario_preenchido] || "";
@@ -36,9 +40,10 @@ export function buildAcompanhamento(municipioSlug, coletas) {
     if (!id || assigned.has(id)) continue;
     const form = formFor(row);
     if (!form) continue;
+    const code = selectedCode(row.nome_atrativo);
     const candidates = results.filter((item) =>
       item.status === "pendente" && item.questionario === form &&
-      normalizeName(item.atrativo) === normalizeName(row.nome_atrativo));
+      (code ? item.codigo === code : normalizeName(item.atrativo) === normalizeName(row.nome_atrativo)));
     if (candidates.length !== 1) continue;
     candidates[0].status = "realizado";
     candidates[0].coletas = [row];

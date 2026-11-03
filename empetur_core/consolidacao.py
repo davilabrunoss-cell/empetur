@@ -15,6 +15,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 REFERENCE_DIR = BASE_DIR / "data" / "referencias"
 
 FILE_PREFIX = "#1265803711 _ EMPETUR - "
+FORM_CODE_PREFIX = re.compile(r"^(?:A\d+(?:\.\d+)?|B\d+|C\d+)\s*-\s*", re.IGNORECASE)
 BASE_FIELDNAMES = [
     "arquivo_origem",
     "codigo_pesquisa",
@@ -141,9 +142,10 @@ def get_rule_for_questionario(questionario: str) -> FileRule:
 
 
 def extract_questionario(file_name: str) -> str:
-    if not file_name.startswith(FILE_PREFIX):
+    unprefixed_name = FORM_CODE_PREFIX.sub("", file_name, count=1)
+    if not unprefixed_name.startswith(FILE_PREFIX):
         raise ValueError(f"Arquivo fora do padrao esperado: {file_name}")
-    remainder = file_name[len(FILE_PREFIX) :]
+    remainder = unprefixed_name[len(FILE_PREFIX) :]
     if remainder.lower().endswith(".csv"):
         remainder = remainder[:-4]
     remainder = re.sub(r"\s*\(\d+\)\s*$", "", remainder)
@@ -245,6 +247,7 @@ def consolidate_csv_rows(file_name: str, rows: list[list[str]], exec_date: str, 
         raise KeyError(
             f"Coluna esperada nao encontrada no questionario '{questionario}'. Cabecalho recebido: {header}"
         ) from exc
+    nome_codificado_idx = find_optional_index(header, lambda c: normalized_startswith(c, "Atrativo previsto."))
     pesquisador_informado_idx = find_optional_index(
         header,
         lambda c: "pesquisador:" in normalize_for_match(c) and normalize_for_match(c) != "pesquisador",
@@ -265,7 +268,13 @@ def consolidate_csv_rows(file_name: str, rows: list[list[str]], exec_date: str, 
 
     consolidated_rows: list[dict[str, str]] = []
     for row_number, row in enumerate(data_rows, start=2):
-        nome_atrativo = get_value(row, nome_idx)
+        nome_antigo = get_value(row, nome_idx)
+        nome_selecionado = get_value(row, nome_codificado_idx)
+        nome_atrativo = (
+            nome_selecionado
+            if nome_selecionado and normalize_for_match(nome_selecionado) != "outro atrativo nao listado"
+            else nome_antigo
+        )
         if is_test_record_name(nome_atrativo):
             continue
 

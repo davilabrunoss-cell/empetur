@@ -94,6 +94,15 @@ Questionarios reativados após validacao com bancos reais em 31/07/2026:
 
 ## Observacao tecnica sobre nomes de arquivos
 
+Em 03/11/2026, os 29 titulos dos projetos EMPETUR foram atualizados no iPesquisa
+para `CODIGO - nome anterior`, por exemplo
+`A2.1 - #1265803711 | EMPETUR - Atrativos Culturais - 2026`. O projeto 8799,
+fora do mapa, nao foi alterado. A sincronizacao da API continua identificando
+cada pesquisa pelo ID e gera internamente o nome de CSV esperado, portanto nao
+depende do titulo exibido. Ja o export manual passou a baixar arquivos como
+`A2.1 - #1265803711 _ EMPETUR - Atrativos Culturais - 2026.csv`; o parser local
+aceita agora tanto esses arquivos com codigo quanto os nomes antigos.
+
 O parser passou a aceitar também arquivos duplicados baixados pelo Windows com sufixos como:
 
 - `(... )` no fim do nome, por exemplo `- 2026 (1).csv`
