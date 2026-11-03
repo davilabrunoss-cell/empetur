@@ -111,9 +111,13 @@ O piloto ficou ativo no iPesquisa antes da publicacao da adaptacao. Em 03/11/202
 | B7 | 8921 | 359945 | 1 (Inaja) + Outro | 31 regras `Igual` | Inaja e Exu |
 | A2.6 | 8901 | 359946 | 1 (Inaja) + Outro | 31 regras `Igual` | Inaja e Exu |
 | B10 | 8924 | 359947 | 3 (Exu) + Outro | 31 regras `Igual` | Exu e Dormentes |
+| B12 | 8926 | 359948 | 3 (Exu) + Outro | 31 regras `Igual` | Exu e Dormentes; codigo esconde o nome antigo da pergunta 2, Outro o exibe |
+| B5 | 8919 | 359949 | 5 (Afranio, Bodoco, Exu, Dormentes) + Outro | 31 regras `Igual` | Bodoco e Inaja |
+| C4 | 8931 | 359950 | 5 (Afranio, Inaja, Dormentes, Itacuruba, Belem do Sao Francisco) + Outro | 31 regras `Igual` | Itacuruba e Bodoco |
+| C2 | 8928 | 359951 | 6 (Bodoco, Dormentes, Itacuruba) + Outro | 31 regras `Igual` | Bodoco e Afranio |
 
 As perguntas foram colocadas imediatamente depois de P0. Em cada formulario foi salva a regra `Atrativo previsto diferente de Outro -> Esconder` o campo antigo de nome; nenhuma pergunta antiga foi apagada. O wizard foi avancado ate `Concluir` e o painel de cada projeto manteve a contagem anterior de coletas. Os testes web nao finalizaram entrevistas.
 
 Em A2.2, um filtro `P0 diferente de Afranio -> Outro` foi salvo como experimento, mas **nao restringiu** Bodoco no formulario web. Os 31 filtros explicitos foram entao cadastrados; Bodoco e Trindade exibiram somente Outro. Essa regra redundante ainda aparece no editor de A2.2 e nao deve ser replicada. Para todos os demais formularios, usar apenas regras explicitas por municipio e testar um municipio com previsao e outro sem previsao.
 
-Estado: **5 de 29** formularios com nova pergunta (incluindo A2.4). Os outros 24 continuam sem a lista fechada. Quatro codigos de formulario ainda nao possuem atrativos no catalogo provisorio; nao preencher opcoes inventadas. Os cinco projetos com dois campos antigos de nome precisam de decisao individual sobre qual texto manter em `Outro`.
+Estado: **9 de 29** formularios com nova pergunta (incluindo A2.4). Os outros 20 continuam sem a lista fechada. Quatro codigos de formulario ainda nao possuem atrativos no catalogo provisorio; nao preencher opcoes inventadas. Os cinco projetos com dois campos antigos de nome precisam de decisao individual sobre qual texto manter em `Outro`. B12, B5, C4 e C2 foram concluidos no wizard, mantendo respectivamente 47, 49, 13 e 25 coletas preexistentes no painel. Nenhuma entrevista de teste foi finalizada.
