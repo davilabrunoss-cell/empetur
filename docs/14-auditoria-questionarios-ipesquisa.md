@@ -136,3 +136,17 @@ Estado ao fim desse lote: **9 de 29** formularios com nova pergunta (incluindo A
 Em cada projeto, a nova pergunta de selecao unica foi posicionada imediatamente apos P0 e recebeu os rotulos `Nome | CODIGO` do catalogo provisorio. Foram conferidas **31 regras explicitas** `P0. Municipio Igual` por projeto, sem repetir o experimento de filtro `Diferente`. Para cidade sem item previsto na categoria, a unica opcao e `Outro atrativo nao listado`. A regra `Atrativo previsto diferente de Outro -> Esconder campo antigo` foi conferida na tabela de regras, e o wizard foi avancado ate `Concluir`. Nenhuma pergunta antiga foi apagada.
 
 Os testes web deste lote verificaram as opcoes apresentadas em uma cidade com itens e outra sem itens por projeto. **Nao** avancaram ate o antigo campo de nome, nao enviaram entrevistas e nao baixaram novo CSV apos as edicoes; esses comportamentos ainda precisam de verificacao posterior. As contagens dos seis paineis permaneceram iguais as da auditoria anterior. Com este lote, **15 de 29** formularios tem a nova pergunta; **14** permanecem pendentes. A conciliacao de uma coleta real codificada no dashboard ainda nao foi validada de ponta a ponta.
+
+## Quarto lote e revisao dos filtros em 03/11/2026
+
+| Formulario | Projeto | Pergunta nova | Opcoes previstas | Campo antigo condicionado | Coletas preservadas | Teste web |
+| --- | ---: | ---: | ---: | --- | ---: | --- |
+| A2.9 | 8909 | 359958 | 15 + Outro | 3. Nome do Atrativo | 25 | Afranio (3), Belem do Sao Francisco (4) e Dormentes (somente Outro); codigo pula o nome antigo e Outro o exibe |
+| B1 | 8911 | 359959 | 25 + Outro | 3. Nome | 128 | Exu (13) e Itacuruba (somente Outro); codigo pula o nome antigo e Outro o exibe |
+| B11 | 8925 | 359960 | 26 + Outro | 3. Nome / Entidade | 13 | Bodoco (6) e Arcoverde (somente Outro); codigo pula o nome antigo e Outro o exibe |
+
+As tres perguntas foram inseridas apos P0. Cada uma tem 31 filtros explicitos `P0. Municipio Igual`, e a regra `Atrativo previsto diferente de Outro -> Esconder campo antigo`. Os tres wizards foram concluidos, os campos antigos permaneceram no projeto e as contagens historicas dos paineis foram preservadas. Nenhuma entrevista de teste foi enviada; nao foi baixado novo CSV neste lote.
+
+**Cuidado com o multisseletor do iPesquisa:** clicar no corpo de `Opcoes apresentadas` depois de tres chips selecionados pode atingir o `x` de um chip e remover silenciosamente uma opcao. Em B11/Bodoco, a primeira gravacao deixou apenas 2 dos 6 itens; em A2.9/Belem do Sao Francisco, apenas 2 dos 4. As duas regras incompletas foram substituidas, selecionando cada item pelo campo de busca do multisseletor e conferindo os valores selecionados antes de `Incluir`. Os respectivos wizards foram concluidos novamente e o formulario web confirmou as listas completas. Nos proximos formularios, usar o campo de busca, nao o corpo do seletor, e comparar a regra gravada com o catalogo antes do teste.
+
+Foi feita uma auditoria preventiva de **todos os 18 formularios ja atualizados**: para cada municipio, comparou-se a contagem de opcoes codificadas da regra `P0 Igual` com o catalogo provisorio e confirmou-se a presenca de `Outro`. Apos as duas correcoes acima, todos tem 31 regras municipais e as contagens esperadas. Esta auditoria de contagem nao substitui uma comparacao exaustiva dos rotulos/codigos nem teste de todas as 31 cidades na versao web. Estado atual: **18 de 29** formularios atualizados, **11** pendentes. Ainda falta validar em producao uma coleta real codificada na conciliacao do dashboard.
