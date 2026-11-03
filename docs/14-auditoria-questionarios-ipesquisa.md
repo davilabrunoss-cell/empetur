@@ -164,3 +164,14 @@ As tres perguntas foram posicionadas imediatamente apos P0. Cada formulario rece
 Em A2.5, a regra preexistente `INATIVO -> Saltar para 11. Pesquisador` foi preservada e testada na versao web depois da inclusao da nova pergunta. Em B2, a primeira tentativa de incluir a regra nova nao gravou porque o seletor de condicao havia sido limpo; a condicao `Diferente` foi selecionada novamente e a regra gravada foi conferida antes de concluir. Nenhuma entrevista de teste foi enviada e nao foi baixado novo CSV neste lote.
 
 Estado apos o lote: **21 de 29** formularios atualizados, **8** pendentes (A1, A2.1, A2.3, B6, B9, C1, C5, C6). Os cinco formularios com dois campos antigos de nome (A2.3, B6, B9, C1, C5) exigem revisao individual; B6, C1, C5 e C6 ainda nao tem itens no catalogo provisorio. A conciliacao de uma coleta real codificada no dashboard permanece sem validacao de ponta a ponta.
+
+## Sexto lote em 03/11/2026
+
+| Formulario | Projeto | Pergunta nova | Opcoes previstas | Coletas preservadas | Teste web |
+| --- | ---: | ---: | ---: | ---: | --- |
+| A1 | 9035 | 359964 | 82 + Outro | 76 | Afranio (5 itens) e Arcoverde (somente Outro); codigo oculta 3. Nome do Atrativo, Outro o exibe |
+| A2.1 | 9055 | 359965 | 118 + Outro | 217 | Afranio (16 itens) e Arcoverde (somente Outro); codigo oculta 3. Nome do Atrativo, Outro o exibe |
+
+Ambos reutilizam P0 e tem a nova pergunta de selecao unica imediatamente depois dele. Cada projeto recebeu **31 filtros explicitos** `P0. Municipio Igual`; os rotulos e codigos gravados em cada regra foram comparados exatamente com o catalogo, sem divergencias. A regra `Atrativo previsto diferente de Outro -> Esconder 3. Nome do Atrativo` foi salva sem apagar o campo antigo. Os wizards foram avancados ate `Concluir`. Em A2.1, as 12 regras preexistentes foram mantidas, totalizando 13 apos a nova regra; A1 manteve suas 4 e recebeu uma quinta. O titulo existente de A1 ainda contem `Para Revisar`; nao foi alterado neste lote.
+
+Os testes web nao enviaram entrevistas. Nenhum CSV novo foi baixado, e a conciliacao de uma coleta real codificada no dashboard ainda nao foi validada de ponta a ponta. Estado atual: **23 de 29** formularios atualizados; pendentes A2.3, B6, B9, C1, C5 e C6. Cinco possuem dois campos historicos de nome (A2.3, B6, B9, C1, C5); B6, C1, C5 e C6 ainda nao tem itens no catalogo provisorio. Tratar cada caso antes de ocultar qualquer campo historico.
