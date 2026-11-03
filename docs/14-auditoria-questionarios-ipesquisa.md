@@ -101,4 +101,19 @@ O filtro de opcoes tem **31 condicoes explicitas**, uma para cada municipio de P
 
 Foi criada a regra `Atrativo previsto diferente de Outro -> Esconder 3. Nome do Atrativo`. No teste web, `Outro` abriu o campo antigo, e `Feira do Queijo | A2.4-0080` avancou de `2. Situacao` diretamente para `4. Localizacao`. Nenhuma entrevista de teste foi finalizada. O editor foi percorrido ate `Concluir` apos as configuracoes. O CSV baixado depois da mudanca tem a nova coluna, a coluna antiga e as mesmas **25 coletas historicas**. A consolidacao foi preparada para priorizar a selecao codificada e preservar o texto antigo em `Outro` e nos arquivos historicos.
 
-O piloto esta **ativo no iPesquisa**, mas a adaptacao do dashboard ainda e **local**: sem commit, push, deploy ou sincronizacao em producao nesta etapa. Uma coleta nova com opcao codificada pode chegar ao dashboard com nome vazio se sincronizada pelo backend antigo; nao sincronizar novas coletas A2.4 nem expandir o piloto antes de publicar e validar a adaptacao. Antes de escalar aos outros 28 projetos, validar a conciliacao do codigo no painel publicado e revisar a regra experimental redundante.
+O piloto ficou ativo no iPesquisa antes da publicacao da adaptacao. Em 03/11/2026, o commit `666c23f` foi enviado ao `main`; Render e Cloudflare Pages confirmaram esse commit em producao. A API respondeu em `/healthz`. Ainda nao houve coleta real codificada para validar a conciliacao de ponta a ponta no painel; os testes locais cobrem o parser e a conciliacao. A regra experimental redundante de A2.4 permanece no editor, mas os 31 filtros explicitos funcionaram no formulario web.
+
+## Expansao controlada em 03/11/2026
+
+| Formulario | Projeto | Pergunta nova | Opcoes previstas | Filtros municipais | Teste web |
+| --- | ---: | ---: | ---: | ---: | --- |
+| A2.2 | 8899 | 359944 | 1 (Afranio) + Outro | 31 regras `Igual` | Afranio e Trindade; codigo esconde o nome antigo, Outro o exibe |
+| B7 | 8921 | 359945 | 1 (Inaja) + Outro | 31 regras `Igual` | Inaja e Exu |
+| A2.6 | 8901 | 359946 | 1 (Inaja) + Outro | 31 regras `Igual` | Inaja e Exu |
+| B10 | 8924 | 359947 | 3 (Exu) + Outro | 31 regras `Igual` | Exu e Dormentes |
+
+As perguntas foram colocadas imediatamente depois de P0. Em cada formulario foi salva a regra `Atrativo previsto diferente de Outro -> Esconder` o campo antigo de nome; nenhuma pergunta antiga foi apagada. O wizard foi avancado ate `Concluir` e o painel de cada projeto manteve a contagem anterior de coletas. Os testes web nao finalizaram entrevistas.
+
+Em A2.2, um filtro `P0 diferente de Afranio -> Outro` foi salvo como experimento, mas **nao restringiu** Bodoco no formulario web. Os 31 filtros explicitos foram entao cadastrados; Bodoco e Trindade exibiram somente Outro. Essa regra redundante ainda aparece no editor de A2.2 e nao deve ser replicada. Para todos os demais formularios, usar apenas regras explicitas por municipio e testar um municipio com previsao e outro sem previsao.
+
+Estado: **5 de 29** formularios com nova pergunta (incluindo A2.4). Os outros 24 continuam sem a lista fechada. Quatro codigos de formulario ainda nao possuem atrativos no catalogo provisorio; nao preencher opcoes inventadas. Os cinco projetos com dois campos antigos de nome precisam de decisao individual sobre qual texto manter em `Outro`.

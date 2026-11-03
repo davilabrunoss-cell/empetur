@@ -32,6 +32,7 @@ Colocar o dashboard no ar imediatamente com a estrutura atual e evoluir o projet
 - aplicar regras de normalizacao e descarte de testes
 - disponibilizar o payload consolidado para o dashboard
 - publicar a API inicial em `backend/app.py`
+- configuracao observada em 03/11/2026: o filtro de auto-deploy acompanha `backend/**`, `requirements.txt` e `render.yaml`, mas nao `empetur_core/**`; alteracoes apenas nesse pacote exigem deploy manual ou ajuste do filtro antes de serem consideradas publicadas
 
 ### Supabase
 
