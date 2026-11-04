@@ -1463,6 +1463,11 @@ function Acompanhamento({ municipioSlug, coletas, showEmpty = false, municipioNo
         {!municipioNome ? " Esta projeção ainda não integra o card de atrativos validados." : null}
       </p>
       {canEdit ? <p className="acompanhamento-edit-note">Edição habilitada: somente a data do cronograma pode ser alterada.</p> : null}
+      {!canEdit && !cronogramaError ? (
+        <p className="acompanhamento-readonly-note">
+          Cronograma somente para leitura. Para preencher datas, abra o link privado de edição deste município.
+        </p>
+      ) : null}
       {cronogramaError ? <p className="acompanhamento-error" role="alert">{cronogramaError}</p> : null}
       <div className="acompanhamento-filters">
         <label>
@@ -1609,7 +1614,7 @@ function MunicipioDetailPage({ payload, concludedMap }) {
       </section>
 
       <TimelineChart rows={municipioRows} />
-      <Acompanhamento municipioSlug={municipioSlug} coletas={municipioRows} />
+      <Acompanhamento municipioSlug={municipioSlug} coletas={municipioRows} allowEditing />
 
       <div className="dual-grid">
         <ScrollMetricList

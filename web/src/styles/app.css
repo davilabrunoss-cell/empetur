@@ -436,12 +436,14 @@ main {
 }
 
 .acompanhamento-edit-note,
+.acompanhamento-readonly-note,
 .acompanhamento-error {
   margin: -5px 0 16px;
   font-size: 0.78rem;
 }
 
 .acompanhamento-edit-note { color: #82e4c0; }
+.acompanhamento-readonly-note { color: var(--muted); }
 .acompanhamento-error { color: #ffd18c; }
 
 .acompanhamento-filters {
