@@ -1362,7 +1362,14 @@ function Acompanhamento({ municipioSlug, coletas, showEmpty = false, municipioNo
   const [cronogramaError, setCronogramaError] = useState("");
   const [savedCode, setSavedCode] = useState("");
   const [savingCode, setSavingCode] = useState("");
+  const [hashVersion, setHashVersion] = useState(0);
   const data = useMemo(() => buildAcompanhamento(municipioSlug, coletas), [municipioSlug, coletas]);
+
+  useEffect(() => {
+    const onHashChange = () => setHashVersion((current) => current + 1);
+    window.addEventListener("hashchange", onHashChange);
+    return () => window.removeEventListener("hashchange", onHashChange);
+  }, []);
 
   useEffect(() => {
     if (!data) return undefined;
@@ -1398,7 +1405,7 @@ function Acompanhamento({ municipioSlug, coletas, showEmpty = false, municipioNo
       if (active) setCronogramaError(error.message);
     });
     return () => { active = false; };
-  }, [municipioSlug, allowEditing, Boolean(data)]);
+  }, [municipioSlug, allowEditing, Boolean(data), hashVersion]);
 
   const saveDate = async (codigo) => {
     setSavingCode(codigo);
