@@ -175,3 +175,16 @@ Estado apos o lote: **21 de 29** formularios atualizados, **8** pendentes (A1, A
 Ambos reutilizam P0 e tem a nova pergunta de selecao unica imediatamente depois dele. Cada projeto recebeu **31 filtros explicitos** `P0. Municipio Igual`; os rotulos e codigos gravados em cada regra foram comparados exatamente com o catalogo, sem divergencias. A regra `Atrativo previsto diferente de Outro -> Esconder 3. Nome do Atrativo` foi salva sem apagar o campo antigo. Os wizards foram avancados ate `Concluir`. Em A2.1, as 12 regras preexistentes foram mantidas, totalizando 13 apos a nova regra; A1 manteve suas 4 e recebeu uma quinta. O titulo existente de A1 ainda contem `Para Revisar`; nao foi alterado neste lote.
 
 Os testes web nao enviaram entrevistas. Nenhum CSV novo foi baixado, e a conciliacao de uma coleta real codificada no dashboard ainda nao foi validada de ponta a ponta. Estado atual: **23 de 29** formularios atualizados; pendentes A2.3, B6, B9, C1, C5 e C6. Cinco possuem dois campos historicos de nome (A2.3, B6, B9, C1, C5); B6, C1, C5 e C6 ainda nao tem itens no catalogo provisorio. Tratar cada caso antes de ocultar qualquer campo historico.
+
+## Setimo lote em 04/11/2026
+
+| Formulario | Projeto | Pergunta nova | Opcoes previstas | Campo antigo condicionado | Coletas preservadas | Teste web |
+| --- | ---: | ---: | ---: | --- | ---: | --- |
+| A2.3 | 8910 | 359984 | 8 + Outro | P1.1. Nome do atrativo | 64 | Afranio: 2 itens; codigo pula P1.1, Outro o exibe |
+| B9 | 8923 | 359985 | 1 + Outro | P1.1. Nome do posto de informacoes turisticas | 9 | Exu: CAT Gonzaguinha; codigo pula P1.1, Outro o exibe |
+
+Os CSVs historicos mostram divergencia entre os dois campos antigos de nome em 19/64 registros de A2.3 e 6/9 de B9. Por isso, a regra nova oculta apenas `P1.1` quando uma opcao codificada e escolhida; a pergunta `3. Nome do Atrativo` em A2.3 e `3. Nome / Entidade` em B9 continuam disponiveis como nome conhecido/popular. Com `Outro`, P1.1 permanece visivel para texto livre. Nenhuma pergunta antiga foi apagada.
+
+As perguntas novas foram posicionadas imediatamente depois de P0. Cada uma recebeu 31 filtros explicitos `P0. Municipio Igual`, com `Outro` em todos eles. A2.3 inclui os oito itens dos municipios catalogados; B9 inclui o CAT apenas em Exu. Uma regra duplicada incorreta de Dormentes em A2.3, criada durante recarga assincrona do editor, foi removida com autorizacao de Bruno. A auditoria final mostrou 31 municipios unicos em cada projeto; em B9, Exu tinha o CAT e Outro. Ambos os wizards foram avancados ate `Concluir`, e os paineis mantiveram 64 e 9 coletas. Os testes web foram encerrados sem enviar entrevistas. Nao foi baixado CSV novo neste lote.
+
+Estado apos o lote: **25 de 29** formularios atualizados. Restam B6 (8920), C1 (8927), C5 (8932) e C6 (8933), sem atrativos no catalogo provisorio; nao inventar opcoes nem ocultar campos antigos antes de definir a lista e revisar os campos duplos/ramificacoes. A conciliacao de uma coleta real codificada no dashboard ainda nao foi validada de ponta a ponta.
